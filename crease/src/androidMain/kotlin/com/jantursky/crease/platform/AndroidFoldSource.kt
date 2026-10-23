@@ -35,11 +35,11 @@ import kotlinx.coroutines.launch
 internal class AndroidFoldSource private constructor(
     private val rootView: View,
     private val lifecycle: Lifecycle?,
+    private val activity: Activity?,
 ) : DefaultLifecycleObserver {
     private val current = mutableStateOf(FoldState.None)
     val state: State<FoldState> get() = current
 
-    private val activity = rootView.context.findActivity()
     private val sensorManager = rootView.context.getSystemService(Context.SENSOR_SERVICE) as SensorManager?
     private var users = 0
     private var scope: CoroutineScope? = null
@@ -145,7 +145,11 @@ internal class AndroidFoldSource private constructor(
             val rootView = view.rootView
             val source =
                 view.findViewTreeLifecycleOwner()?.lifecycle.let { lifecycle ->
-                    sources.getOrPut(rootView to lifecycle) { AndroidFoldSource(rootView, lifecycle) }
+                    // The activity comes from the view itself: a decor view's context is a DecorContext
+                    // over the application, so the root view never leads to the activity.
+                    sources.getOrPut(rootView to lifecycle) {
+                        AndroidFoldSource(rootView, lifecycle, view.context.findActivity())
+                    }
                 }
             if (source.users++ == 0) {
                 // Without a lifecycle there is nothing to pause on, so the source runs while it has readers.

@@ -59,6 +59,7 @@ kotlin {
             implementation(kotlin("test"))
             implementation(libs.junit)
             implementation(libs.robolectric)
+            implementation(libs.androidx.window.testing)
         }
         jvmTest.dependencies {
             implementation(libs.compose.foundation)

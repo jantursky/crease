@@ -9,8 +9,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.setViewTreeLifecycleOwner
+import androidx.window.layout.FoldingFeature
+import androidx.window.testing.layout.FoldingFeature
+import androidx.window.testing.layout.TestWindowLayoutInfo
+import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.jantursky.crease.Hinge
 import com.jantursky.crease.HingeStatus
+import com.jantursky.crease.Posture
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -19,6 +25,7 @@ import org.robolectric.Shadows.shadowOf
 import org.robolectric.shadows.SensorEventBuilder
 import org.robolectric.shadows.ShadowSensor
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 import kotlin.test.assertSame
 
 private class TestLifecycleOwner : LifecycleOwner {
@@ -28,6 +35,9 @@ private class TestLifecycleOwner : LifecycleOwner {
 
 @RunWith(RobolectricTestRunner::class)
 class AndroidFoldSourceTest {
+    @get:Rule
+    val publisher = WindowLayoutInfoPublisherRule()
+
     private val activity = Robolectric.buildActivity(Activity::class.java).setup().get()
     private val sensors = shadowOf(activity.getSystemService(SensorManager::class.java))
     private val hingeSensor = ShadowSensor.newInstance(Sensor.TYPE_HINGE_ANGLE)
@@ -90,6 +100,29 @@ class AndroidFoldSourceTest {
         assertEquals(Hinge(HingeStatus.PartiallyOpen, 95f), source.state.value.hinge)
         sensors.sendSensorEventToListeners(angle(2f))
         assertEquals(Hinge(HingeStatus.Closed, 2f), source.state.value.hinge)
+        source.release()
+    }
+
+    @Test
+    fun foldingFeaturesReachTheStateThoughTheRootViewIsNotTheActivitysContext() {
+        // The decor view's context is a DecorContext over the application, not the activity.
+        assertNull(first.rootView.context.findActivity())
+        owner.registry.currentState = Lifecycle.State.STARTED
+        val source = AndroidFoldSource.acquire(first)
+        idle()
+        publisher.overrideWindowLayoutInfo(
+            TestWindowLayoutInfo(
+                listOf(
+                    FoldingFeature(
+                        activity,
+                        state = FoldingFeature.State.HALF_OPENED,
+                        orientation = FoldingFeature.Orientation.VERTICAL,
+                    ),
+                ),
+            ),
+        )
+        idle()
+        assertEquals(Posture.Book, source.state.value.posture)
         source.release()
     }
 
