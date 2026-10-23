@@ -23,3 +23,7 @@ apps/docs/public/api/
 apps/docs/public/demo/
 apps/docs/public/screenshots/
 samples/docs-check/src/
+
+# Browser tests
+test-results/
+playwright-report/

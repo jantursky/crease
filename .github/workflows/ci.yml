@@ -45,6 +45,22 @@ jobs:
       - uses: gradle/actions/setup-gradle@v6
       - name: Wasm tests (headless Chrome) and the web demo build
         run: ./gradlew :crease:wasmJsTest :samples:web:wasmJsBrowserDistribution
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: bun install --frozen-lockfile
+      - run: bunx playwright install --with-deps chromium
+      - name: Browser tests of the web demo
+        run: bun run test:web
+      - name: Keep the Playwright traces of a failed run
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-traces
+          path: test-results/
 
   ios:
     runs-on: macos-latest

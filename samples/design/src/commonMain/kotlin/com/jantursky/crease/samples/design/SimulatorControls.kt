@@ -2,7 +2,6 @@ package com.jantursky.crease.samples.design
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.width
@@ -13,11 +12,11 @@ import androidx.compose.ui.unit.dp
 import com.jantursky.crease.Posture
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun SimulatorControls(
     state: SimulatorState,
     modifier: Modifier = Modifier,
+    compact: Boolean = false,
 ) {
     FlowRow(
         modifier = modifier,
@@ -49,6 +48,7 @@ internal fun SimulatorControls(
                 )
             }
         }
+        if (compact) return@FlowRow
         Labelled("Fold width") {
             SegmentedControl(
                 options = listOf(0, 40),

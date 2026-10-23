@@ -52,7 +52,7 @@ fun FilledPill(
         enabled,
         fill = if (enabled) colors.action else colors.control,
         ring = null,
-        textColor = if (enabled) Color.White else colors.slate,
+        textColor = if (enabled) colors.onAction else colors.slate,
         modifier = modifier,
     )
 }

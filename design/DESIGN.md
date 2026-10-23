@@ -7,6 +7,11 @@ Elevation comes from a white surface on a pale grey band, large corner radii and
 Code form: `design/tokens.css` (web) and `samples/design` (Compose `CreaseTheme`). Every surface uses
 the tokens; no ad-hoc colors.
 
+The landing site (`samples/web`) is the one exception: it uses a warm paper theme of its own, defined in
+`samples/web/src/wasmJsMain/resources/site.css` and, for its Compose viewports, `SiteTheme.kt`. Cream
+canvas, paper-white cards with hairline borders, a two-tone headline, dark filled buttons, a light and a
+dark variant chosen by a switch. The sample apps and the docs keep the look described here.
+
 ## Color
 
 | Token | Light | Dark | Role |
@@ -93,3 +98,7 @@ Card padding 28 (web) / 20 (app). Gap between related elements 20. Navigation ba
 - Don't use `action` as a large background or as the color of every button.
 - No colored boxes behind status labels.
 - No boxed panels over imagery.
+
+## Icons
+
+`brand/icon.svg` is the library: a half-open iPhone Duo on a blue tile. `brand/mark.svg` is the same Duo without the tile. The sample apps keep the Duo and say what they are on its panels: `brand/recipes-icon.svg` is an orange cookbook, `brand/photos-icon.svg` a violet gallery. `python3 design/brand/sample-icons.py` draws both and writes their Android launcher icons and iOS app icons.

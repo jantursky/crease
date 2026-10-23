@@ -39,12 +39,14 @@ private const val CUTOUT_DIAMETER_DP = 14
 
 /**
  * Shows [content] inside a simulated foldable and feeds it a matching [FoldState], so the layouts
- * can be tried on desktop and in the browser. The frame shrinks to fit the space it gets.
+ * can be tried on desktop and in the browser. The frame shrinks to fit the space it gets. With
+ * [compact] the controls are only the posture and the hinge angle.
  */
 @Composable
 fun DeviceSimulator(
     modifier: Modifier = Modifier,
     state: SimulatorState = rememberSimulatorState(),
+    compact: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val colors = CreaseTheme.colors
@@ -65,6 +67,7 @@ fun DeviceSimulator(
         }
         SimulatorControls(
             state = state,
+            compact = compact,
             modifier =
                 Modifier
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)

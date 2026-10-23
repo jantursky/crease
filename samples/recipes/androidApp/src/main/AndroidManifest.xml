@@ -3,11 +3,13 @@
 
     <application
         android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
         android:label="Crease recipes"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sample">
         <activity
-            android:name=".MainActivity"
+            android:name="com.jantursky.crease.samples.recipes.MainActivity"
             android:exported="true"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|density|uiMode"
             android:resizeableActivity="true">

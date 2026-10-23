@@ -28,18 +28,19 @@ object CreaseTheme {
     val type: CreaseTypography
         @Composable @ReadOnlyComposable
         get() = LocalTypography.current
-    val shapes: CreaseShapes get() = CreaseShapes
 }
 
+/** The sample theme. [colors] replaces the palette, as the web site does with its own. */
 @Composable
 fun CreaseTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    colors: CreaseColors = if (darkTheme) DarkColors else LightColors,
     content: @Composable () -> Unit,
 ) {
     val family = rememberInterFamily()
     val typography = remember(family) { creaseTypography(family) }
     CompositionLocalProvider(
-        LocalColors provides if (darkTheme) DarkColors else LightColors,
+        LocalColors provides colors,
         LocalTypography provides typography,
         content = content,
     )

@@ -40,6 +40,7 @@ The docs site uses [Bun](https://bun.sh) 1.3+ and Node.js 22.19+ (the version is
 ./gradlew spotlessApply                    # format the code (ktlint_official)
 ./gradlew :crease:apiDump                  # after changing the public API
 bun run build:docs                         # from the repository root
+bun run test:web                           # browser tests of the web demo, after :samples:web:wasmJsBrowserDistribution
 ```
 
 CI runs all of them on every pull request. `koverVerify` fails the build when coverage drops below the gate in the Gradle build.

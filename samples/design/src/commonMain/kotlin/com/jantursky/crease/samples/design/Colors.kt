@@ -20,6 +20,7 @@ class CreaseColors(
     val signal: Color,
     val fold: Color,
     val isDark: Boolean,
+    val onAction: Color = Color.White,
 )
 
 internal val LightColors =
