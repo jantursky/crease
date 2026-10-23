@@ -1,0 +1,120 @@
+---
+title: Getting started
+description: Add Crease to a Compose Multiplatform project and read the fold state.
+sidebar:
+  order: 2
+---
+
+## Install
+
+Add the library to `commonMain`:
+
+```kotlin
+// shared/build.gradle.kts
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("com.jantursky:crease:{{version}}")
+        }
+    }
+}
+```
+
+Or through a version catalog:
+
+```toml
+# gradle/libs.versions.toml
+[versions]
+crease = "{{version}}"
+
+[libraries]
+crease = { module = "com.jantursky:crease", version.ref = "crease" }
+```
+
+```kotlin
+// shared/build.gradle.kts
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation(libs.crease)
+        }
+    }
+}
+```
+
+The artifact is a Kotlin Multiplatform library, so Gradle picks the right variant for each target. Nothing else is needed: no manifest entries, no permissions and no Info.plist keys. Crease targets Android, iosArm64, iosSimulatorArm64, JVM and wasmJs.
+
+## Read the fold state
+
+`rememberFoldState()` returns a `FoldState` that updates as the device folds and unfolds:
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.jantursky.crease.Posture
+import com.jantursky.crease.rememberFoldState
+
+@Composable
+fun PostureLabel() {
+    val state = rememberFoldState()
+    val label = when (state.posture) {
+        Posture.Closed -> "Closed"
+        Posture.Flat -> "Flat"
+        Posture.Book -> "Book"
+        Posture.Tabletop -> "Tabletop"
+    }
+    Text(label)
+}
+```
+
+If all you need is the angle, `rememberHinge()` is shorthand for `rememberFoldState().hinge`. It returns `null` when the device has no hinge or has not reported it yet.
+
+## Lay out around the fold
+
+Most apps want one of the three layout helpers. Each is a few lines:
+
+```kotlin
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.jantursky.crease.FoldAwareTwoPane
+
+@Composable
+fun ListDetail() {
+    FoldAwareTwoPane(
+        first = { Text("List") },
+        second = { Text("Detail") },
+        modifier = Modifier.fillMaxSize(),
+    )
+}
+```
+
+See [two-pane layouts](/guides/two-pane-layouts), [tabletop mode](/guides/tabletop-mode) and [avoiding the fold](/guides/avoiding-the-fold).
+
+## Previews
+
+Preview tools and desktop builds have no hinge. Wrap the content in `ProvideFoldState` and pick a `FoldState` that fits:
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.tooling.preview.Preview
+import com.jantursky.crease.FoldAwareTwoPane
+import com.jantursky.crease.FoldState
+import com.jantursky.crease.ProvideFoldState
+
+@Preview(widthDp = 840, heightDp = 640)
+@Composable
+private fun ListDetailBookPreview() {
+    ProvideFoldState(FoldState.book(windowSize = Size(2520f, 1920f), angle = 110f)) {
+        FoldAwareTwoPane(
+            first = { Text("List") },
+            second = { Text("Detail") },
+        )
+    }
+}
+```
+
+`Size` is in pixels, like the real fold bounds. A preview at `840 x 640 dp` and density 3 is `2520 x 1920 px`. The [previews and tests](/guides/previews-and-tests) guide goes further.

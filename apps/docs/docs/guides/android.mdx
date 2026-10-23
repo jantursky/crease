@@ -1,0 +1,35 @@
+---
+title: Android
+description: How Crease reads folds and the hinge angle on Android, and how to test on an emulator.
+---
+
+## What Crease uses
+
+- **Jetpack WindowManager** supplies the folds. Crease collects `WindowInfoTracker.windowLayoutInfo` and maps each `FoldingFeature` to a `Fold`: its bounds, its orientation, `isSeparating`, and `isOccluding` when the occlusion type is full.
+- **`Sensor.TYPE_HINGE_ANGLE`** (API 30 and later) supplies the angle. The listener is registered while a composable that reads the state is in the composition, and unregistered afterwards.
+- **Display cutouts** (API 28 and later) supply `FoldState.cutouts`, from the root window insets.
+
+The minimum SDK is 23. On older Android versions, and on devices without the angle sensor, the hinge angle is `null`, but folds from WindowManager still work.
+
+## How the status is chosen
+
+| Source | Status |
+| --- | --- |
+| A folding feature that is half opened | `PartiallyOpen` |
+| A folding feature that is flat | `FullyOpen` |
+| No feature, angle known: 10 degrees or less | `Closed` |
+| No feature, angle known: 170 degrees or more | `FullyOpen` |
+| No feature, angle known: in between | `PartiallyOpen` |
+| No feature and no sensor | No hinge (`null`) |
+
+## Testing
+
+Create a foldable virtual device in Android Studio: the Device Manager lists foldable profiles such as Pixel Fold. The emulator's "Virtual sensors" panel has a posture control that moves the hinge through closed, half open and flat. The hinge angle sensor is emulated on these devices.
+
+Resizable and multi-window setups also change the fold bounds relative to your layout. Try split screen once.
+
+For unit and UI tests, use [`ProvideFoldState`](/guides/previews-and-tests); you do not need an emulator for those.
+
+## Seamless folds
+
+Many foldables have a panel without a gap. WindowManager reports a fold of zero width, and `isSeparating` is true only while the device is half open. `FoldAwareTwoPane` then splits at the fold line with nothing hidden. Do not assume a fold has width.

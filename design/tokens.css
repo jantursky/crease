@@ -1,0 +1,72 @@
+/* Crease design tokens. Source of truth: design/DESIGN.md. */
+:root {
+  --crease-canvas: #ffffff;
+  --crease-band: #f5f5f7;
+  --crease-raised: #fafafc;
+  --crease-card: #ffffff;
+  --crease-hairline: #d6d6d6;
+  --crease-control: #e6e6e8;
+  --crease-ink: #1d1d1f;
+  --crease-slate: #707070;
+  --crease-steel: #86868b;
+  --crease-link: #0066cc;
+  --crease-action: #0071e3;
+  --crease-on-action: #ffffff;
+  --crease-signal: #b64400;
+  --crease-fold: rgba(0, 113, 227, 0.12);
+
+  --crease-font: 'Inter Variable', Inter, 'Helvetica Neue', Arial, sans-serif;
+
+  --crease-radius-card: 28px;
+  --crease-radius-float: 20px;
+  --crease-radius-link: 10px;
+  --crease-radius-pill: 9999px;
+
+  --crease-ring-subtle: 0 0 0 1px var(--crease-control);
+  --crease-ring-outline: 0 0 0 1px var(--crease-steel);
+
+  --crease-space-1: 4px;
+  --crease-space-2: 8px;
+  --crease-space-3: 12px;
+  --crease-space-4: 16px;
+  --crease-space-5: 20px;
+  --crease-space-6: 24px;
+  --crease-space-7: 28px;
+  --crease-space-8: 32px;
+  --crease-space-10: 40px;
+  --crease-space-12: 48px;
+  --crease-space-16: 64px;
+  --crease-space-20: 80px;
+  --crease-section-gap: 90px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --crease-canvas: #000000;
+    --crease-band: #161617;
+    --crease-raised: #1d1d1f;
+    --crease-card: #1d1d1f;
+    --crease-hairline: #424245;
+    --crease-control: #2c2c2e;
+    --crease-ink: #f5f5f7;
+    --crease-slate: #a1a1a6;
+    --crease-link: #2997ff;
+    --crease-signal: #ff791b;
+    --crease-fold: rgba(41, 151, 255, 0.18);
+  }
+}
+
+:root[data-theme='dark'],
+.dark {
+  --crease-canvas: #000000;
+  --crease-band: #161617;
+  --crease-raised: #1d1d1f;
+  --crease-card: #1d1d1f;
+  --crease-hairline: #424245;
+  --crease-control: #2c2c2e;
+  --crease-ink: #f5f5f7;
+  --crease-slate: #a1a1a6;
+  --crease-link: #2997ff;
+  --crease-signal: #ff791b;
+  --crease-fold: rgba(41, 151, 255, 0.18);
+}

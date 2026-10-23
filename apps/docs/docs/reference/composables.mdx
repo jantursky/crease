@@ -1,0 +1,86 @@
+---
+title: Composables and modifiers
+description: rememberFoldState, rememberHinge, ProvideFoldState, FoldAwareTwoPane, TabletopLayout and Modifier.avoidFold.
+---
+
+## rememberFoldState
+
+```kotlin
+@Composable
+public fun rememberFoldState(): FoldState
+```
+
+The current `FoldState`, updated as the device folds and unfolds. It returns the state of the nearest `ProvideFoldState` when there is one, otherwise the state the platform reports. JVM and wasm report `FoldState.None`.
+
+## rememberHinge
+
+```kotlin
+@Composable
+public fun rememberHinge(): Hinge?
+```
+
+The current `Hinge`, or `null`. Shorthand for `rememberFoldState().hinge`.
+
+## ProvideFoldState
+
+```kotlin
+@Composable
+public fun ProvideFoldState(state: FoldState, content: @Composable () -> Unit)
+```
+
+| Parameter | Description |
+| --- | --- |
+| `state` | The state `rememberFoldState()` returns inside `content`. |
+| `content` | The content that reads it. |
+
+For previews, tests and simulators.
+
+## FoldAwareTwoPane
+
+```kotlin
+@Composable
+public fun FoldAwareTwoPane(
+    first: @Composable () -> Unit,
+    second: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    fallback: TwoPaneFallback = TwoPaneFallback.FirstOnly,
+)
+```
+
+| Parameter | Description |
+| --- | --- |
+| `first` | The left pane across a vertical fold, the top pane across a horizontal one. |
+| `second` | The right or bottom pane. |
+| `modifier` | Applied to the layout. |
+| `fallback` | What to show when no separating fold crosses the layout. |
+
+With a separating fold the panes split exactly at the fold, and skip its bounds when `isOccluding`. See [two-pane layouts](/guides/two-pane-layouts).
+
+## TabletopLayout
+
+```kotlin
+@Composable
+public fun TabletopLayout(
+    top: @Composable () -> Unit,
+    bottom: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    flat: @Composable () -> Unit = top,
+)
+```
+
+| Parameter | Description |
+| --- | --- |
+| `top` | Shown above the fold in `Posture.Tabletop`. |
+| `bottom` | Shown below the fold in `Posture.Tabletop`. |
+| `modifier` | Applied to the layout. |
+| `flat` | Shown in every other posture. Defaults to `top`. |
+
+See [tabletop mode](/guides/tabletop-mode).
+
+## Modifier.avoidFold
+
+```kotlin
+public fun Modifier.avoidFold(): Modifier
+```
+
+When a separating fold crosses the element, the element keeps its place in the layout and draws its content on the larger side of the fold. Otherwise nothing changes. See [avoiding the fold](/guides/avoiding-the-fold).

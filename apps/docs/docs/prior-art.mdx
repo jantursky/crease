@@ -1,0 +1,29 @@
+---
+title: Why Crease
+description: What exists for foldables and the iPhone Duo today, and the gap Crease fills.
+sidebar:
+  order: 6
+---
+
+Foldables are not new, but a common Compose Multiplatform API for them is. Here is what we looked at before writing Crease.
+
+## On Android
+
+[Jetpack WindowManager](https://developer.android.com/jetpack/androidx/releases/window) is the right foundation: it reports fold bounds, orientation, occlusion and whether the fold separates the screen. Crease uses it. It is Android only, and it does not give the hinge angle. That comes from a separate sensor, `TYPE_HINGE_ANGLE`. Google's [guide to foldable apps](https://developer.android.com/develop/ui/compose/layouts/adaptive/foldables/make-your-app-fold-aware) covers the Compose side.
+
+## On the iPhone Duo
+
+Apple's APIs are UIKit and SwiftUI, with the hinge in `UIHingeInteraction` and the fold in reserved regions. Kotlin Multiplatform has no wrapper for them.
+
+## In other frameworks
+
+- Flutter: [`foldable`](https://pub.dev/packages/foldable) covers iPhone Duo hinge angle, posture and fold and camera regions. [`nitro_fold_duo`](https://pub.dev/packages/nitro_fold_duo) uses UIKit's reserved-region, hinge and vertical-bar APIs, with a fold-aware layout. [`iphone_duo_ui_pro`](https://pub.dev/packages/iphone_duo_ui_pro) offers two-pane layouts, fold-aligned grids and vertical bars.
+- Expo: [`expo-hinge`](https://www.npmjs.com/package/expo-hinge) reports the hinge angle and status on iPhone Duo and Android foldables, in its [documentation](https://docs.expo.dev/versions/latest/sdk/hinge/).
+
+They show that the problem is real and that people want one API across both platforms. They also shaped Crease: the hinge reading, the posture and the fold regions are separate concerns, and a layout should not depend on an angle.
+
+## What was missing
+
+Nothing common for Kotlin Multiplatform. A team with a shared Compose UI had to write WindowManager glue on Android, Objective-C or Swift glue on iOS, and their own two-pane layout on top. Crease is that glue, once, with layouts, previews and test helpers on top, and with no hinge reported on desktop and web instead of a compile error.
+
+It does not try to be an adaptive-layout framework. For window size classes, navigation suites and list-detail scaffolds, use Compose's own adaptive libraries and add Crease for the fold.

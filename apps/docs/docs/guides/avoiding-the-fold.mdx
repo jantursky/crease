@@ -1,0 +1,43 @@
+---
+title: Avoiding the fold
+description: Keep one element on one side of a separating fold with Modifier.avoidFold().
+---
+
+Some elements should never cross the fold: a dialog, a bottom bar, a text field, a map. `Modifier.avoidFold()` handles them. When a separating fold crosses the element, the element keeps its place in the layout and draws its content on the larger side of the fold. Otherwise nothing changes.
+
+```kotlin
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.jantursky.crease.avoidFold
+
+@Composable
+fun Checkout() {
+    Column(Modifier.fillMaxSize().avoidFold()) {
+        Text("Payment")
+        Text("Address")
+    }
+}
+```
+
+The modifier works on any element, including content in a `Dialog` or `Popup`, which sit in their own window. Without a fold it adds no layout work, even while scrolling. All readers in a window share one platform observer, so a list of items that each use the modifier still registers a single hinge sensor listener. Use `FoldAwareTwoPane` instead when both sides should show content.
+
+## Camera cutouts
+
+`FoldState.cutouts` lists camera and sensor housings as rectangles in window pixels. They are separate from folds. Use them to keep a control from sitting under a camera:
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.jantursky.crease.rememberFoldState
+
+@Composable
+fun CutoutCount() {
+    val cutouts = rememberFoldState().cutouts
+    Text("${cutouts.size} cutouts")
+}
+```
+
+On Android these come from the window's display cutout, on iOS from the occlusion regions of the screen.

@@ -1,0 +1,101 @@
+public final class com/jantursky/crease/AvoidFoldKt {
+	public static final fun avoidFold (Landroidx/compose/ui/Modifier;)Landroidx/compose/ui/Modifier;
+}
+
+public final class com/jantursky/crease/Fold {
+	public static final field $stable I
+	public fun <init> (Landroidx/compose/ui/geometry/Rect;Lcom/jantursky/crease/FoldOrientation;ZZ)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBounds ()Landroidx/compose/ui/geometry/Rect;
+	public final fun getOrientation ()Lcom/jantursky/crease/FoldOrientation;
+	public fun hashCode ()I
+	public final fun isOccluding ()Z
+	public final fun isSeparating ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/crease/FoldAwareTwoPaneKt {
+	public static final fun FoldAwareTwoPane (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/Modifier;Lcom/jantursky/crease/TwoPaneFallback;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class com/jantursky/crease/FoldOrientation : java/lang/Enum {
+	public static final field Horizontal Lcom/jantursky/crease/FoldOrientation;
+	public static final field Vertical Lcom/jantursky/crease/FoldOrientation;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/jantursky/crease/FoldOrientation;
+	public static fun values ()[Lcom/jantursky/crease/FoldOrientation;
+}
+
+public final class com/jantursky/crease/FoldState {
+	public static final field $stable I
+	public static final field Companion Lcom/jantursky/crease/FoldState$Companion;
+	public fun <init> (Lcom/jantursky/crease/Hinge;Ljava/util/List;Ljava/util/List;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCutouts ()Ljava/util/List;
+	public final fun getFold ()Lcom/jantursky/crease/Fold;
+	public final fun getFolds ()Ljava/util/List;
+	public final fun getHinge ()Lcom/jantursky/crease/Hinge;
+	public final fun getPosture ()Lcom/jantursky/crease/Posture;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/crease/FoldState$Companion {
+	public final fun book-Pq9zytI (JFF)Lcom/jantursky/crease/FoldState;
+	public static synthetic fun book-Pq9zytI$default (Lcom/jantursky/crease/FoldState$Companion;JFFILjava/lang/Object;)Lcom/jantursky/crease/FoldState;
+	public final fun closed ()Lcom/jantursky/crease/FoldState;
+	public final fun flat-Pq9zytI (JLcom/jantursky/crease/FoldOrientation;F)Lcom/jantursky/crease/FoldState;
+	public static synthetic fun flat-Pq9zytI$default (Lcom/jantursky/crease/FoldState$Companion;JLcom/jantursky/crease/FoldOrientation;FILjava/lang/Object;)Lcom/jantursky/crease/FoldState;
+	public final fun getNone ()Lcom/jantursky/crease/FoldState;
+	public final fun tabletop-Pq9zytI (JFF)Lcom/jantursky/crease/FoldState;
+	public static synthetic fun tabletop-Pq9zytI$default (Lcom/jantursky/crease/FoldState$Companion;JFFILjava/lang/Object;)Lcom/jantursky/crease/FoldState;
+}
+
+public final class com/jantursky/crease/Hinge {
+	public static final field $stable I
+	public fun <init> (Lcom/jantursky/crease/HingeStatus;Ljava/lang/Float;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAngle ()Ljava/lang/Float;
+	public final fun getStatus ()Lcom/jantursky/crease/HingeStatus;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/crease/HingeStatus : java/lang/Enum {
+	public static final field Closed Lcom/jantursky/crease/HingeStatus;
+	public static final field FullyOpen Lcom/jantursky/crease/HingeStatus;
+	public static final field PartiallyOpen Lcom/jantursky/crease/HingeStatus;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/jantursky/crease/HingeStatus;
+	public static fun values ()[Lcom/jantursky/crease/HingeStatus;
+}
+
+public final class com/jantursky/crease/Posture : java/lang/Enum {
+	public static final field Book Lcom/jantursky/crease/Posture;
+	public static final field Closed Lcom/jantursky/crease/Posture;
+	public static final field Flat Lcom/jantursky/crease/Posture;
+	public static final field Tabletop Lcom/jantursky/crease/Posture;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/jantursky/crease/Posture;
+	public static fun values ()[Lcom/jantursky/crease/Posture;
+}
+
+public final class com/jantursky/crease/RememberFoldStateKt {
+	public static final fun ProvideFoldState (Lcom/jantursky/crease/FoldState;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+	public static final fun rememberFoldState (Landroidx/compose/runtime/Composer;I)Lcom/jantursky/crease/FoldState;
+	public static final fun rememberHinge (Landroidx/compose/runtime/Composer;I)Lcom/jantursky/crease/Hinge;
+}
+
+public final class com/jantursky/crease/TabletopLayoutKt {
+	public static final fun TabletopLayout (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class com/jantursky/crease/TwoPaneFallback : java/lang/Enum {
+	public static final field FirstOnly Lcom/jantursky/crease/TwoPaneFallback;
+	public static final field SideBySide Lcom/jantursky/crease/TwoPaneFallback;
+	public static final field Stacked Lcom/jantursky/crease/TwoPaneFallback;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/jantursky/crease/TwoPaneFallback;
+	public static fun values ()[Lcom/jantursky/crease/TwoPaneFallback;
+}
+

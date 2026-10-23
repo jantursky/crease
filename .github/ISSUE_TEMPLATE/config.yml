@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://crease.vercel.app
+    about: Guides, the API reference and the live demo.

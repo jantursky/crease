@@ -1,0 +1,91 @@
+---
+title: Postures and the hinge
+description: Use the hinge angle for effects and the posture for layout.
+---
+
+Crease reports two related things, and they are for different jobs.
+
+- **The hinge angle** (`Hinge.angle`, in degrees) changes continuously while someone folds the device. Use it for effects: a tilt, a parallax, a shadow that follows the screen.
+- **The posture** (`FoldState.posture`) is one of four values that change rarely. Use it, with the window size, to decide which layout to show.
+
+Both Android and Apple point the same way. Android's guidance is to base layouts on window size classes and use the fold only where it changes the layout, such as tabletop and book postures. Apple's guidance for the iPhone Duo is to adapt to the regions the system reserves rather than to a raw angle. A layout that follows the angle changes constantly while a hand is moving, and it breaks on devices that report no angle at all.
+
+## Reading the angle
+
+`angle` is in degrees. 0 is shut and 180 is flat. It is `null` when the device reports a status but has no angle sensor, and `rememberHinge()` itself is `null` when there is no hinge.
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.jantursky.crease.rememberHinge
+import kotlin.math.roundToInt
+
+@Composable
+fun AngleReadout() {
+    val angle = rememberHinge()?.angle
+    Text(if (angle == null) "No angle" else "${angle.roundToInt()}°")
+}
+```
+
+An effect that follows the angle should have a sensible value when there is none. Treat a missing angle as flat:
+
+```kotlin
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import com.jantursky.crease.rememberHinge
+
+@Composable
+fun TiltingCard() {
+    val angle = rememberHinge()?.angle ?: 180f
+    val tilt by animateFloatAsState(targetValue = (180f - angle) / 6f, label = "tilt")
+    Box(
+        Modifier
+            .fillMaxSize()
+            .graphicsLayer { rotationY = tilt },
+    )
+}
+```
+
+## Reading the posture
+
+```kotlin
+import androidx.compose.runtime.Composable
+import com.jantursky.crease.Posture
+import com.jantursky.crease.rememberFoldState
+
+@Composable
+fun AdaptiveScreen(
+    single: @Composable () -> Unit,
+    split: @Composable () -> Unit,
+) {
+    when (rememberFoldState().posture) {
+        Posture.Book -> split()
+        Posture.Closed, Posture.Flat, Posture.Tabletop -> single()
+    }
+}
+```
+
+The posture is a pure function of the hinge and the first fold:
+
+| Condition | Posture |
+| --- | --- |
+| The hinge status is `Closed` | `Closed` |
+| A separating fold, and the hinge is `PartiallyOpen` (or there is no hinge), with a vertical fold | `Book` |
+| The same, with a horizontal fold | `Tabletop` |
+| Anything else | `Flat` |
+
+`Flat` covers a phone, a desktop window and a foldable lying open. The platforms differ for a foldable that is fully open: Android still reports the fold in `FoldState.folds`, usually not separating, while a flat iPhone Duo reports no fold at all, because its fold region only becomes active once the device is half open. Many Android panels are seamless and report a fold of zero width.
+
+## Fold, separating and occluding
+
+A `Fold` has two flags that are easy to mix up.
+
+- `isSeparating` means content should not span the fold. It is true when the device is half open, or when there is a physical gap between two screens.
+- `isOccluding` means the fold hides what is drawn under it. On Android this is a fold with `OcclusionType.FULL`. On iOS it is an active division with width.
+
+`FoldAwareTwoPane` and `Modifier.avoidFold()` follow `isSeparating`, and keep panes out of the fold's bounds when `isOccluding`.

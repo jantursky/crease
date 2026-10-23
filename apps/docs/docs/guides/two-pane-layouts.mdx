@@ -1,0 +1,59 @@
+---
+title: Two-pane layouts
+description: Split content at the fold with FoldAwareTwoPane, and choose what happens on a device without one.
+---
+
+`FoldAwareTwoPane` takes two composables. When a separating fold crosses the layout, it splits exactly at the fold. A vertical fold puts the panes side by side, a horizontal fold puts one above the other. When the fold also occludes, neither pane draws under it.
+
+```kotlin
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.jantursky.crease.FoldAwareTwoPane
+import com.jantursky.crease.TwoPaneFallback
+
+@Composable
+fun RecipeReader() {
+    FoldAwareTwoPane(
+        first = { Text("Ingredients") },
+        second = { Text("Steps") },
+        modifier = Modifier.fillMaxSize(),
+        fallback = TwoPaneFallback.FirstOnly,
+    )
+}
+```
+
+Fold bounds arrive in window coordinates. The layout converts them to its own coordinates, so it can sit anywhere in the window. If the fold does not cross the layout, for example a small card on the other side of the screen, the fallback applies.
+
+The layout fills the space it gets. Inside a scrolling container, where one axis has no limit, it takes the length its content needs on that axis instead: `SideBySide` and `Stacked` place the panes one after the other, and a fold still splits the bounded part. `TabletopLayout` follows the same rule.
+
+## Fallbacks
+
+| `TwoPaneFallback` | Without a separating fold |
+| --- | --- |
+| `FirstOnly` (default) | Only `first`. |
+| `SideBySide` | Both panes in a row, half each. |
+| `Stacked` | Both panes in a column, half each. |
+
+`FirstOnly` suits list and detail screens. A phone shows the list and your navigation opens the detail on its own screen, while a foldable that is half open shows both:
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.jantursky.crease.FoldAwareTwoPane
+import com.jantursky.crease.TwoPaneFallback
+
+@Composable
+fun ListDetail(selected: String?) {
+    FoldAwareTwoPane(
+        first = { Text("List") },
+        second = { Text(selected ?: "Pick an item") },
+        fallback = TwoPaneFallback.FirstOnly,
+    )
+}
+```
+
+`SideBySide` and `Stacked` are for screens where both halves matter on any device, such as a camera preview with its controls.
+
+On a large tablet or a desktop window you may want two panes even without a fold. Use window size classes for that decision and `FoldAwareTwoPane` for the fold. Crease does not replace them.

@@ -1,0 +1,38 @@
+---
+title: iPhone Duo
+description: What Crease needs on iOS, how the data maps, and how to test with the Xcode simulator.
+---
+
+## Requirements
+
+The hinge and reserved-region APIs exist in iOS 27.1 and later. Crease needs that version at runtime, on a device that has a hinge. On every other iPhone and on older systems the observer does nothing and `rememberFoldState()` returns `FoldState.None`.
+
+The library does not need Xcode 27.1 to build. It looks the APIs up at run time and never names an iOS 27 type, so an app that depends on Crease builds and runs with older Xcode versions too. You only need the newer SDK to run on a simulated or real iPhone Duo.
+
+There is nothing to configure. No Info.plist keys, no entitlements.
+
+## How the data maps
+
+- **Hinge.** Crease owns a `UIHingeInteraction` and reports its status as `Closed`, `PartiallyOpen` or `FullyOpen`. iOS gives the angle in radians, with 0 shut and π flat. Crease converts it to degrees, so you see 0 to 180 on both platforms.
+- **Fold.** The division region of the screen becomes a `Fold`. Points are converted to pixels with the screen scale. Crease publishes it as a fold only while the hinge reads `PartiallyOpen`.
+- **Cutouts.** Occlusion regions, such as the camera, become `FoldState.cutouts`.
+
+## Things that behave in a way you might not expect
+
+- **The division region lags the hinge.** After a hinge update, UIKit takes a moment to update the division. Crease keeps reading the region for up to two seconds, until the region's active state agrees with the hinge. A layout that reacts to the fold may therefore settle a little after the angle.
+- **An inactive division keeps a 40 pt frame.** The region exists even when the device is open flat. Crease ignores it then, so a flat iPhone Duo reports no fold.
+- **The angle is the physical hinge, not a layout.** Use the posture for layout, see [postures and the hinge](/guides/postures-and-hinge).
+
+## Testing with the simulator
+
+Xcode 27.1 includes an iPhone Duo simulator in the Device Hub. Run your app on it and use the device controls to:
+
+1. **Open** and **close** the device, which moves the hinge between `FullyOpen` and `Closed`.
+2. **Fold** it to a half-open angle, which gives `PartiallyOpen`, an angle and an active division.
+3. **Rotate** it, which turns a vertical fold into a horizontal one and a book posture into a tabletop.
+
+Watch `rememberFoldState()` while you do. If the posture changes the way you expect, your layout works. Before 27.1 is on your machine, use `ProvideFoldState` to cover the same cases in previews and tests.
+
+## Not covered
+
+Crease has no equivalent of the SwiftUI-only APIs: `ArrangementView` (`FoldAwareTwoPane` covers the same need), `toolbarVerticalEdge`, and outer display scenes.

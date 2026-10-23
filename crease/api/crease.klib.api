@@ -1,0 +1,128 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crease:crease>
+final enum class com.jantursky.crease/FoldOrientation : kotlin/Enum<com.jantursky.crease/FoldOrientation> { // com.jantursky.crease/FoldOrientation|null[0]
+    enum entry Horizontal // com.jantursky.crease/FoldOrientation.Horizontal|null[0]
+    enum entry Vertical // com.jantursky.crease/FoldOrientation.Vertical|null[0]
+
+    final val entries // com.jantursky.crease/FoldOrientation.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.jantursky.crease/FoldOrientation> // com.jantursky.crease/FoldOrientation.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.jantursky.crease/FoldOrientation // com.jantursky.crease/FoldOrientation.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.jantursky.crease/FoldOrientation> // com.jantursky.crease/FoldOrientation.values|values#static(){}[0]
+}
+
+final enum class com.jantursky.crease/HingeStatus : kotlin/Enum<com.jantursky.crease/HingeStatus> { // com.jantursky.crease/HingeStatus|null[0]
+    enum entry Closed // com.jantursky.crease/HingeStatus.Closed|null[0]
+    enum entry FullyOpen // com.jantursky.crease/HingeStatus.FullyOpen|null[0]
+    enum entry PartiallyOpen // com.jantursky.crease/HingeStatus.PartiallyOpen|null[0]
+
+    final val entries // com.jantursky.crease/HingeStatus.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.jantursky.crease/HingeStatus> // com.jantursky.crease/HingeStatus.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.jantursky.crease/HingeStatus // com.jantursky.crease/HingeStatus.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.jantursky.crease/HingeStatus> // com.jantursky.crease/HingeStatus.values|values#static(){}[0]
+}
+
+final enum class com.jantursky.crease/Posture : kotlin/Enum<com.jantursky.crease/Posture> { // com.jantursky.crease/Posture|null[0]
+    enum entry Book // com.jantursky.crease/Posture.Book|null[0]
+    enum entry Closed // com.jantursky.crease/Posture.Closed|null[0]
+    enum entry Flat // com.jantursky.crease/Posture.Flat|null[0]
+    enum entry Tabletop // com.jantursky.crease/Posture.Tabletop|null[0]
+
+    final val entries // com.jantursky.crease/Posture.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.jantursky.crease/Posture> // com.jantursky.crease/Posture.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.jantursky.crease/Posture // com.jantursky.crease/Posture.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.jantursky.crease/Posture> // com.jantursky.crease/Posture.values|values#static(){}[0]
+}
+
+final enum class com.jantursky.crease/TwoPaneFallback : kotlin/Enum<com.jantursky.crease/TwoPaneFallback> { // com.jantursky.crease/TwoPaneFallback|null[0]
+    enum entry FirstOnly // com.jantursky.crease/TwoPaneFallback.FirstOnly|null[0]
+    enum entry SideBySide // com.jantursky.crease/TwoPaneFallback.SideBySide|null[0]
+    enum entry Stacked // com.jantursky.crease/TwoPaneFallback.Stacked|null[0]
+
+    final val entries // com.jantursky.crease/TwoPaneFallback.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.jantursky.crease/TwoPaneFallback> // com.jantursky.crease/TwoPaneFallback.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.jantursky.crease/TwoPaneFallback // com.jantursky.crease/TwoPaneFallback.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.jantursky.crease/TwoPaneFallback> // com.jantursky.crease/TwoPaneFallback.values|values#static(){}[0]
+}
+
+final class com.jantursky.crease/Fold { // com.jantursky.crease/Fold|null[0]
+    constructor <init>(androidx.compose.ui.geometry/Rect, com.jantursky.crease/FoldOrientation, kotlin/Boolean, kotlin/Boolean) // com.jantursky.crease/Fold.<init>|<init>(androidx.compose.ui.geometry.Rect;com.jantursky.crease.FoldOrientation;kotlin.Boolean;kotlin.Boolean){}[0]
+
+    final val bounds // com.jantursky.crease/Fold.bounds|{}bounds[0]
+        final fun <get-bounds>(): androidx.compose.ui.geometry/Rect // com.jantursky.crease/Fold.bounds.<get-bounds>|<get-bounds>(){}[0]
+    final val isOccluding // com.jantursky.crease/Fold.isOccluding|{}isOccluding[0]
+        final fun <get-isOccluding>(): kotlin/Boolean // com.jantursky.crease/Fold.isOccluding.<get-isOccluding>|<get-isOccluding>(){}[0]
+    final val isSeparating // com.jantursky.crease/Fold.isSeparating|{}isSeparating[0]
+        final fun <get-isSeparating>(): kotlin/Boolean // com.jantursky.crease/Fold.isSeparating.<get-isSeparating>|<get-isSeparating>(){}[0]
+    final val orientation // com.jantursky.crease/Fold.orientation|{}orientation[0]
+        final fun <get-orientation>(): com.jantursky.crease/FoldOrientation // com.jantursky.crease/Fold.orientation.<get-orientation>|<get-orientation>(){}[0]
+
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.crease/Fold.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.jantursky.crease/Fold.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.jantursky.crease/Fold.toString|toString(){}[0]
+}
+
+final class com.jantursky.crease/FoldState { // com.jantursky.crease/FoldState|null[0]
+    constructor <init>(com.jantursky.crease/Hinge?, kotlin.collections/List<com.jantursky.crease/Fold>, kotlin.collections/List<androidx.compose.ui.geometry/Rect>) // com.jantursky.crease/FoldState.<init>|<init>(com.jantursky.crease.Hinge?;kotlin.collections.List<com.jantursky.crease.Fold>;kotlin.collections.List<androidx.compose.ui.geometry.Rect>){}[0]
+
+    final val cutouts // com.jantursky.crease/FoldState.cutouts|{}cutouts[0]
+        final fun <get-cutouts>(): kotlin.collections/List<androidx.compose.ui.geometry/Rect> // com.jantursky.crease/FoldState.cutouts.<get-cutouts>|<get-cutouts>(){}[0]
+    final val fold // com.jantursky.crease/FoldState.fold|{}fold[0]
+        final fun <get-fold>(): com.jantursky.crease/Fold? // com.jantursky.crease/FoldState.fold.<get-fold>|<get-fold>(){}[0]
+    final val folds // com.jantursky.crease/FoldState.folds|{}folds[0]
+        final fun <get-folds>(): kotlin.collections/List<com.jantursky.crease/Fold> // com.jantursky.crease/FoldState.folds.<get-folds>|<get-folds>(){}[0]
+    final val hinge // com.jantursky.crease/FoldState.hinge|{}hinge[0]
+        final fun <get-hinge>(): com.jantursky.crease/Hinge? // com.jantursky.crease/FoldState.hinge.<get-hinge>|<get-hinge>(){}[0]
+    final val posture // com.jantursky.crease/FoldState.posture|{}posture[0]
+        final fun <get-posture>(): com.jantursky.crease/Posture // com.jantursky.crease/FoldState.posture.<get-posture>|<get-posture>(){}[0]
+
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.crease/FoldState.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.jantursky.crease/FoldState.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.jantursky.crease/FoldState.toString|toString(){}[0]
+
+    final object Companion { // com.jantursky.crease/FoldState.Companion|null[0]
+        final val None // com.jantursky.crease/FoldState.Companion.None|{}None[0]
+            final fun <get-None>(): com.jantursky.crease/FoldState // com.jantursky.crease/FoldState.Companion.None.<get-None>|<get-None>(){}[0]
+
+        final fun book(androidx.compose.ui.geometry/Size, kotlin/Float = ..., kotlin/Float = ...): com.jantursky.crease/FoldState // com.jantursky.crease/FoldState.Companion.book|book(androidx.compose.ui.geometry.Size;kotlin.Float;kotlin.Float){}[0]
+        final fun closed(): com.jantursky.crease/FoldState // com.jantursky.crease/FoldState.Companion.closed|closed(){}[0]
+        final fun flat(androidx.compose.ui.geometry/Size, com.jantursky.crease/FoldOrientation = ..., kotlin/Float = ...): com.jantursky.crease/FoldState // com.jantursky.crease/FoldState.Companion.flat|flat(androidx.compose.ui.geometry.Size;com.jantursky.crease.FoldOrientation;kotlin.Float){}[0]
+        final fun tabletop(androidx.compose.ui.geometry/Size, kotlin/Float = ..., kotlin/Float = ...): com.jantursky.crease/FoldState // com.jantursky.crease/FoldState.Companion.tabletop|tabletop(androidx.compose.ui.geometry.Size;kotlin.Float;kotlin.Float){}[0]
+    }
+}
+
+final class com.jantursky.crease/Hinge { // com.jantursky.crease/Hinge|null[0]
+    constructor <init>(com.jantursky.crease/HingeStatus, kotlin/Float?) // com.jantursky.crease/Hinge.<init>|<init>(com.jantursky.crease.HingeStatus;kotlin.Float?){}[0]
+
+    final val angle // com.jantursky.crease/Hinge.angle|{}angle[0]
+        final fun <get-angle>(): kotlin/Float? // com.jantursky.crease/Hinge.angle.<get-angle>|<get-angle>(){}[0]
+    final val status // com.jantursky.crease/Hinge.status|{}status[0]
+        final fun <get-status>(): com.jantursky.crease/HingeStatus // com.jantursky.crease/Hinge.status.<get-status>|<get-status>(){}[0]
+
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.crease/Hinge.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.jantursky.crease/Hinge.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.jantursky.crease/Hinge.toString|toString(){}[0]
+}
+
+final val com.jantursky.crease/com_jantursky_crease_Fold$stableprop // com.jantursky.crease/com_jantursky_crease_Fold$stableprop|#static{}com_jantursky_crease_Fold$stableprop[0]
+final val com.jantursky.crease/com_jantursky_crease_FoldState$stableprop // com.jantursky.crease/com_jantursky_crease_FoldState$stableprop|#static{}com_jantursky_crease_FoldState$stableprop[0]
+final val com.jantursky.crease/com_jantursky_crease_Hinge$stableprop // com.jantursky.crease/com_jantursky_crease_Hinge$stableprop|#static{}com_jantursky_crease_Hinge$stableprop[0]
+
+final fun (androidx.compose.ui/Modifier).com.jantursky.crease/avoidFold(): androidx.compose.ui/Modifier // com.jantursky.crease/avoidFold|avoidFold@androidx.compose.ui.Modifier(){}[0]
+final fun com.jantursky.crease/FoldAwareTwoPane(kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.ui/Modifier?, com.jantursky.crease/TwoPaneFallback?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.jantursky.crease/FoldAwareTwoPane|FoldAwareTwoPane(kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.ui.Modifier?;com.jantursky.crease.TwoPaneFallback?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.jantursky.crease/ProvideFoldState(com.jantursky.crease/FoldState, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.jantursky.crease/ProvideFoldState|ProvideFoldState(com.jantursky.crease.FoldState;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun com.jantursky.crease/TabletopLayout(kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.jantursky.crease/TabletopLayout|TabletopLayout(kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.jantursky.crease/com_jantursky_crease_Fold$stableprop_getter(): kotlin/Int // com.jantursky.crease/com_jantursky_crease_Fold$stableprop_getter|com_jantursky_crease_Fold$stableprop_getter(){}[0]
+final fun com.jantursky.crease/com_jantursky_crease_FoldState$stableprop_getter(): kotlin/Int // com.jantursky.crease/com_jantursky_crease_FoldState$stableprop_getter|com_jantursky_crease_FoldState$stableprop_getter(){}[0]
+final fun com.jantursky.crease/com_jantursky_crease_Hinge$stableprop_getter(): kotlin/Int // com.jantursky.crease/com_jantursky_crease_Hinge$stableprop_getter|com_jantursky_crease_Hinge$stableprop_getter(){}[0]
+final fun com.jantursky.crease/rememberFoldState(androidx.compose.runtime/Composer?, kotlin/Int): com.jantursky.crease/FoldState // com.jantursky.crease/rememberFoldState|rememberFoldState(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun com.jantursky.crease/rememberHinge(androidx.compose.runtime/Composer?, kotlin/Int): com.jantursky.crease/Hinge? // com.jantursky.crease/rememberHinge|rememberHinge(androidx.compose.runtime.Composer?;kotlin.Int){}[0]

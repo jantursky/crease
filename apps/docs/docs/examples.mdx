@@ -1,0 +1,37 @@
+---
+title: Examples
+description: Two sample apps and a web demo that show Crease in use.
+sidebar:
+  order: 4
+---
+
+The repository has two sample apps in `samples/`. Both are Compose Multiplatform and run on Android and iOS. The [web demo](https://crease-demo.vercel.app) runs the same fold-aware screens in a browser, with a virtual device you can fold.
+
+## Recipe reader
+
+A list and detail app. On a flat or closed device it shows one pane. Half open, `FoldAwareTwoPane` puts ingredients on one side of the fold and the steps on the other. In tabletop, the picture goes above the fold and the steps below it.
+
+<div class="screenshots">
+  <img src="/screenshots/recipe-book.png" alt="Recipe reader held like a book, ingredients left and steps right" loading="lazy" />
+  <img src="/screenshots/recipe-tabletop.png" alt="Recipe reader in tabletop, photo above the fold and steps below" loading="lazy" />
+  <img src="/screenshots/recipe-flat.png" alt="Recipe reader on a flat phone, a single pane" loading="lazy" />
+</div>
+
+## Photo editor
+
+A photo with its tools. Half open like a book, the photo sits on one side and the tools on the other. The hinge angle drives a small tilt on the preview, and the fold overlay shows the fold and cutout bounds that Crease reports.
+
+<div class="screenshots">
+  <img src="/screenshots/editor-book.png" alt="Photo editor with the photo on one side of the fold and tools on the other" loading="lazy" />
+  <img src="/screenshots/editor-tabletop.png" alt="Photo editor in tabletop" loading="lazy" />
+</div>
+
+## Run them
+
+```bash
+./gradlew :samples:recipes:androidApp:installDebug
+./gradlew :samples:photos:androidApp:installDebug
+```
+
+The shared code is in `samples/recipes/shared` and `samples/photos/shared`. The web demo is `samples/web`.
+Run them on a foldable emulator, or on the iPhone Duo simulator of Xcode 27.1. The [Android](/guides/android) and [iPhone Duo](/guides/iphone-duo) guides explain how.

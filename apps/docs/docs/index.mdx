@@ -1,0 +1,63 @@
+---
+title: Introduction
+description: Hinge angle, fold position and fold-aware layouts for Compose Multiplatform.
+sidebar:
+  order: 1
+---
+
+Crease gives Compose Multiplatform one API for the hinge of a foldable phone. You can read the hinge angle, find out where the fold is, and lay out two panes around it. The same code runs on Android foldables and on the iPhone Duo. On a phone, a desktop window or a browser it reports "no hinge" and your layout falls back to whatever you chose.
+
+The current version is {{version}}. See the [changelog](/changelog) for what each release changed.
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.jantursky.crease.FoldAwareTwoPane
+import com.jantursky.crease.TwoPaneFallback
+
+@Composable
+fun RecipeScreen() {
+    FoldAwareTwoPane(
+        first = { Text("Ingredients") },
+        second = { Text("Steps") },
+        fallback = TwoPaneFallback.SideBySide,
+    )
+}
+```
+
+When the device is half open and the fold separates the screen, `Ingredients` fills one side of the fold and `Steps` the other. On any other device both panes share the window 50/50, because that is the fallback.
+
+## What you get
+
+- The hinge as a value: its status (`Closed`, `PartiallyOpen`, `FullyOpen`) and its angle in degrees, when the device has an angle sensor.
+- Fold geometry: bounds in window pixels, orientation, whether content should avoid it and whether it hides what is drawn beneath it.
+- A `Posture` (`Closed`, `Flat`, `Book`, `Tabletop`) worked out from those, for layout decisions.
+- `FoldAwareTwoPane`, `TabletopLayout` and `Modifier.avoidFold()`.
+- Camera and sensor cutouts in window coordinates.
+- `ProvideFoldState` and `FoldState` factories, so previews and tests can pretend to be any foldable.
+
+## Platforms
+
+| Target | Source of the data | Hinge |
+| --- | --- | --- |
+| Android (minSdk 23) | Jetpack WindowManager for folds and status, the `TYPE_HINGE_ANGLE` sensor (API 30+) for the angle | Foldables, plus the angle where the sensor exists |
+| iOS (arm64 and simulator) | `UIHingeInteraction` and the reserved-region APIs of UIKit on iOS 27.1 and later | iPhone Duo. Older systems report none |
+| JVM desktop | Nothing | None, unless you pass a state with `ProvideFoldState` |
+| wasmJs | Nothing | None, unless you pass a state with `ProvideFoldState` |
+
+Everything compiles for every target, so shared code needs no `expect` or `actual` for the fold.
+
+<CardGroup cols={2}>
+  <Card title="Getting started" href="/getting-started" icon="rocket">
+    Add the dependency and read the fold state.
+  </Card>
+  <Card title="Guides" href="/guides/postures-and-hinge" icon="book-open">
+    Postures, two-pane layouts, tabletop mode, previews and tests.
+  </Card>
+  <Card title="Reference" href="/reference/types" icon="list">
+    Every type, composable and parameter.
+  </Card>
+  <Card title="Live demo" href="https://crease-demo.vercel.app" icon="play">
+    Fold a virtual device in your browser.
+  </Card>
+</CardGroup>

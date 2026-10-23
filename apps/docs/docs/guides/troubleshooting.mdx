@@ -1,0 +1,36 @@
+---
+title: Troubleshooting
+description: Common problems and what causes them.
+---
+
+## `rememberFoldState()` is always `FoldState.None`
+
+Expected on JVM desktop, in a browser, on a phone, and in the preview tools. Wrap the content in `ProvideFoldState` to try a layout. On a real device, check which of the platforms below applies.
+
+## Nothing on an iPhone Duo
+
+The device needs iOS 27.1 or later. Earlier systems have no hinge APIs, and Crease stays silent on them. See [iPhone Duo](/guides/iphone-duo).
+
+## The angle is `null` on Android
+
+The device has no hinge angle sensor, or runs Android 10 or older (API below 30). Status and folds can still be there. Design for a missing angle: use the posture for layout and treat a missing angle as flat in effects.
+
+## The fold appears a moment after the angle on iOS
+
+The division region lags the hinge. Crease waits for it to agree with the hinge for up to two seconds before it publishes a fold. See [iPhone Duo](/guides/iphone-duo).
+
+## `FoldAwareTwoPane` shows only the first pane
+
+No separating fold crosses the layout, so the `fallback` applies. The default is `FirstOnly`. Use `SideBySide` or `Stacked` if you want both panes on every device.
+
+## A fold of zero width
+
+Seamless panels do that. `bounds` is a line, not a box, and nothing is hidden. This is correct.
+
+## Preview shows the phone layout
+
+A preview has no hinge unless you provide one. Use `ProvideFoldState(FoldState.book(...))` and give the preview a size that matches the `windowSize` you pass, in pixels.
+
+## Fold coordinates look wrong
+
+`Fold.bounds` and `FoldState.cutouts` are in window coordinates and pixels, not dp and not local to your composable. Convert with `LocalDensity` when you compare them with sizes in dp.

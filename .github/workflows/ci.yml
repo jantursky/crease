@@ -1,0 +1,113 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v6
+      - name: Format, API, JVM and Android host tests, coverage gate
+        run: ./gradlew spotlessCheck :crease:apiCheck :crease:jvmTest :crease:testAndroidHostTest :crease:koverXmlReport :crease:koverVerify
+      - name: Docs and README samples compile
+        run: python3 scripts/doc-samples.py && ./gradlew :samples:docs-check:compileTestKotlinJvm
+      - name: Upload coverage to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/codecov-action@v7
+        with:
+          files: crease/build/reports/kover/report.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+
+  wasm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v6
+      - name: Wasm tests (headless Chrome) and the web demo build
+        run: ./gradlew :crease:wasmJsTest :samples:web:wasmJsBrowserDistribution
+
+  ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v6
+      - name: Simulator tests
+        run: ./gradlew :crease:iosSimulatorArm64Test
+      - name: Generate the Xcode projects
+        run: |
+          brew install xcodegen
+          (cd samples/recipes/iosApp && xcodegen generate)
+          (cd samples/photos/iosApp && xcodegen generate)
+      - name: Build the Recipes sample for the simulator
+        working-directory: samples/recipes/iosApp
+        run: xcodebuild build -scheme RecipesApp -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO
+      - name: Build the Photos sample for the simulator
+        working-directory: samples/photos/iosApp
+        run: xcodebuild build -scheme PhotosApp -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO
+
+  samples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v6
+      - name: Build the Android sample apps
+        run: ./gradlew :samples:recipes:androidApp:assembleDebug :samples:photos:androidApp:assembleDebug
+      - name: Sample shared-module tests
+        run: ./gradlew :samples:recipes:shared:jvmTest :samples:photos:shared:jvmTest
+
+  pack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v6
+      - name: Publish to Maven Local and compile a consumer against it
+        run: ./scripts/pack-test.sh
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: bun install --frozen-lockfile
+      - name: Build the docs site
+        run: bun run build:docs

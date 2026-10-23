@@ -1,0 +1,110 @@
+---
+title: Types
+description: HingeStatus, Hinge, FoldOrientation, Fold, Posture, FoldState and TwoPaneFallback.
+---
+
+All types live in the package `com.jantursky.crease`. The generated API docs are on [javadoc.io](https://javadoc.io/doc/com.jantursky/crease).
+
+`Hinge`, `Fold` and `FoldState` are plain classes, not data classes, so the library can add to them without breaking binary compatibility. They implement `equals`, `hashCode` and `toString`.
+
+## HingeStatus
+
+```kotlin
+public enum class HingeStatus { Closed, PartiallyOpen, FullyOpen }
+```
+
+How far the hinge is open, as the platform reports it.
+
+## Hinge
+
+```kotlin
+public class Hinge(public val status: HingeStatus, public val angle: Float?)
+```
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `status` | `HingeStatus` | Whether the hinge is shut, half open or fully open. |
+| `angle` | `Float?` | Degrees: 0 when shut, 180 when flat. `null` when the device has no angle sensor. |
+
+## FoldOrientation
+
+```kotlin
+public enum class FoldOrientation { Vertical, Horizontal }
+```
+
+A vertical fold splits the window into a left and a right half. A horizontal fold splits it into a top and a bottom half.
+
+## Fold
+
+```kotlin
+public class Fold(
+    public val bounds: Rect,
+    public val orientation: FoldOrientation,
+    public val isSeparating: Boolean,
+    public val isOccluding: Boolean,
+)
+```
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `bounds` | `Rect` | The fold in window coordinates, in pixels. A seamless panel reports zero width. |
+| `orientation` | `FoldOrientation` | Direction of the fold line. |
+| `isSeparating` | `Boolean` | Content should stay on one side: the device is half open, or there is a physical gap. |
+| `isOccluding` | `Boolean` | The fold hides what is drawn beneath it. |
+
+## Posture
+
+```kotlin
+public enum class Posture { Closed, Flat, Book, Tabletop }
+```
+
+| Value | Meaning |
+| --- | --- |
+| `Closed` | The hinge is shut. |
+| `Flat` | A phone, a desktop window, or a foldable lying open. |
+| `Book` | Half open with a vertical fold, held like a book. |
+| `Tabletop` | Half open with a horizontal fold, standing like a laptop. |
+
+See [postures and the hinge](/guides/postures-and-hinge) for the exact rules.
+
+## FoldState
+
+```kotlin
+public class FoldState(
+    public val hinge: Hinge?,
+    public val folds: List<Fold>,
+    public val cutouts: List<Rect>,
+)
+```
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `hinge` | `Hinge?` | `null` when the device has no hinge or has not reported it yet. |
+| `folds` | `List<Fold>` | Folds across the window, usually zero or one. |
+| `cutouts` | `List<Rect>` | Camera and sensor housings, in window coordinates and pixels. |
+| `fold` | `Fold?` | The first fold, or `null`. |
+| `posture` | `Posture` | The current posture. |
+
+### Factories
+
+| Factory | Parameters | Description |
+| --- | --- | --- |
+| `FoldState.None` | none | No hinge, no folds, no cutouts. |
+| `FoldState.closed()` | none | A foldable that is shut. |
+| `FoldState.flat(windowSize, orientation, foldWidth)` | `Size`, `FoldOrientation = Vertical`, `Float = 0f` | A foldable lying open. |
+| `FoldState.book(windowSize, angle, foldWidth)` | `Size`, `Float = 90f`, `Float = 0f` | Half open, vertical fold in the middle. |
+| `FoldState.tabletop(windowSize, angle, foldWidth)` | `Size`, `Float = 90f`, `Float = 0f` | Half open, horizontal fold in the middle. |
+
+`windowSize` and `foldWidth` are in pixels, `angle` in degrees.
+
+## TwoPaneFallback
+
+```kotlin
+public enum class TwoPaneFallback { FirstOnly, SideBySide, Stacked }
+```
+
+| Value | Description |
+| --- | --- |
+| `FirstOnly` | Only the first pane. |
+| `SideBySide` | Both panes in a row, half each. |
+| `Stacked` | Both panes in a column, half each. |

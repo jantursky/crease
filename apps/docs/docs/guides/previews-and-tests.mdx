@@ -1,0 +1,111 @@
+---
+title: Previews and tests
+description: Pretend to be any foldable with ProvideFoldState and the FoldState factories.
+---
+
+`rememberFoldState()` returns the state given to the nearest `ProvideFoldState`, and the platform's state when there is none. That makes every fold-aware composable previewable and testable on a machine with no hinge.
+
+## The factories
+
+| Factory | Describes |
+| --- | --- |
+| `FoldState.None` | A phone, a desktop window or a browser: no hinge, no fold. |
+| `FoldState.closed()` | A foldable that is shut, on its outer display. |
+| `FoldState.flat(windowSize, orientation, foldWidth)` | A foldable lying open, with a fold across the window. |
+| `FoldState.book(windowSize, angle, foldWidth)` | Half open, vertical fold in the middle. |
+| `FoldState.tabletop(windowSize, angle, foldWidth)` | Half open, horizontal fold in the middle. |
+
+`windowSize` is in pixels. `angle` is in degrees and defaults to 90. `foldWidth` is in pixels, and 0 means a seamless panel.
+
+For anything else, build a `FoldState` yourself from a `Hinge`, a list of `Fold`s and the cutouts.
+
+## Previews
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.tooling.preview.Preview
+import com.jantursky.crease.FoldAwareTwoPane
+import com.jantursky.crease.FoldState
+import com.jantursky.crease.ProvideFoldState
+
+@Composable
+private fun ReaderPreviewContent() {
+    FoldAwareTwoPane(
+        first = { Text("Ingredients") },
+        second = { Text("Steps") },
+    )
+}
+
+@Preview(widthDp = 840, heightDp = 640)
+@Composable
+private fun BookPreview() {
+    ProvideFoldState(FoldState.book(Size(2520f, 1920f), angle = 100f, foldWidth = 36f)) {
+        ReaderPreviewContent()
+    }
+}
+
+@Preview(widthDp = 360, heightDp = 640)
+@Composable
+private fun PhonePreview() {
+    ProvideFoldState(FoldState.None) {
+        ReaderPreviewContent()
+    }
+}
+```
+
+`@Preview` comes from the Compose tooling preview artifact, which a Compose Multiplatform project usually has in `commonMain` already.
+
+## Tests
+
+With Compose's UI test API, give the screen a state and assert on what shows:
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.runComposeUiTest
+import com.jantursky.crease.FoldAwareTwoPane
+import com.jantursky.crease.FoldState
+import com.jantursky.crease.ProvideFoldState
+import kotlin.test.Test
+
+@Composable
+private fun ReaderScreen() {
+    FoldAwareTwoPane(
+        first = { Text("Ingredients") },
+        second = { Text("Steps") },
+    )
+}
+
+class ReaderScreenTest {
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun showsBothPanesWhenHeldLikeABook() = runComposeUiTest {
+        setContent {
+            ProvideFoldState(FoldState.book(Size(1840f, 2208f))) {
+                ReaderScreen()
+            }
+        }
+        onNodeWithText("Ingredients").assertExists()
+        onNodeWithText("Steps").assertExists()
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun showsOnlyTheFirstPaneOnAPhone() = runComposeUiTest {
+        setContent {
+            ProvideFoldState(FoldState.None) {
+                ReaderScreen()
+            }
+        }
+        onNodeWithText("Ingredients").assertExists()
+        onNodeWithText("Steps").assertDoesNotExist()
+    }
+}
+```
+
+To test a fold that changes, hold the state in `mutableStateOf` and pass it to `ProvideFoldState`. The layout recomposes when it changes.

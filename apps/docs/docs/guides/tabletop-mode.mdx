@@ -1,0 +1,47 @@
+---
+title: Tabletop mode
+description: Put content above the fold and controls below it with TabletopLayout.
+---
+
+A foldable that is half open with a horizontal fold stands like a small laptop. Video players, cameras and call screens work well there: the picture sits on the upper half and the controls on the lower half.
+
+`TabletopLayout` does that for you. In `Posture.Tabletop` it shows `top` above the fold and `bottom` below it. In every other posture it shows `flat`, which defaults to `top`.
+
+```kotlin
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.jantursky.crease.TabletopLayout
+
+@Composable
+fun VideoScreen() {
+    TabletopLayout(
+        top = { Text("Video") },
+        bottom = { Text("Controls") },
+        modifier = Modifier.fillMaxSize(),
+        flat = {
+            Column {
+                Text("Video")
+                Text("Controls")
+            }
+        },
+    )
+}
+```
+
+Leave `flat` out when the top content alone is right for a flat device, for example a full-screen player with overlaid controls.
+
+## Trying it without a device
+
+The `FoldState.tabletop` factory builds a half-open state with a horizontal fold across the middle of a window:
+
+```kotlin
+import androidx.compose.ui.geometry.Size
+import com.jantursky.crease.FoldState
+
+val tabletop = FoldState.tabletop(windowSize = Size(2208f, 1840f), angle = 100f)
+```
+
+Pass it to `ProvideFoldState` in a preview or a test. See [previews and tests](/guides/previews-and-tests).
