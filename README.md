@@ -158,23 +158,6 @@ python3 design/brand/sample-icons.py          # redraw the sample app icons
 
 CI runs on every push and pull request: formatting, the binary API check, the tests on every target with the coverage gate (uploaded to Codecov), the browser tests of the demo, both samples on Android and the iOS simulator, a consumer build against Maven Local and the docs build. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Releasing
-
-1. Move the `## [Unreleased]` notes in `CHANGELOG.md` under the new version and set `VERSION_NAME` in `gradle.properties`.
-2. Commit, then push a tag with the same version: `git tag 1.1.0 && git push origin 1.1.0`.
-3. The release workflow creates the GitHub release from the changelog, runs the checks and publishes to Maven Central.
-
-One-time setup, in the repository settings on GitHub:
-
-- `maven-central` environment with `MAVEN_CENTRAL_USERNAME` and `MAVEN_CENTRAL_PASSWORD` (a Central Portal user token for the verified `io.github.jantursky` namespace), `SIGNING_KEY` (the armored private GPG key) and `SIGNING_PASSWORD`. Publish the public key to a key server.
-- `CODECOV_TOKEN` from [codecov.io](https://codecov.io) for the coverage upload.
-- `VERCEL_TOKEN`, `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` for the demo deploy.
-
-## Deploying
-
-- **Demo:** `.github/workflows/demo.yml` builds `samples/web` and deploys it to Vercel on every push to `main` that touches the library or the samples. By hand: `./gradlew :samples:web:wasmJsBrowserDistribution`, then `npx vercel deploy --prod` in `samples/web/build/dist/wasmJs/productionExecutable`.
-- **Docs:** a Vercel project connected to the repository with the root directory `apps/docs`. Vercel builds it on every push.
-
 ## License
 
 [MIT](LICENSE) © Jan Tursky
