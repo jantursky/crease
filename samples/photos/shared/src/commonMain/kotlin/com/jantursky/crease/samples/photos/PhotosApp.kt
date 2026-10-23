@@ -3,7 +3,6 @@ package com.jantursky.crease.samples.photos
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,12 +39,12 @@ fun PhotosApp(modifier: Modifier = Modifier) {
             .windowInsetsPadding(WindowInsets.safeDrawing)
             .padding(8.dp),
     ) {
-        when {
-            foldState.posture == Posture.Closed -> {
+        when (foldState.posture) {
+            Posture.Closed -> {
                 Viewer(session)
             }
 
-            foldState.posture == Posture.Flat && maxWidth < CompactWidth -> {
+            Posture.Flat if maxWidth < CompactWidth -> {
                 CompactEditor(session)
             }
 

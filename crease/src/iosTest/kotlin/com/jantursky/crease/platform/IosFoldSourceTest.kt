@@ -8,6 +8,7 @@ import com.jantursky.crease.HingeStatus
 import com.jantursky.crease.internal.cinterop.CRSHingeObserverView
 import com.jantursky.crease.internal.cinterop.CRSHingeProtocol
 import com.jantursky.crease.internal.cinterop.CRSHingeUpdateProtocol
+import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.CoreGraphics.CGRectMake
 import platform.Foundation.NSClassFromString
@@ -43,6 +44,7 @@ private class FakeHinge(
 class IosFoldSourceTest {
     private val host = UIView(frame = CGRectMake(0.0, 0.0, 400.0, 800.0))
 
+    @OptIn(BetaInteropApi::class)
     @Test
     fun observerViewMatchesTheSystemsHingeApi() {
         var changes = 0

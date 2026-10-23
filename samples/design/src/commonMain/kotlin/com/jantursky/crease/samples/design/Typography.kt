@@ -15,7 +15,6 @@ import org.jetbrains.compose.resources.Font
 /** Type scale from design/DESIGN.md. Weight 700 is never used. */
 @Immutable
 class CreaseTypography(
-    val display: TextStyle,
     val heading: TextStyle,
     val title: TextStyle,
     val kicker: TextStyle,
@@ -52,7 +51,6 @@ internal fun creaseTypography(family: FontFamily): CreaseTypography {
     val semibold = FontWeight.SemiBold
     val body = style(17, 25, regular, -0.37f)
     return CreaseTypography(
-        display = style(56, 60, semibold, -0.8f),
         heading = style(40, 44, semibold, 0f),
         title = style(24, 28, semibold, 0f),
         kicker = style(21, 24, semibold, 0.23f),

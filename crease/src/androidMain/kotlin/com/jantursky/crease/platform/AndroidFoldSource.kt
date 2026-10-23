@@ -37,8 +37,8 @@ internal class AndroidFoldSource private constructor(
     private val lifecycle: Lifecycle?,
     private val activity: Activity?,
 ) : DefaultLifecycleObserver {
-    private val current = mutableStateOf(FoldState.None)
-    val state: State<FoldState> get() = current
+    val state: State<FoldState>
+        field = mutableStateOf(FoldState.None)
 
     private val sensorManager = rootView.context.getSystemService(Context.SENSOR_SERVICE) as SensorManager?
     private var users = 0
@@ -112,7 +112,7 @@ internal class AndroidFoldSource private constructor(
     }
 
     private fun report() {
-        current.value = androidFoldState(features, angle, cutouts, activityWindowOffset())
+        state.value = androidFoldState(features, angle, cutouts, activityWindowOffset())
     }
 
     /** Where the activity's window sits relative to this one; zero unless this is a dialog or popup. */

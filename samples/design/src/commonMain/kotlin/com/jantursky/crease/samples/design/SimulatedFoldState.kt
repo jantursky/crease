@@ -25,8 +25,7 @@ internal fun cutoutRect(
     diameter: Float,
 ): Rect {
     val centerX = if (posture == Posture.Book) windowSize.width / 4 else windowSize.width / 2
-    val top = diameter
-    return Rect(centerX - diameter / 2, top, centerX + diameter / 2, top + diameter)
+    return Rect(centerX - diameter / 2, diameter, centerX + diameter / 2, diameter + diameter)
 }
 
 /** The state a real device would report, in the coordinates of the simulated screen. */

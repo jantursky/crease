@@ -68,7 +68,7 @@ internal fun splitAtWindowFold(
 ): FoldSplit? = if (fold == null || origin == null) null else splitAtFold(container, fold.toLocal(origin))
 
 /**
- * The area a layout fills under [constraints]: up to the maximum where it is bounded, and open-ended
+ * The area a layout fills under [Constraints]: up to the maximum where it is bounded, and open-ended
  * (infinite) where it is not, for the content to decide.
  */
 internal fun Constraints.fillArea(): Rect =

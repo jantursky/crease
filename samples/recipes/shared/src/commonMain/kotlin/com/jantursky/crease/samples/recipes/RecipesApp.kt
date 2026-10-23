@@ -30,6 +30,7 @@ import com.jantursky.crease.rememberHinge
 import com.jantursky.crease.samples.design.CreaseTheme
 import com.jantursky.crease.samples.design.SegmentedControl
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 private val CompactWidth = 600.dp
 
@@ -39,7 +40,7 @@ fun RecipesApp(modifier: Modifier = Modifier) {
     val session = remember { CookingSession(sampleRecipes) }
     LaunchedEffect(session.isRunning) {
         while (session.isRunning) {
-            delay(1000)
+            delay(1000.milliseconds)
             session.tick()
         }
     }
@@ -51,12 +52,12 @@ fun RecipesApp(modifier: Modifier = Modifier) {
             .windowInsetsPadding(WindowInsets.safeDrawing)
             .padding(8.dp),
     ) {
-        when {
-            posture == Posture.Closed -> {
+        when (posture) {
+            Posture.Closed -> {
                 StepCard(session, Modifier.padding(8.dp))
             }
 
-            posture == Posture.Flat && maxWidth < CompactWidth -> {
+            Posture.Flat if maxWidth < CompactWidth -> {
                 CompactRecipe(session)
             }
 

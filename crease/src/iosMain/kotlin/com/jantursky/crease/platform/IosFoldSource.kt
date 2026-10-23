@@ -21,8 +21,8 @@ import platform.UIKit.UIView
 internal class IosFoldSource private constructor(
     private val host: UIView,
 ) {
-    private val current = mutableStateOf(FoldState.None)
-    val state: State<FoldState> get() = current
+    val state: State<FoldState>
+        field = mutableStateOf(FoldState.None)
 
     private var users = 0
     val view: CRSHingeObserverView = CRSHingeObserverView(changeHandler = { report() })
@@ -35,7 +35,7 @@ internal class IosFoldSource private constructor(
 
     /** Compose measures in pixels at the screen scale. */
     private fun report() {
-        current.value = iosFoldState(view.reading(), UIScreen.mainScreen.scale.toFloat())
+        state.value = iosFoldState(view.reading(), UIScreen.mainScreen.scale.toFloat())
     }
 
     /** Gives up one reader; the last one removes the observer view. */
