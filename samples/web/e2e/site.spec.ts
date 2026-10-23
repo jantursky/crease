@@ -100,7 +100,7 @@ test('copy puts the source on the clipboard and confirms it', async ({ page, con
   await expect(install).toHaveText('Copied')
   await expect(install).toHaveClass(/copied/)
   await expect(install.locator('svg.check')).toBeVisible()
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toMatch(/^implementation\("com\.jantursky:crease:/)
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toMatch(/^implementation\("io\.github\.jantursky:crease:/)
   await expect(install).toHaveText('Copy', { timeout: 3_000 })
 
   const example = page.locator('#example-list-detail')
