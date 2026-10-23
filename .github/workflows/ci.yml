@@ -14,7 +14,8 @@ permissions:
 
 jobs:
   checks:
-    runs-on: ubuntu-latest
+    # macOS, so the klib API dump covers the iOS targets too; Linux cannot build them.
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6
