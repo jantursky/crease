@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-Only the latest release of `com.jantursky:crease` gets fixes.
+Only the latest release of `io.github.jantursky:crease` gets fixes.
 
 ## Reporting a vulnerability
 

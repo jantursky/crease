@@ -19,7 +19,7 @@ export default defineConfig({
   navigation: {
     actions: [
       { href: 'https://crease-demo.vercel.app', label: 'Demo' },
-      { href: 'https://central.sonatype.com/artifact/com.jantursky/crease', label: 'Maven Central' },
+      { href: 'https://central.sonatype.com/artifact/io.github.jantursky/crease', label: 'Maven Central' },
     ],
   },
   content: {

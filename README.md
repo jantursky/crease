@@ -2,9 +2,9 @@
 
 # Crease
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.jantursky/crease)](https://central.sonatype.com/artifact/com.jantursky/crease) [![CI](https://github.com/jantursky/crease/actions/workflows/ci.yml/badge.svg)](https://github.com/jantursky/crease/actions/workflows/ci.yml) [![Kotlin](https://img.shields.io/badge/kotlin-2.4-7f52ff)](https://kotlinlang.org) [![license](https://img.shields.io/github/license/jantursky/crease)](LICENSE) [![codecov](https://codecov.io/gh/jantursky/crease/graph/badge.svg)](https://codecov.io/gh/jantursky/crease)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.jantursky/crease)](https://central.sonatype.com/artifact/io.github.jantursky/crease) [![CI](https://github.com/jantursky/crease/actions/workflows/ci.yml/badge.svg)](https://github.com/jantursky/crease/actions/workflows/ci.yml) [![Kotlin](https://img.shields.io/badge/kotlin-2.4-7f52ff)](https://kotlinlang.org) [![license](https://img.shields.io/github/license/jantursky/crease)](LICENSE) [![codecov](https://codecov.io/gh/jantursky/crease/graph/badge.svg)](https://codecov.io/gh/jantursky/crease)
 
-[Docs](https://crease.vercel.app) · [Demo](https://crease-demo.vercel.app) · [Maven Central](https://central.sonatype.com/artifact/com.jantursky/crease) · [Changelog](CHANGELOG.md)
+[Docs](https://crease.vercel.app) · [Demo](https://crease-demo.vercel.app) · [Maven Central](https://central.sonatype.com/artifact/io.github.jantursky/crease) · [Changelog](CHANGELOG.md)
 
 Hinge angle, fold position and fold-aware layouts for Compose Multiplatform. One API for Android foldables and the iPhone Duo.
 
@@ -17,7 +17,7 @@ Android has reported folds through Jetpack WindowManager for years, and iOS 27.1
 
 | folder              | what it is                                                                                            |
 | ------------------- | ----------------------------------------------------------------------------------------------------- |
-| `crease`            | The library, published to Maven Central as `com.jantursky:crease`.                                    |
+| `crease`            | The library, published to Maven Central as `io.github.jantursky:crease`.                                    |
 | `samples/recipes`   | Recipe reader: ingredients and steps across the fold, a timer in tabletop mode. Android, iOS, desktop. |
 | `samples/photos`    | Photo editor: picture on top and sliders below in tabletop mode, gallery and editor in book posture.   |
 | `samples/web`       | The web demo and site: both samples in a simulated foldable, plus live examples with their source.     |
@@ -31,7 +31,7 @@ Android has reported folds through Jetpack WindowManager for years, and iOS 27.1
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("com.jantursky:crease:1.0.0")
+            implementation("io.github.jantursky:crease:1.0.0")
         }
     }
 }
@@ -166,7 +166,7 @@ CI runs on every push and pull request: formatting, the binary API check, the te
 
 One-time setup, in the repository settings on GitHub:
 
-- `maven-central` environment with `MAVEN_CENTRAL_USERNAME` and `MAVEN_CENTRAL_PASSWORD` (a Central Portal user token for the verified `com.jantursky` namespace), `SIGNING_KEY` (the armored private GPG key) and `SIGNING_PASSWORD`. Publish the public key to a key server.
+- `maven-central` environment with `MAVEN_CENTRAL_USERNAME` and `MAVEN_CENTRAL_PASSWORD` (a Central Portal user token for the verified `io.github.jantursky` namespace), `SIGNING_KEY` (the armored private GPG key) and `SIGNING_PASSWORD`. Publish the public key to a key server.
 - `CODECOV_TOKEN` from [codecov.io](https://codecov.io) for the coverage upload.
 - `VERCEL_TOKEN`, `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` for the demo deploy.
 

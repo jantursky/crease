@@ -50,7 +50,7 @@ jobs:
             echo "CHANGELOG.md has no section for ${TAG#v}" >&2
             exit 1
           fi
-          echo "[Maven Central](https://central.sonatype.com/artifact/com.jantursky/crease/${TAG#v})" >> notes.md
+          echo "[Maven Central](https://central.sonatype.com/artifact/io.github.jantursky/crease/${TAG#v})" >> notes.md
           gh release create "$TAG" --verify-tag --title "$TAG" --notes-file notes.md
 
   maven-central:
@@ -73,7 +73,7 @@ jobs:
           version="${TAG#v}"
           test "$version" = "$(sed -n 's/^VERSION_NAME=//p' gradle.properties)" ||
             { echo "Tag $TAG does not match gradle.properties" >&2; exit 1; }
-          if curl -sf "https://repo1.maven.org/maven2/com/jantursky/crease/$version/crease-$version.pom" > /dev/null; then
+          if curl -sf "https://repo1.maven.org/maven2/io/github/jantursky/crease/$version/crease-$version.pom" > /dev/null; then
             echo "crease@$version is already on Maven Central"
             echo "publish=false" >> "$GITHUB_OUTPUT"
           else

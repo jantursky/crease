@@ -40,7 +40,7 @@ test('the version comes from the build', async ({ page }) => {
   await page.goto('/')
   const version = await page.evaluate(() => (window as { CREASE_VERSION?: string }).CREASE_VERSION)
   expect(version).toMatch(/^\d+\.\d+\.\d+/)
-  await expect(page.locator('#install-line')).toHaveText(`implementation("com.jantursky:crease:${version}")`)
+  await expect(page.locator('#install-line')).toHaveText(`implementation("io.github.jantursky:crease:${version}")`)
 })
 
 test('the theme switch flips the page and remembers the choice', async ({ page }) => {

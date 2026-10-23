@@ -14,7 +14,7 @@ Add the library to `commonMain`:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("com.jantursky:crease:{{version}}")
+            implementation("io.github.jantursky:crease:{{version}}")
         }
     }
 }
@@ -28,7 +28,7 @@ Or through a version catalog:
 crease = "{{version}}"
 
 [libraries]
-crease = { module = "com.jantursky:crease", version.ref = "crease" }
+crease = { module = "io.github.jantursky:crease", version.ref = "crease" }
 ```
 
 ```kotlin

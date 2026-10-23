@@ -23,7 +23,7 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
-        mavenLocal { content { includeGroup("com.jantursky") } }
+        mavenLocal { content { includeGroup("io.github.jantursky") } }
         google()
         mavenCentral()
     }
@@ -42,7 +42,7 @@ kotlin {
     jvm()
     sourceSets {
         jvmMain.dependencies {
-            implementation("com.jantursky:crease:$version")
+            implementation("io.github.jantursky:crease:$version")
         }
     }
 }
@@ -68,4 +68,4 @@ fun Screen(content: @Composable () -> Unit) {
 EOF
 
 "$root/gradlew" -p "$consumer" compileKotlinJvm --quiet
-echo "Consumer compiled against com.jantursky:crease:$version"
+echo "Consumer compiled against io.github.jantursky:crease:$version"
