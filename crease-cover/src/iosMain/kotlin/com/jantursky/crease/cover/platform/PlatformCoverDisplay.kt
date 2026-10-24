@@ -1,15 +1,40 @@
 package com.jantursky.crease.cover.platform
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.uikit.LocalUIViewController
 import com.jantursky.crease.cover.CoverDisplayState
 
-// No cover display here yet; the platform sources are wired up one platform at a time.
-
 @Composable
-internal actual fun rememberPlatformCoverDisplayState(): CoverDisplayState = CoverDisplayState.Unsupported
+internal actual fun rememberPlatformCoverDisplayState(): CoverDisplayState {
+    val host = LocalUIViewController.current
+    var source by remember(host) { mutableStateOf<IosCoverSource?>(null) }
+    DisposableEffect(host) {
+        val acquired = IosCoverSource.acquire(host)
+        source = acquired
+        onDispose { acquired.release() }
+    }
+    return source?.state?.value ?: CoverDisplayState.Unsupported
+}
 
 @Composable
 internal actual fun PlatformCoverDisplay(
     enabled: Boolean,
     content: @Composable () -> Unit,
-) = Unit
+) {
+    val host = LocalUIViewController.current
+    val latest by rememberUpdatedState(content)
+    DisposableEffect(host, enabled) {
+        val acquired = IosCoverSource.acquire(host)
+        if (enabled) acquired.present { latest() }
+        onDispose {
+            acquired.present(null)
+            acquired.release()
+        }
+    }
+}

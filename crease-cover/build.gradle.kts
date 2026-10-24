@@ -34,8 +34,15 @@ kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs { browser() }
 
-    iosArm64()
-    iosSimulatorArm64()
+    listOf(iosArm64(), iosSimulatorArm64()).forEach { target ->
+        // Scene accessories ship in the iOS 27.1 SDK. The glue in this definition file reaches them
+        // through the Objective-C runtime, so the library builds with older Xcode versions and turns
+        // itself off on older systems.
+        target.compilations.getByName("main").cinterops.create("cover") {
+            definitionFile.set(project.file("src/nativeInterop/cinterop/cover.def"))
+            includeDirs(project.file("src/nativeInterop/cinterop"))
+        }
+    }
 
     sourceSets {
         commonMain.dependencies {
