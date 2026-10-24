@@ -9,6 +9,7 @@ export default defineMeta({
     'tabletop-mode',
     'avoiding-the-fold',
     'previews-and-tests',
+    'cover-display',
     'iphone-duo',
     'android',
     'troubleshooting',

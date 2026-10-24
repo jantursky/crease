@@ -22,6 +22,10 @@ Apple's APIs are UIKit and SwiftUI, with the hinge in `UIHingeInteraction` and t
 
 They show that the problem is real and that people want one API across both platforms. They also shaped Crease: the hinge reading, the posture and the fold regions are separate concerns, and a layout should not depend on an angle.
 
+## On the outer display
+
+For the iPhone Duo outer display and Android rear display areas, a search found no Flutter, React Native or Kotlin Multiplatform package that wraps iOS scene accessories, and no Compose or Kotlin Multiplatform wrapper for Jetpack WindowManager's `WindowAreaController`. That was a web search, not a look through each package registry. Apple's [developer forums](https://developer.apple.com/forums/thread/847993) have open questions about the camera capture accessory.
+
 ## What was missing
 
 Nothing common for Kotlin Multiplatform. A team with a shared Compose UI had to write WindowManager glue on Android, Objective-C or Swift glue on iOS, and their own two-pane layout on top. Crease is that glue, once, with layouts, previews and test helpers on top, and with no hinge reported on desktop and web instead of a compile error.

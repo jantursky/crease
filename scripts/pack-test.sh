@@ -10,7 +10,7 @@ compose=$(sed -n 's/^compose = "\(.*\)"/\1/p' "$root/gradle/libs.versions.toml")
 consumer=$(mktemp -d)
 trap 'rm -rf "$consumer"' EXIT
 
-"$root/gradlew" -p "$root" :crease:publishToMavenLocal --quiet
+"$root/gradlew" -p "$root" :crease:publishToMavenLocal :crease-cover:publishToMavenLocal --quiet
 
 mkdir -p "$consumer/src/jvmMain/kotlin"
 cat > "$consumer/settings.gradle.kts" <<'EOF'
@@ -43,6 +43,7 @@ kotlin {
     sourceSets {
         jvmMain.dependencies {
             implementation("io.github.jantursky:crease:$version")
+            implementation("io.github.jantursky:crease-cover:$version")
         }
     }
 }
@@ -56,6 +57,10 @@ import com.jantursky.crease.FoldState
 import com.jantursky.crease.Posture
 import com.jantursky.crease.ProvideFoldState
 import com.jantursky.crease.avoidFold
+import com.jantursky.crease.cover.CoverDisplay
+import com.jantursky.crease.cover.CoverDisplayState
+import com.jantursky.crease.cover.ProvideCoverDisplayState
+import com.jantursky.crease.cover.rememberCoverDisplayState
 import com.jantursky.crease.rememberFoldState
 
 @Composable
@@ -64,8 +69,12 @@ fun Screen(content: @Composable () -> Unit) {
         check(rememberFoldState().posture == Posture.Book)
         FoldAwareTwoPane(first = content, second = content, modifier = Modifier.avoidFold())
     }
+    ProvideCoverDisplayState(CoverDisplayState.Available) {
+        check(rememberCoverDisplayState() == CoverDisplayState.Available)
+        CoverDisplay(content = content)
+    }
 }
 EOF
 
 "$root/gradlew" -p "$consumer" compileKotlinJvm --quiet
-echo "Consumer compiled against io.github.jantursky:crease:$version"
+echo "Consumer compiled against io.github.jantursky:crease:$version and crease-cover"

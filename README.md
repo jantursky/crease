@@ -18,6 +18,7 @@ Android has reported folds through Jetpack WindowManager for years, and iOS 27.1
 | folder              | what it is                                                                                            |
 | ------------------- | ----------------------------------------------------------------------------------------------------- |
 | `crease`            | The library, published to Maven Central as `io.github.jantursky:crease`.                                    |
+| `crease-cover`      | Optional second artifact: show a composable on the outer display of a foldable (iOS camera capture accessory, Android rear display). |
 | `samples/recipes`   | Recipe reader: ingredients and steps across the fold, a timer in tabletop mode. Android, iOS, desktop. |
 | `samples/photos`    | Photo editor: picture on top and sliders below in tabletop mode, gallery and editor in book posture.   |
 | `samples/web`       | The web demo and site: both samples in a simulated foldable, plus live examples with their source.     |
@@ -107,6 +108,27 @@ The [demo](https://crease-demo.vercel.app) runs the library in the browser, comp
   </tr>
 </table>
 
+### The outer display
+
+An optional second artifact, `io.github.jantursky:crease-cover`, shows a composable on the outer display of a foldable while your main UI stays on the inner one.
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.jantursky.crease.cover.CoverDisplay
+import com.jantursky.crease.cover.CoverDisplayState
+import com.jantursky.crease.cover.rememberCoverDisplayState
+
+@Composable
+fun Camera() {
+    val cover = rememberCoverDisplayState()
+    CoverDisplay { Text("Smile!") }
+    if (cover == CoverDisplayState.Active) Text("Showing on the outer display")
+}
+```
+
+The system decides whether and where to present it, so treat it as an enhancement. On the iPhone Duo it needs an active camera capture session. The [guide](https://crease.vercel.app/guides/cover-display) has the details and what is not verified.
+
 ## How it works
 
 1. `rememberFoldState()` returns the state from the nearest `ProvideFoldState`, or asks the platform (`crease/src/commonMain/.../RememberFoldState.kt`).
@@ -123,11 +145,11 @@ The [demo](https://crease-demo.vercel.app) runs the library in the browser, comp
 - [`expo-hinge`](https://www.npmjs.com/package/expo-hinge) (Expo / React Native): hinge angle and state on Android foldables and the iPhone Duo.
 - [Jetpack WindowManager](https://developer.android.com/jetpack/androidx/releases/window) and the Compose adaptive libraries: Android only.
 
-None of them work from Kotlin Multiplatform code, which is the gap Crease fills.
+None of them work from Kotlin Multiplatform code, which is the gap Crease fills. For the outer display, a web search found no Flutter, React Native or Kotlin Multiplatform package for iOS scene accessories and no Compose wrapper for Jetpack WindowManager's `WindowAreaController` (a search, not a look through each registry).
 
 ## Not covered yet
 
-`ArrangementView` (use `FoldAwareTwoPane`) and `toolbarVerticalEdge` are SwiftUI-only. Scenes on the outer display are not: UIKit has `registerSceneAccessory(_:)` next to SwiftUI's `sceneAccessory(content:)`, and the `windowCameraCaptureAccessory` scene role for camera previews. A Compose app can reach them the way Crease reaches `UIHingeInteraction`, but Crease does not wrap them yet. Android rear-display mode and `WindowAreaController` are out of scope too.
+Crease does not wrap `UIArrangementViewController` (with `UISplitArrangement` and `UIOverlayArrangement`, UIKit's counterpart of SwiftUI's `ArrangementView`, iOS 27.1); `FoldAwareTwoPane` covers a similar need. It does not wrap `toolbarVerticalEdge` either, which I could not find in the iOS 27.1 UIKit headers or the SwiftUI interface. The outer display is covered by the optional `crease-cover` module, see below, but only as far as the iOS 27.1 SDK goes: a camera capture accessory, presented while the app has an active camera session. Android rear-display mode, which moves the whole activity and asks the user in a system dialog, is out of scope.
 
 ## Platform support
 
@@ -137,6 +159,14 @@ None of them work from Kotlin Multiplatform code, which is the gap Crease fills.
 | iPhone Duo, iOS 27.1+ | yes | yes | yes | yes |
 | iOS before 27.1, other iPhones | no hinge | | | |
 | JVM desktop, wasmJs | no hinge | | | |
+
+`crease-cover`, the outer display:
+
+| platform | outer display | needs |
+| --- | --- | --- |
+| iPhone Duo, iOS 27.1+ | camera capture scene accessory, content can be interactive | an active camera capture session. Untested on a real device. |
+| Android foldables with a rear display area | window area presentation (dual-screen mode), no consent dialog | Jetpack WindowManager's experimental window area API. Untested on a device. |
+| everything else | reports `Unsupported` | |
 
 Built with Kotlin 2.4 and Compose Multiplatform 1.12. The iOS side builds with Xcode 26 and later. Testing on the iPhone Duo simulator needs Xcode 27.1.
 

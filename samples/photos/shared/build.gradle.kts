@@ -37,6 +37,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(project(":samples:design"))
+            implementation(project(":crease-cover"))
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)

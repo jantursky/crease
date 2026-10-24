@@ -1,0 +1,81 @@
+---
+title: Cover display
+description: Show a composable on the outer display of a foldable with the crease-cover module, and what each platform needs for it.
+---
+
+`crease-cover` is a second artifact. It shows a composable on the outer display of a foldable while your main UI stays on the inner one.
+
+```kotlin
+// build.gradle.kts
+commonMain.dependencies {
+    implementation("io.github.jantursky:crease-cover:{{version}}")
+}
+```
+
+The content is an enhancement. The system decides whether and where to present it, so the main UI has to work without it.
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.jantursky.crease.cover.CoverDisplay
+import com.jantursky.crease.cover.CoverDisplayState
+import com.jantursky.crease.cover.rememberCoverDisplayState
+
+@Composable
+fun Camera() {
+    val cover = rememberCoverDisplayState()
+    // Composed on the outer display, in a window of its own, while the system allows it.
+    CoverDisplay { Text("Smile!") }
+    if (cover == CoverDisplayState.Active) Text("Showing on the outer display")
+}
+```
+
+## The state
+
+`rememberCoverDisplayState()` returns a `CoverDisplayState`:
+
+- **Unsupported.** This device or system has no way to do it. JVM desktop, the web, iOS before 27.1 and Android devices without a rear display area all report it, and nothing else ever changes it.
+- **Unavailable.** Supported, but not possible right now, for example because the device is closed or the app is not in front.
+- **Available.** The system would present the content if `CoverDisplay` asked for it.
+- **Active.** The content is on the outer display.
+
+`CoverDisplay(enabled = ...)` asks for presentation while `enabled` is true. Its content is not composed in your screen's own tree. It is composed on the outer display, only while the state is `Available` or `Active`. State objects you read from it are shared with the main UI, because snapshot state is process-wide. Composition locals are a difference: on Android the content inherits those of the call site, on iOS it runs in a Compose view controller of its own and does not, so pass what it needs explicitly.
+
+## What each platform needs
+
+**iOS (iPhone Duo, iOS 27.1).** Crease registers a camera capture scene accessory (`UIViewController.registerSceneAccessory(_:)` with a `cameraCapture` accessory) for the view controller that hosts your Compose content. The system presents it only while the app is in the foreground **with an active camera capture session**. An app that is not capturing has nothing to show there, and the state stays `Unavailable`. The content can be interactive. It lives in a `ComposeUIViewController` in the accessory scene, in the same process, so state shared with the main scene stays shared.
+
+Crease looks the iOS 27 classes up at run time, so the module builds with older Xcode versions and reports `Unsupported` on older systems.
+
+**Android (foldables with a rear display).** Crease uses Jetpack WindowManager's window areas in the dual-screen presentation operation. The content is presented on the rear display while the activity stays on the inner one. It does not need a camera. Only the top visible app can start a session, and the session ends when the device closes, so Crease starts it again when the area becomes available.
+
+Rear display mode, which moves the whole activity to the outer display and turns the inner display off, is a different operation. It is the one that asks the user in a system dialog, and Crease does not use it, so there is no consent dialog to handle. The window area API is experimental in WindowManager, and the module keeps every use of it in one internal file.
+
+## Previews and tests
+
+`ProvideCoverDisplayState(state) { ... }` makes `rememberCoverDisplayState()` return a fixed state, the same way `ProvideFoldState` does for the fold. A `CoverDisplay` inside it composes nothing, since there is no outer display in a preview.
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.jantursky.crease.cover.CoverDisplayState
+import com.jantursky.crease.cover.ProvideCoverDisplayState
+import com.jantursky.crease.cover.rememberCoverDisplayState
+
+@Composable
+fun CameraPreview() {
+    ProvideCoverDisplayState(CoverDisplayState.Active) {
+        Text("Cover display: ${rememberCoverDisplayState()}")
+    }
+}
+```
+
+## What is verified
+
+- The pure mapping from what a platform reports to a state is tested on every target.
+- The iOS glue is checked against the iOS 27.1 headers and the simulator's runtime: the registration succeeds, the scene delegate is registered, and the state follows the system's answer. The simulator never presents an accessory scene, so **the content showing up on the outer display of a real iPhone Duo is not tested.**
+- The Android adapter is compiled and its status mapping is tested. Presenting on a rear display is **not tested on a device or emulator.**
+
+The photos sample uses `CoverDisplay` to show the photo being edited. It has no camera session, so on iOS the content is not presented there.
+
+Two Feedback Assistant reports on the community tracker (FB25262170 for UIKit, FB25262179 for SwiftUI) ask Apple to allow non-camera accessories on the iPhone Duo outer display. Their current status is not checked here.

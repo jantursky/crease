@@ -18,6 +18,9 @@ import com.jantursky.crease.FoldAwareTwoPane
 import com.jantursky.crease.Posture
 import com.jantursky.crease.TabletopLayout
 import com.jantursky.crease.TwoPaneFallback
+import com.jantursky.crease.cover.CoverDisplay
+import com.jantursky.crease.cover.CoverDisplayState
+import com.jantursky.crease.cover.rememberCoverDisplayState
 import com.jantursky.crease.rememberFoldState
 import com.jantursky.crease.samples.design.CreaseCard
 import com.jantursky.crease.samples.design.CreaseText
@@ -32,6 +35,10 @@ fun PhotosApp(modifier: Modifier = Modifier) {
     val session = remember { EditorSession(samplePhotos) }
     val foldState = rememberFoldState()
     val tilt = tiltDegrees(foldState.hinge?.angle)
+    val cover = rememberCoverDisplayState()
+    // The outer display shows the photo being edited, where the system allows it. On iOS that needs an active
+    // camera session, which this sample does not have.
+    CoverDisplay { CoverPhoto(session) }
     BoxWithConstraints(
         modifier
             .fillMaxSize()
@@ -52,7 +59,7 @@ fun PhotosApp(modifier: Modifier = Modifier) {
                 TabletopLayout(
                     top = { PhotoPreview(session, tilt, tiltAroundX = true, Modifier.fillMaxSize().padding(20.dp)) },
                     bottom = { AdjustCard(session, Modifier.padding(8.dp)) },
-                    flat = { Workspace(session, tilt) },
+                    flat = { Workspace(session, tilt, cover) },
                 )
             }
         }
@@ -71,6 +78,7 @@ private fun AdjustCard(
 private fun Workspace(
     session: EditorSession,
     tilt: Float,
+    cover: CoverDisplayState,
 ) {
     FoldAwareTwoPane(
         first = {
@@ -87,6 +95,11 @@ private fun Workspace(
                     modifier = Modifier.padding(bottom = 16.dp),
                 )
                 PhotoPreview(session, tilt, tiltAroundX = false, Modifier.weight(1f).fillMaxWidth())
+                CreaseText(
+                    "Outer display: ${cover::class.simpleName}",
+                    style = CreaseTheme.type.kicker,
+                    modifier = Modifier.padding(top = 12.dp),
+                )
                 AdjustmentPanel(session, Modifier.padding(top = 20.dp))
             }
         },
@@ -119,4 +132,10 @@ private fun Viewer(session: EditorSession) {
             )
         }
     }
+}
+
+/** What the outer display shows: the photo being edited, with its adjustments, and nothing else. */
+@Composable
+private fun CoverPhoto(session: EditorSession) {
+    PhotoImage(session.photo, session.adjustments, Modifier.fillMaxSize())
 }
