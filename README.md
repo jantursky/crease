@@ -127,7 +127,7 @@ None of them work from Kotlin Multiplatform code, which is the gap Crease fills.
 
 ## Not covered yet
 
-SwiftUI-only APIs have no UIKit counterpart that Compose can reach: `ArrangementView` (use `FoldAwareTwoPane`), `toolbarVerticalEdge` and scenes on the outer display. Android rear-display mode and `WindowAreaController` are out of scope too.
+`ArrangementView` (use `FoldAwareTwoPane`) and `toolbarVerticalEdge` are SwiftUI-only. Scenes on the outer display are not: UIKit has `registerSceneAccessory(_:)` next to SwiftUI's `sceneAccessory(content:)`, and the `windowCameraCaptureAccessory` scene role for camera previews. A Compose app can reach them the way Crease reaches `UIHingeInteraction`, but Crease does not wrap them yet. Android rear-display mode and `WindowAreaController` are out of scope too.
 
 ## Platform support
 

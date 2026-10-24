@@ -35,4 +35,4 @@ Watch `rememberFoldState()` while you do. If the posture changes the way you exp
 
 ## Not covered
 
-Crease has no equivalent of the SwiftUI-only APIs: `ArrangementView` (`FoldAwareTwoPane` covers the same need), `toolbarVerticalEdge`, and outer display scenes.
+Crease has no equivalent of the SwiftUI-only `ArrangementView` (`FoldAwareTwoPane` covers the same need) and `toolbarVerticalEdge`. It does not wrap the outer display scenes either. Those are not SwiftUI-only: UIKit has `registerSceneAccessory(_:)` and the `windowCameraCaptureAccessory` scene role, so an app can reach them from Kotlin the way Crease reaches `UIHingeInteraction`.
