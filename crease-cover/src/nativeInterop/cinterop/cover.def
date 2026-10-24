@@ -1,9 +1,11 @@
 language = Objective-C
 package = com.jantursky.crease.cover.internal.cinterop
 compilerOpts = -fobjc-arc
-headers = CRSCoverObserverView.h
-headerFilter = CRSCoverObserverView.h
+headers = CRSCoverObserverView.h CRSCameraDirectionObserver.h
+headerFilter = CRSCoverObserverView.h CRSCameraDirectionObserver.h
+linkerOpts = -framework AVFoundation -framework AVKit
 ---
 // The implementation lives in its own file because the cinterop indexer rejects an @implementation
 // in the definition file itself. Including it here compiles it into the interop library.
 #include "CRSCoverObserverView.m"
+#include "CRSCameraDirectionObserver.m"

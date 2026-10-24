@@ -6,7 +6,7 @@ All notable changes to `io.github.jantursky:crease` are listed here. The format 
 
 ### Added
 
-- `crease-cover`, a second artifact (`io.github.jantursky:crease-cover`): `rememberCoverDisplayState()` reports whether the outer display of a foldable can show content (`Unsupported`, `Unavailable`, `Available`, `Active`), and `CoverDisplay` shows a composable there. On iOS 27.1 it registers a camera capture scene accessory, which the system presents only with an active camera session. On Android it presents on the rear display area through WindowManager. `ProvideCoverDisplayState` feeds a fixed state to previews and tests. The iOS and Android presentation is not tested on a device.
+- `crease-cover`, a second artifact (`io.github.jantursky:crease-cover`): `rememberCoverDisplayState()` reports whether the outer display of a foldable can show content (`Unsupported`, `Unavailable`, `Available`, `Active`), and `CoverDisplay` shows a composable there. On iOS 27.1 it registers a camera capture scene accessory, which the system presents only with an active camera session. On Android it presents on the rear display area through WindowManager. `ProvideCoverDisplayState` feeds a fixed state to previews and tests. `rememberCameraDirections()` reports which cameras face the viewer on the current display, through `AVCaptureDeviceDirectionCoordinator` on iOS 27.1, and `null` elsewhere. The iOS and Android presentation and the camera directions are not tested on a device.
 
 ## [1.0.0] - 2026-10-23
 

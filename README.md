@@ -127,6 +127,8 @@ fun Camera() {
 }
 ```
 
+`rememberCameraDirections()` tells which cameras face the viewer on the display the UI is on (iOS 27.1 only, `null` elsewhere).
+
 The system decides whether and where to present it, so treat it as an enhancement. On the iPhone Duo it needs an active camera capture session. The [guide](https://crease.vercel.app/guides/cover-display) has the details and what is not verified.
 
 ## How it works

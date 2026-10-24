@@ -1,3 +1,39 @@
+public final class com/jantursky/crease/cover/CameraDescriptor {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/jantursky/crease/cover/CameraPosition;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPosition ()Lcom/jantursky/crease/cover/CameraPosition;
+	public final fun getType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/crease/cover/CameraDirections {
+	public static final field $stable I
+	public fun <init> (Ljava/util/List;Ljava/util/List;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBackwardFacing ()Ljava/util/List;
+	public final fun getForwardFacing ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/crease/cover/CameraDirectionsKt {
+	public static final fun ProvideCameraDirections (Lcom/jantursky/crease/cover/CameraDirections;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+	public static final fun rememberCameraDirections (Landroidx/compose/runtime/Composer;I)Lcom/jantursky/crease/cover/CameraDirections;
+}
+
+public final class com/jantursky/crease/cover/CameraPosition : java/lang/Enum {
+	public static final field Back Lcom/jantursky/crease/cover/CameraPosition;
+	public static final field Front Lcom/jantursky/crease/cover/CameraPosition;
+	public static final field Unspecified Lcom/jantursky/crease/cover/CameraPosition;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/jantursky/crease/cover/CameraPosition;
+	public static fun values ()[Lcom/jantursky/crease/cover/CameraPosition;
+}
+
 public abstract interface class com/jantursky/crease/cover/CoverDisplayState {
 }
 

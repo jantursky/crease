@@ -51,6 +51,25 @@ Crease looks the iOS 27 classes up at run time, so the module builds with older 
 
 Rear display mode, which moves the whole activity to the outer display and turns the inner display off, is a different operation. It is the one that asks the user in a system dialog, and Crease does not use it, so there is no consent dialog to handle. The window area API is experimental in WindowManager, and the module keeps every use of it in one internal file.
 
+## Which way the cameras face
+
+On the iPhone Duo the camera that faces away from the inner display faces the viewer on the outer one, so a camera app has to ask. `rememberCameraDirections()` wraps `AVCaptureDeviceDirectionCoordinator` (iOS 27.1, AVKit) for the display the composable is on.
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.jantursky.crease.cover.rememberCameraDirections
+
+@Composable
+fun CameraHint() {
+    val directions = rememberCameraDirections()
+    val facing = directions?.forwardFacing?.firstOrNull()
+    if (facing != null) Text("Selfie camera: ${facing.name}")
+}
+```
+
+It returns `null` where the platform cannot tell: Android, desktop, web and iOS before 27.1. On iOS the lists are empty until the system has reported once. A `CameraDescriptor` has the device `id`, which matches `AVCaptureDevice.uniqueID`, so you can pick the device in your own capture code. Crease does not open the camera. `ProvideCameraDirections` sets a fixed answer for previews and tests. The wrapper is checked against the simulator runtime only: the simulator has no cameras, so the lists were never filled with real devices.
+
 ## Previews and tests
 
 `ProvideCoverDisplayState(state) { ... }` makes `rememberCoverDisplayState()` return a fixed state, the same way `ProvideFoldState` does for the fold. A `CoverDisplay` inside it composes nothing, since there is no outer display in a preview.

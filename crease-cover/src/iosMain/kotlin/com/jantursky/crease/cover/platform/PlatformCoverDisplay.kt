@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.uikit.LocalUIViewController
+import com.jantursky.crease.cover.CameraDirections
 import com.jantursky.crease.cover.CoverDisplayState
 
 @Composable
@@ -37,4 +38,16 @@ internal actual fun PlatformCoverDisplay(
             acquired.release()
         }
     }
+}
+
+@Composable
+internal actual fun rememberPlatformCameraDirections(): CameraDirections? {
+    val host = LocalUIViewController.current.view
+    var source by remember(host) { mutableStateOf<IosCameraDirectionSource?>(null) }
+    DisposableEffect(host) {
+        val acquired = IosCameraDirectionSource.acquire(host)
+        source = acquired
+        onDispose { acquired.release() }
+    }
+    return source?.state?.value
 }

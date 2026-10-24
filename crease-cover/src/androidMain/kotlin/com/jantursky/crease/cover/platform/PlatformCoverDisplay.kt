@@ -12,6 +12,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.window.area.WindowAreaCapability.Status
+import com.jantursky.crease.cover.CameraDirections
 import com.jantursky.crease.cover.CoverDisplayState
 import kotlinx.coroutines.flow.collectLatest
 
@@ -63,3 +64,6 @@ internal actual fun PlatformCoverDisplay(
         }
     }
 }
+
+@Composable
+internal actual fun rememberPlatformCameraDirections(): CameraDirections? = null

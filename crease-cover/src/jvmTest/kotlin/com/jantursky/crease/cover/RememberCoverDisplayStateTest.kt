@@ -93,3 +93,36 @@ class RememberCoverDisplayStateTest {
             assertEquals(3, reads)
         }
 }
+
+@OptIn(ExperimentalTestApi::class)
+class RememberCameraDirectionsTest {
+    private val directions =
+        CameraDirections(
+            forwardFacing = listOf(CameraDescriptor("a", "Back Camera", "wide", CameraPosition.Back)),
+            backwardFacing = emptyList(),
+        )
+
+    @Test
+    fun desktopCannotTellWhichWayTheCamerasFace() =
+        runComposeUiTest {
+            var read: CameraDirections? = directions
+            setContent { read = rememberCameraDirections() }
+            assertEquals(null, read)
+        }
+
+    @Test
+    fun providedDirectionsWin() =
+        runComposeUiTest {
+            var read: CameraDirections? = null
+            setContent { ProvideCameraDirections(directions) { read = rememberCameraDirections() } }
+            assertEquals(directions, read)
+        }
+
+    @Test
+    fun providingNullKeepsThePlatformAnswer() =
+        runComposeUiTest {
+            var read: CameraDirections? = directions
+            setContent { ProvideCameraDirections(null) { read = rememberCameraDirections() } }
+            assertEquals(null, read)
+        }
+}

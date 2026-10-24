@@ -6,6 +6,18 @@
 // - Show declarations: true
 
 // Library unique name: <crease:crease-cover>
+final enum class com.jantursky.crease.cover/CameraPosition : kotlin/Enum<com.jantursky.crease.cover/CameraPosition> { // com.jantursky.crease.cover/CameraPosition|null[0]
+    enum entry Back // com.jantursky.crease.cover/CameraPosition.Back|null[0]
+    enum entry Front // com.jantursky.crease.cover/CameraPosition.Front|null[0]
+    enum entry Unspecified // com.jantursky.crease.cover/CameraPosition.Unspecified|null[0]
+
+    final val entries // com.jantursky.crease.cover/CameraPosition.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.jantursky.crease.cover/CameraPosition> // com.jantursky.crease.cover/CameraPosition.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.jantursky.crease.cover/CameraPosition // com.jantursky.crease.cover/CameraPosition.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.jantursky.crease.cover/CameraPosition> // com.jantursky.crease.cover/CameraPosition.values|values#static(){}[0]
+}
+
 sealed interface com.jantursky.crease.cover/CoverDisplayState { // com.jantursky.crease.cover/CoverDisplayState|null[0]
     final object Active : com.jantursky.crease.cover/CoverDisplayState { // com.jantursky.crease.cover/CoverDisplayState.Active|null[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.crease.cover/CoverDisplayState.Active.equals|equals(kotlin.Any?){}[0]
@@ -32,6 +44,38 @@ sealed interface com.jantursky.crease.cover/CoverDisplayState { // com.jantursky
     }
 }
 
+final class com.jantursky.crease.cover/CameraDescriptor { // com.jantursky.crease.cover/CameraDescriptor|null[0]
+    constructor <init>(kotlin/String, kotlin/String, kotlin/String, com.jantursky.crease.cover/CameraPosition) // com.jantursky.crease.cover/CameraDescriptor.<init>|<init>(kotlin.String;kotlin.String;kotlin.String;com.jantursky.crease.cover.CameraPosition){}[0]
+
+    final val id // com.jantursky.crease.cover/CameraDescriptor.id|{}id[0]
+        final fun <get-id>(): kotlin/String // com.jantursky.crease.cover/CameraDescriptor.id.<get-id>|<get-id>(){}[0]
+    final val name // com.jantursky.crease.cover/CameraDescriptor.name|{}name[0]
+        final fun <get-name>(): kotlin/String // com.jantursky.crease.cover/CameraDescriptor.name.<get-name>|<get-name>(){}[0]
+    final val position // com.jantursky.crease.cover/CameraDescriptor.position|{}position[0]
+        final fun <get-position>(): com.jantursky.crease.cover/CameraPosition // com.jantursky.crease.cover/CameraDescriptor.position.<get-position>|<get-position>(){}[0]
+    final val type // com.jantursky.crease.cover/CameraDescriptor.type|{}type[0]
+        final fun <get-type>(): kotlin/String // com.jantursky.crease.cover/CameraDescriptor.type.<get-type>|<get-type>(){}[0]
+
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.crease.cover/CameraDescriptor.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.jantursky.crease.cover/CameraDescriptor.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.jantursky.crease.cover/CameraDescriptor.toString|toString(){}[0]
+}
+
+final class com.jantursky.crease.cover/CameraDirections { // com.jantursky.crease.cover/CameraDirections|null[0]
+    constructor <init>(kotlin.collections/List<com.jantursky.crease.cover/CameraDescriptor>, kotlin.collections/List<com.jantursky.crease.cover/CameraDescriptor>) // com.jantursky.crease.cover/CameraDirections.<init>|<init>(kotlin.collections.List<com.jantursky.crease.cover.CameraDescriptor>;kotlin.collections.List<com.jantursky.crease.cover.CameraDescriptor>){}[0]
+
+    final val backwardFacing // com.jantursky.crease.cover/CameraDirections.backwardFacing|{}backwardFacing[0]
+        final fun <get-backwardFacing>(): kotlin.collections/List<com.jantursky.crease.cover/CameraDescriptor> // com.jantursky.crease.cover/CameraDirections.backwardFacing.<get-backwardFacing>|<get-backwardFacing>(){}[0]
+    final val forwardFacing // com.jantursky.crease.cover/CameraDirections.forwardFacing|{}forwardFacing[0]
+        final fun <get-forwardFacing>(): kotlin.collections/List<com.jantursky.crease.cover/CameraDescriptor> // com.jantursky.crease.cover/CameraDirections.forwardFacing.<get-forwardFacing>|<get-forwardFacing>(){}[0]
+
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.crease.cover/CameraDirections.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.jantursky.crease.cover/CameraDirections.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.jantursky.crease.cover/CameraDirections.toString|toString(){}[0]
+}
+
+final val com.jantursky.crease.cover/com_jantursky_crease_cover_CameraDescriptor$stableprop // com.jantursky.crease.cover/com_jantursky_crease_cover_CameraDescriptor$stableprop|#static{}com_jantursky_crease_cover_CameraDescriptor$stableprop[0]
+final val com.jantursky.crease.cover/com_jantursky_crease_cover_CameraDirections$stableprop // com.jantursky.crease.cover/com_jantursky_crease_cover_CameraDirections$stableprop|#static{}com_jantursky_crease_cover_CameraDirections$stableprop[0]
 final val com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Active$stableprop // com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Active$stableprop|#static{}com_jantursky_crease_cover_CoverDisplayState_Active$stableprop[0]
 final val com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Available$stableprop // com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Available$stableprop|#static{}com_jantursky_crease_cover_CoverDisplayState_Available$stableprop[0]
 final val com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Unavailable$stableprop // com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Unavailable$stableprop|#static{}com_jantursky_crease_cover_CoverDisplayState_Unavailable$stableprop[0]
@@ -40,9 +84,13 @@ final val com.jantursky.crease.cover/isSupported // com.jantursky.crease.cover/i
     final fun (com.jantursky.crease.cover/CoverDisplayState).<get-isSupported>(): kotlin/Boolean // com.jantursky.crease.cover/isSupported.<get-isSupported>|<get-isSupported>@com.jantursky.crease.cover.CoverDisplayState(){}[0]
 
 final fun com.jantursky.crease.cover/CoverDisplay(kotlin/Boolean, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.jantursky.crease.cover/CoverDisplay|CoverDisplay(kotlin.Boolean;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.jantursky.crease.cover/ProvideCameraDirections(com.jantursky.crease.cover/CameraDirections?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.jantursky.crease.cover/ProvideCameraDirections|ProvideCameraDirections(com.jantursky.crease.cover.CameraDirections?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
 final fun com.jantursky.crease.cover/ProvideCoverDisplayState(com.jantursky.crease.cover/CoverDisplayState, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.jantursky.crease.cover/ProvideCoverDisplayState|ProvideCoverDisplayState(com.jantursky.crease.cover.CoverDisplayState;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun com.jantursky.crease.cover/com_jantursky_crease_cover_CameraDescriptor$stableprop_getter(): kotlin/Int // com.jantursky.crease.cover/com_jantursky_crease_cover_CameraDescriptor$stableprop_getter|com_jantursky_crease_cover_CameraDescriptor$stableprop_getter(){}[0]
+final fun com.jantursky.crease.cover/com_jantursky_crease_cover_CameraDirections$stableprop_getter(): kotlin/Int // com.jantursky.crease.cover/com_jantursky_crease_cover_CameraDirections$stableprop_getter|com_jantursky_crease_cover_CameraDirections$stableprop_getter(){}[0]
 final fun com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Active$stableprop_getter(): kotlin/Int // com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Active$stableprop_getter|com_jantursky_crease_cover_CoverDisplayState_Active$stableprop_getter(){}[0]
 final fun com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Available$stableprop_getter(): kotlin/Int // com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Available$stableprop_getter|com_jantursky_crease_cover_CoverDisplayState_Available$stableprop_getter(){}[0]
 final fun com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Unavailable$stableprop_getter(): kotlin/Int // com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Unavailable$stableprop_getter|com_jantursky_crease_cover_CoverDisplayState_Unavailable$stableprop_getter(){}[0]
 final fun com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Unsupported$stableprop_getter(): kotlin/Int // com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Unsupported$stableprop_getter|com_jantursky_crease_cover_CoverDisplayState_Unsupported$stableprop_getter(){}[0]
+final fun com.jantursky.crease.cover/rememberCameraDirections(androidx.compose.runtime/Composer?, kotlin/Int): com.jantursky.crease.cover/CameraDirections? // com.jantursky.crease.cover/rememberCameraDirections|rememberCameraDirections(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
 final fun com.jantursky.crease.cover/rememberCoverDisplayState(androidx.compose.runtime/Composer?, kotlin/Int): com.jantursky.crease.cover/CoverDisplayState // com.jantursky.crease.cover/rememberCoverDisplayState|rememberCoverDisplayState(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
