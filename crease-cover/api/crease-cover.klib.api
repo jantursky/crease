@@ -1,0 +1,48 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crease:crease-cover>
+sealed interface com.jantursky.crease.cover/CoverDisplayState { // com.jantursky.crease.cover/CoverDisplayState|null[0]
+    final object Active : com.jantursky.crease.cover/CoverDisplayState { // com.jantursky.crease.cover/CoverDisplayState.Active|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.crease.cover/CoverDisplayState.Active.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.jantursky.crease.cover/CoverDisplayState.Active.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.jantursky.crease.cover/CoverDisplayState.Active.toString|toString(){}[0]
+    }
+
+    final object Available : com.jantursky.crease.cover/CoverDisplayState { // com.jantursky.crease.cover/CoverDisplayState.Available|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.crease.cover/CoverDisplayState.Available.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.jantursky.crease.cover/CoverDisplayState.Available.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.jantursky.crease.cover/CoverDisplayState.Available.toString|toString(){}[0]
+    }
+
+    final object Unavailable : com.jantursky.crease.cover/CoverDisplayState { // com.jantursky.crease.cover/CoverDisplayState.Unavailable|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.crease.cover/CoverDisplayState.Unavailable.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.jantursky.crease.cover/CoverDisplayState.Unavailable.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.jantursky.crease.cover/CoverDisplayState.Unavailable.toString|toString(){}[0]
+    }
+
+    final object Unsupported : com.jantursky.crease.cover/CoverDisplayState { // com.jantursky.crease.cover/CoverDisplayState.Unsupported|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.crease.cover/CoverDisplayState.Unsupported.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.jantursky.crease.cover/CoverDisplayState.Unsupported.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.jantursky.crease.cover/CoverDisplayState.Unsupported.toString|toString(){}[0]
+    }
+}
+
+final val com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Active$stableprop // com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Active$stableprop|#static{}com_jantursky_crease_cover_CoverDisplayState_Active$stableprop[0]
+final val com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Available$stableprop // com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Available$stableprop|#static{}com_jantursky_crease_cover_CoverDisplayState_Available$stableprop[0]
+final val com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Unavailable$stableprop // com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Unavailable$stableprop|#static{}com_jantursky_crease_cover_CoverDisplayState_Unavailable$stableprop[0]
+final val com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Unsupported$stableprop // com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Unsupported$stableprop|#static{}com_jantursky_crease_cover_CoverDisplayState_Unsupported$stableprop[0]
+final val com.jantursky.crease.cover/isSupported // com.jantursky.crease.cover/isSupported|@com.jantursky.crease.cover.CoverDisplayState{}isSupported[0]
+    final fun (com.jantursky.crease.cover/CoverDisplayState).<get-isSupported>(): kotlin/Boolean // com.jantursky.crease.cover/isSupported.<get-isSupported>|<get-isSupported>@com.jantursky.crease.cover.CoverDisplayState(){}[0]
+
+final fun com.jantursky.crease.cover/CoverDisplay(kotlin/Boolean, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.jantursky.crease.cover/CoverDisplay|CoverDisplay(kotlin.Boolean;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.jantursky.crease.cover/ProvideCoverDisplayState(com.jantursky.crease.cover/CoverDisplayState, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.jantursky.crease.cover/ProvideCoverDisplayState|ProvideCoverDisplayState(com.jantursky.crease.cover.CoverDisplayState;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Active$stableprop_getter(): kotlin/Int // com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Active$stableprop_getter|com_jantursky_crease_cover_CoverDisplayState_Active$stableprop_getter(){}[0]
+final fun com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Available$stableprop_getter(): kotlin/Int // com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Available$stableprop_getter|com_jantursky_crease_cover_CoverDisplayState_Available$stableprop_getter(){}[0]
+final fun com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Unavailable$stableprop_getter(): kotlin/Int // com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Unavailable$stableprop_getter|com_jantursky_crease_cover_CoverDisplayState_Unavailable$stableprop_getter(){}[0]
+final fun com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Unsupported$stableprop_getter(): kotlin/Int // com.jantursky.crease.cover/com_jantursky_crease_cover_CoverDisplayState_Unsupported$stableprop_getter|com_jantursky_crease_cover_CoverDisplayState_Unsupported$stableprop_getter(){}[0]
+final fun com.jantursky.crease.cover/rememberCoverDisplayState(androidx.compose.runtime/Composer?, kotlin/Int): com.jantursky.crease.cover/CoverDisplayState // com.jantursky.crease.cover/rememberCoverDisplayState|rememberCoverDisplayState(androidx.compose.runtime.Composer?;kotlin.Int){}[0]

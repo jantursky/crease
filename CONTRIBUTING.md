@@ -35,7 +35,7 @@ The docs site uses [Bun](https://bun.sh) 1.3+ and Node.js 22.19+ (the version is
 ## Checks
 
 ```sh
-./gradlew spotlessCheck :crease:apiCheck :crease:jvmTest :crease:testAndroidHostTest :crease:koverVerify   # what CI runs
+./gradlew spotlessCheck :crease:apiCheck :crease:jvmTest :crease:testAndroidHostTest :crease:koverVerify   # what CI runs, and the same with :crease-cover:
 ./gradlew :crease:iosSimulatorArm64Test    # on macOS
 ./gradlew spotlessApply                    # format the code (ktlint_official)
 ./gradlew :crease:apiDump                  # after changing the public API

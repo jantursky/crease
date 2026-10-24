@@ -1,0 +1,45 @@
+public abstract interface class com/jantursky/crease/cover/CoverDisplayState {
+}
+
+public final class com/jantursky/crease/cover/CoverDisplayState$Active : com/jantursky/crease/cover/CoverDisplayState {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/jantursky/crease/cover/CoverDisplayState$Active;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/crease/cover/CoverDisplayState$Available : com/jantursky/crease/cover/CoverDisplayState {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/jantursky/crease/cover/CoverDisplayState$Available;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/crease/cover/CoverDisplayState$Unavailable : com/jantursky/crease/cover/CoverDisplayState {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/jantursky/crease/cover/CoverDisplayState$Unavailable;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/crease/cover/CoverDisplayState$Unsupported : com/jantursky/crease/cover/CoverDisplayState {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/jantursky/crease/cover/CoverDisplayState$Unsupported;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/crease/cover/CoverDisplayStateKt {
+	public static final fun isSupported (Lcom/jantursky/crease/cover/CoverDisplayState;)Z
+}
+
+public final class com/jantursky/crease/cover/RememberCoverDisplayStateKt {
+	public static final fun CoverDisplay (ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ProvideCoverDisplayState (Lcom/jantursky/crease/cover/CoverDisplayState;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+	public static final fun rememberCoverDisplayState (Landroidx/compose/runtime/Composer;I)Lcom/jantursky/crease/cover/CoverDisplayState;
+}
+
