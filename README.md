@@ -32,7 +32,7 @@ Android has reported folds through Jetpack WindowManager for years, and iOS 27.1
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("io.github.jantursky:crease:1.0.0")
+            implementation("io.github.jantursky:crease:1.1.0")
         }
     }
 }
