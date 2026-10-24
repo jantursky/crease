@@ -11,6 +11,35 @@ The library does not need Xcode 27.1 to build. It looks the APIs up at run time 
 
 There is nothing to configure. No Info.plist keys, no entitlements.
 
+## What iOS 27.1 added
+
+iOS 27.1 gave UIKit two things for the iPhone Duo that Crease reads:
+
+- `UIHingeInteraction`, which reports the hinge status and its angle.
+- Reserved regions of a view, requested by kind with `reservedRegionsOfKind:options:`. The division kind is the fold, and it is active only while the device is partly folded. The occlusion kind covers things like the inner camera.
+
+Compose Multiplatform itself does not expose these yet. Its iPhone Duo work is tracked in [CMP-10776](https://youtrack.jetbrains.com/issue/CMP-10776), still open on 2026-10-24.
+
+## Using UIHingeInteraction from Kotlin
+
+You don't call it yourself. Crease owns the interaction and the reserved-region lookups in a small Objective-C class compiled into the library, so the app has no Swift or Objective-C to write and nothing to register at launch. Shared Kotlin code reads the result:
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.jantursky.crease.rememberFoldState
+import com.jantursky.crease.rememberHinge
+
+@Composable
+fun HingeLabel() {
+    val state = rememberFoldState()
+    val angle = rememberHinge()?.angle
+    Text("${state.posture}, ${angle ?: "no angle"}")
+}
+```
+
+The same two calls work on Android, where the data comes from Jetpack WindowManager and the hinge-angle sensor.
+
 ## How the data maps
 
 - **Hinge.** Crease owns a `UIHingeInteraction` and reports its status as `Closed`, `PartiallyOpen` or `FullyOpen`. iOS gives the angle in radians, with 0 shut and π flat. Crease converts it to degrees, so you see 0 to 180 on both platforms.

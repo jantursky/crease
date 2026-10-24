@@ -4,7 +4,7 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.jantursky/crease)](https://central.sonatype.com/artifact/io.github.jantursky/crease) [![CI](https://github.com/jantursky/crease/actions/workflows/ci.yml/badge.svg)](https://github.com/jantursky/crease/actions/workflows/ci.yml) [![Kotlin](https://img.shields.io/badge/kotlin-2.4-7f52ff)](https://kotlinlang.org) [![license](https://img.shields.io/github/license/jantursky/crease)](LICENSE) [![codecov](https://codecov.io/gh/jantursky/crease/graph/badge.svg)](https://codecov.io/gh/jantursky/crease)
 
-[Docs](https://crease.vercel.app) · [Demo](https://crease-demo.vercel.app) · [Maven Central](https://central.sonatype.com/artifact/io.github.jantursky/crease) · [Changelog](CHANGELOG.md)
+[Docs](https://crease-black.vercel.app) · [Demo](https://crease-demo.vercel.app) · [Maven Central](https://central.sonatype.com/artifact/io.github.jantursky/crease) · [Changelog](CHANGELOG.md)
 
 Hinge angle, fold position and fold-aware layouts for Compose Multiplatform. One API for Android foldables and the iPhone Duo.
 
@@ -83,7 +83,7 @@ fun HingeReadout() {
 }
 ```
 
-`Modifier.avoidFold()` keeps a single element off the fold. `ProvideFoldState(FoldState.book(size)) { … }` feeds a fixed state to previews and UI tests. The [docs](https://crease.vercel.app) cover each of these in a guide.
+`Modifier.avoidFold()` keeps a single element off the fold. `ProvideFoldState(FoldState.book(size)) { … }` feeds a fixed state to previews and UI tests. The [docs](https://crease-black.vercel.app) cover each of these in a guide.
 
 Apple's guidance is to drive effects and interactions from the hinge angle, and layout from the posture and the window size. That is how the samples are built.
 
@@ -129,7 +129,7 @@ fun Camera() {
 
 `rememberCameraDirections()` tells which cameras face the viewer on the display the UI is on (iOS 27.1 only, `null` elsewhere).
 
-The system decides whether and where to present it, so treat it as an enhancement. On the iPhone Duo it needs an active camera capture session. The [guide](https://crease.vercel.app/guides/cover-display) has the details and what is not verified.
+The system decides whether and where to present it, so treat it as an enhancement. On the iPhone Duo it needs an active camera capture session. The [guide](https://crease-black.vercel.app/guides/cover-display) has the details and what is not verified.
 
 ## How it works
 

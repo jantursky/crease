@@ -1,0 +1,39 @@
+name: IndexNow
+
+# Tells Bing, Yandex and other IndexNow engines that the docs changed. Vercel deploys the
+# same push, so the job first waits until the key file is live on the docs host.
+on:
+  push:
+    branches: [main]
+    paths: ['apps/docs/**', '.github/workflows/indexnow.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  HOST: crease-black.vercel.app
+  KEY: 188cc1bc47f67d989693630b9ecfb0d6
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for the deploy
+        run: |
+          for _ in $(seq 1 60); do
+            if [ "$(curl -fsS "https://$HOST/$KEY.txt" || true)" = "$KEY" ]; then exit 0; fi
+            sleep 10
+          done
+          echo "Key file never appeared at https://$HOST/$KEY.txt" >&2
+          exit 1
+      - name: Submit the sitemap URLs
+        run: |
+          curl -fsS "https://$HOST/sitemap.xml" | grep -o '<loc>[^<]*</loc>' | sed 's#</\?loc>##g' > urls.txt
+          echo "Submitting $(wc -l < urls.txt) URLs"
+          jq -Rn --arg host "$HOST" --arg key "$KEY" --arg loc "https://$HOST/$KEY.txt" \
+            '{host: $host, key: $key, keyLocation: $loc, urlList: [inputs | select(length > 0)]}' < urls.txt > payload.json
+          status=$(curl -sS -o response.txt -w '%{http_code}' -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' --data @payload.json)
+          echo "IndexNow answered $status"
+          case "$status" in 200|202) ;; *) cat response.txt; exit 1 ;; esac

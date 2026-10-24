@@ -30,6 +30,7 @@ export default defineConfig({
     radius: 'lg',
     mode: 'system',
   },
+  lastModified: "git",
   variables: {
     version,
   },

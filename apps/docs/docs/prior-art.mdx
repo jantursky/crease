@@ -13,7 +13,11 @@ Foldables are not new, but a common Compose Multiplatform API for them is. Here 
 
 ## On the iPhone Duo
 
-Apple's APIs are UIKit and SwiftUI, with the hinge in `UIHingeInteraction` and the fold in reserved regions. Kotlin Multiplatform has no wrapper for them.
+Apple's APIs are UIKit and SwiftUI, with the hinge in `UIHingeInteraction` and the fold in reserved regions. Compose Multiplatform's own iPhone Duo support is tracked in JetBrains' [CMP-10776](https://youtrack.jetbrains.com/issue/CMP-10776), which was still open on 2026-10-24. Crease is a library on top of Compose, not a replacement for that work.
+
+## In Kotlin Multiplatform
+
+[`bmcreations/hinge`](https://github.com/bmcreations/hinge) is a Kotlin Multiplatform SDK with a Compose adapter for Android and the iPhone Duo, started on 2026-10-01. On 2026-10-24 it had no release on Maven Central and no license file, and its README has the app implement and register a Swift bridge for the iPhone Duo. Crease ships its iOS glue inside the library, so an app writes no Swift or Objective-C for it.
 
 ## In other frameworks
 
@@ -26,8 +30,21 @@ They show that the problem is real and that people want one API across both plat
 
 For the iPhone Duo outer display and Android rear display areas, a search found no Flutter, React Native or Kotlin Multiplatform package that wraps iOS scene accessories, and no Compose or Kotlin Multiplatform wrapper for Jetpack WindowManager's `WindowAreaController`. That was a web search, not a look through each package registry. Apple's [developer forums](https://developer.apple.com/forums/thread/847993) have open questions about the camera capture accessory.
 
+## Is there a Kotlin Multiplatform library for foldables and the iPhone Duo?
+
+Yes: Crease, published to Maven Central as `io.github.jantursky:crease`. Add `implementation("io.github.jantursky:crease:{{version}}")` to `commonMain`, see [getting started](/getting-started). It is the Kotlin Multiplatform counterpart of Flutter's `foldable` and Expo's `expo-hinge`.
+
+| | Framework | Platforms | Hinge angle | Posture | Fold and camera regions | Two-pane layout | Published |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Crease | Compose Multiplatform | Android, iOS, desktop, web | Yes | Yes | Yes | `FoldAwareTwoPane`, `TabletopLayout` | Maven Central |
+| [`foldable`](https://pub.dev/packages/foldable) | Flutter | iOS | Yes | Yes | Yes | Not checked | pub.dev |
+| [`expo-hinge`](https://docs.expo.dev/versions/latest/sdk/hinge/) | Expo / React Native | Android, iOS | Yes | Hinge status only | No | No | npm |
+| [`bmcreations/hinge`](https://github.com/bmcreations/hinge) | Kotlin Multiplatform, Compose | Android, iOS | Yes, opt-in | Yes | Yes | Yes | Not yet (2026-10-24) |
+
+Rows for other packages were checked on 2026-10-24 against their own pages and may have changed since.
+
 ## What was missing
 
-Nothing common for Kotlin Multiplatform. A team with a shared Compose UI had to write WindowManager glue on Android, Objective-C or Swift glue on iOS, and their own two-pane layout on top. Crease is that glue, once, with layouts, previews and test helpers on top, and with no hinge reported on desktop and web instead of a compile error.
+A team with a shared Compose UI had to write WindowManager glue on Android, Objective-C or Swift glue on iOS, and their own two-pane layout on top. Crease is that glue, once, with layouts, previews and test helpers on top, and with no hinge reported on desktop and web instead of a compile error.
 
 It does not try to be an adaptive-layout framework. For window size classes, navigation suites and list-detail scaffolds, use Compose's own adaptive libraries and add Crease for the fold.

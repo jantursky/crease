@@ -1,13 +1,19 @@
 ---
 title: Introduction
-description: Hinge angle, fold position and fold-aware layouts for Compose Multiplatform.
+description: Kotlin Multiplatform library for the hinge angle, fold position and fold-aware layouts in Compose Multiplatform, on Android foldables and iPhone Duo.
 sidebar:
   order: 1
 ---
 
-Crease gives Compose Multiplatform one API for the hinge of a foldable phone. You can read the hinge angle, find out where the fold is, and lay out two panes around it. The same code runs on Android foldables and on the iPhone Duo. On a phone, a desktop window or a browser it reports "no hinge" and your layout falls back to whatever you chose.
+Crease is a Kotlin Multiplatform library that gives Compose Multiplatform one API for the hinge of a foldable phone, on Android foldables and the iPhone Duo. You can read the hinge angle, find out where the fold is, and lay out two panes around it. The same code runs on Android foldables and on the iPhone Duo. On a phone, a desktop window or a browser it reports "no hinge" and your layout falls back to whatever you chose.
 
-The current version is {{version}}. See the [changelog](/changelog) for what each release changed.
+The current version is {{version}}. See the [changelog](/changelog) for what each release changed. Add it to `commonMain`:
+
+```kotlin
+implementation("io.github.jantursky:crease:{{version}}")
+```
+
+The source is on [GitHub](https://github.com/jantursky/crease), MIT licensed.
 
 ```kotlin
 import androidx.compose.material3.Text

@@ -28,7 +28,7 @@ const collectErrors = (page: Page) => {
 test('every Compose viewport mounts without errors', async ({ page }) => {
   const errors = collectErrors(page)
   await page.goto('/')
-  await expect(page).toHaveTitle('Crease')
+  await expect(page).toHaveTitle(/^Crease/)
   await expect(page.locator('#playground canvas')).toHaveCount(1, { timeout: 30_000 })
   for (const id of EXAMPLES) {
     await expect(page.locator(`[data-example="${id}"] canvas`), id).toHaveCount(1)
