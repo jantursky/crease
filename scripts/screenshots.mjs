@@ -15,6 +15,7 @@ import { serve } from './serve-demo.mjs'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const out = join(root, '.github/assets')
+const docsOut = join(root, 'samples/screenshots')
 
 /** Each view is a freshly loaded page, optionally with a deep link into the playground. */
 const VIEWS = [
@@ -44,6 +45,16 @@ const VIEWS = [
   },
 ]
 
+/** The docs examples page: the playground without its title bar, in each posture. Names are what the docs link to. */
+const DOCS = [
+  { name: 'recipe-book', query: '?demo=recipes&posture=book' },
+  { name: 'recipe-tabletop', query: '?demo=recipes&posture=tabletop' },
+  // The simulator's device keeps its width, so the single pane shows closed.
+  { name: 'recipe-closed', query: '?demo=recipes&posture=closed' },
+  { name: 'editor-book', query: '?demo=photos&posture=book' },
+  { name: 'editor-tabletop', query: '?demo=photos&posture=tabletop' },
+].map((view) => ({ ...view, dir: docsOut, element: '#playground', darkSuffix: true }))
+
 const build = () => {
   const result = spawnSync('./gradlew', [':samples:web:wasmJsBrowserDistribution'], { cwd: root, stdio: 'inherit' })
   if (result.status !== 0) process.exit(result.status ?? 1)
@@ -51,7 +62,7 @@ const build = () => {
 
 const capture = async (browser, url, view, theme) => {
   const context = await browser.newContext({
-    viewport: { width: 1280, height: 800 },
+    viewport: view.viewport ?? { width: 1280, height: 800 },
     deviceScaleFactor: 2,
     colorScheme: theme,
     reducedMotion: 'reduce',
@@ -70,7 +81,9 @@ const capture = async (browser, url, view, theme) => {
   const png = await target.screenshot({ animations: 'disabled', style: view.element ? '.nav { display: none }' : '' })
   await context.close()
 
-  const file = join(out, `${view.name}-${theme}.png`)
+  const file = view.darkSuffix
+    ? join(view.dir, `${view.name}${theme === 'dark' ? '-dark' : ''}.png`)
+    : join(out, `${view.name}-${theme}.png`)
   await sharp(png).png({ palette: true, quality: 90, effort: 10, compressionLevel: 9 }).toFile(file)
   console.log(`${file.slice(root.length)}  ${Math.round(statSync(file).size / 1024)} kB`)
 }
@@ -81,7 +94,7 @@ const server = await serve()
 const url = `http://127.0.0.1:${server.address().port}/`
 const browser = await chromium.launch()
 try {
-  for (const view of VIEWS) {
+  for (const view of [...VIEWS, ...DOCS]) {
     for (const theme of ['light', 'dark']) await capture(browser, url, view, theme)
   }
 } finally {
