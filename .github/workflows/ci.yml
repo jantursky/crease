@@ -104,7 +104,8 @@ jobs:
         run: ./gradlew :samples:recipes:shared:jvmTest :samples:photos:shared:jvmTest
 
   pack:
-    runs-on: ubuntu-latest
+    # macOS, so the iOS klibs of every module exist for the Maven Local publication; Linux cannot build them.
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6
