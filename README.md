@@ -35,7 +35,7 @@ Android has reported folds through Jetpack WindowManager for years, and iOS 27.1
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("io.github.jantursky:crease:1.2.0")
+            implementation("io.github.jantursky:crease:1.3.0")
         }
     }
 }
@@ -86,13 +86,13 @@ fun HingeReadout() {
 }
 ```
 
-`Modifier.avoidFold()` keeps a single element off the fold. `ProvideFoldState(FoldState.book(size)) { … }` feeds a fixed state to previews and UI tests. The [docs](https://crease-black.vercel.app) cover each of these in a guide.
+`rememberFoldStateFlow()` hands the fold state to a view-model, and `rememberPostureTransition()` tells which posture the device came from. `Modifier.avoidFold()` keeps a single element off the fold. `ProvideFoldState(FoldState.book(size)) { … }` feeds a fixed state to previews and UI tests. The [docs](https://crease-black.vercel.app) cover each of these in a guide.
 
 Apple's guidance is to drive effects and interactions from the hinge angle, and layout from the posture and the window size. That is how the samples are built.
 
 ## Demo
 
-The [demo](https://crease-demo.vercel.app) runs the library in the browser, compiled to Kotlin/Wasm. Both samples sit in a simulated foldable you can fold, tilt and rotate, and seven small examples run next to their own source.
+The [demo](https://crease-demo.vercel.app) runs the library in the browser, compiled to Kotlin/Wasm. Both samples sit in a simulated foldable you can fold, tilt and rotate, and eight small examples run next to their own source.
 
 <table>
   <tr>

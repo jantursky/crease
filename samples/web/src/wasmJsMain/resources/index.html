@@ -79,7 +79,7 @@
         </div>
         <div class="install">
             <span class="install-label">gradle</span>
-            <code id="install-line" tabindex="0">implementation("io.github.jantursky:crease:<span data-version>1.2.0</span>")</code>
+            <code id="install-line" tabindex="0">implementation("io.github.jantursky:crease:<span data-version>1.3.0</span>")</code>
             <button type="button" class="copy" data-copy-target="install-line">
                 <span class="copy-label">Copy</span>
             </button>
@@ -181,6 +181,14 @@
                     <div class="live" data-example="hinge-angle"></div>
                     <div class="source" data-files="HingeAngleExample.kt"></div>
                 </article>
+                <article class="example" id="example-posture-changes">
+                    <header>
+                        <h3>Watch the posture change</h3>
+                        <p><code>rememberPostureTransition()</code> gives the posture before and after the latest change, and <code>rememberFoldStateFlow().postures()</code> counts the changes. Fold the device and tilt it: the angle alone changes nothing.</p>
+                    </header>
+                    <div class="live" data-example="posture-changes"></div>
+                    <div class="source" data-files="PostureChangesExample.kt"></div>
+                </article>
                 <article class="example" id="example-reading-lamp">
                     <header>
                         <h3>React to the angle</h3>
@@ -204,7 +212,7 @@
 
 <footer class="footer">
     <div class="footer-inner">
-        <span class="brand-small"><img src="mark.svg" alt="" width="14" height="14"> Crease <span data-version>1.2.0</span> · MIT license</span>
+        <span class="brand-small"><img src="mark.svg" alt="" width="14" height="14"> Crease <span data-version>1.3.0</span> · MIT license</span>
         <span><a href="https://crease-black.vercel.app">Docs</a> · <a href="https://github.com/jantursky/crease">GitHub</a> · <a href="https://central.sonatype.com/artifact/io.github.jantursky/crease">Maven Central</a></span>
     </div>
 </footer>

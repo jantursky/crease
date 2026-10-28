@@ -7,6 +7,7 @@ const EXAMPLES = [
   'stacked-fallback',
   'avoid-fold',
   'hinge-angle',
+  'posture-changes',
   'reading-lamp',
   'fold-geometry',
 ]

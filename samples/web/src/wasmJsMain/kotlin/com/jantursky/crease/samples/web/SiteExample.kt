@@ -10,6 +10,7 @@ import com.jantursky.crease.samples.web.examples.AvoidFoldExample
 import com.jantursky.crease.samples.web.examples.FoldGeometryExample
 import com.jantursky.crease.samples.web.examples.HingeAngleExample
 import com.jantursky.crease.samples.web.examples.ListDetailExample
+import com.jantursky.crease.samples.web.examples.PostureChangesExample
 import com.jantursky.crease.samples.web.examples.ReadingLampExample
 import com.jantursky.crease.samples.web.examples.StackedFallbackExample
 import com.jantursky.crease.samples.web.examples.TabletopExample
@@ -27,6 +28,7 @@ internal enum class SiteExample(
     AvoidFold("avoid-fold", Posture.Book, { AvoidFoldExample() }),
     HingeAngle("hinge-angle", Posture.Book, { HingeAngleExample() }),
     StackedFallback("stacked-fallback", Posture.Flat, { StackedFallbackExample() }),
+    PostureChanges("posture-changes", Posture.Flat, { PostureChangesExample() }),
     ReadingLamp("reading-lamp", Posture.Book, { ReadingLampExample() }),
     FoldGeometry("fold-geometry", Posture.Book, { FoldGeometryExample() }, detailed = true),
     ;

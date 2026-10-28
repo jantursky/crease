@@ -49,6 +49,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(libs.compose.runtime)
+            api(libs.kotlinx.coroutines.core)
             api(libs.compose.ui)
         }
         commonTest.dependencies {

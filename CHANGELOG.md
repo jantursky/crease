@@ -4,6 +4,12 @@ All notable changes to `io.github.jantursky:crease` are listed here. The format 
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-10-28
+
+### Added
+
+- `rememberFoldStateFlow()` returns the fold state as a `StateFlow` for view-models and other code outside composition, `StateFlow<FoldState>.postures()` emits the posture only when it changes, and `rememberPostureTransition()` gives the posture before the latest change and the current one. `kotlinx-coroutines-core` is now an `api` dependency.
+
 ## [1.2.0] - 2026-10-28
 
 ### Added
@@ -28,7 +34,8 @@ All notable changes to `io.github.jantursky:crease` are listed here. The format 
 - `Modifier.avoidFold()` keeps an element's content on the larger side of a separating fold.
 - Targets: Android, iOS (iPhone Duo), JVM and wasmJs. JVM and wasmJs report no hinge unless a state is provided.
 
-[Unreleased]: https://github.com/jantursky/crease/compare/1.2.0...HEAD
+[Unreleased]: https://github.com/jantursky/crease/compare/1.3.0...HEAD
+[1.3.0]: https://github.com/jantursky/crease/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/jantursky/crease/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/jantursky/crease/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/jantursky/crease/releases/tag/1.0.0

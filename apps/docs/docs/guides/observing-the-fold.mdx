@@ -1,0 +1,72 @@
+---
+title: Observing the fold
+description: Read the fold state in a view-model with rememberFoldStateFlow, react to posture changes, and animate between postures.
+---
+
+Fold state comes from the window your UI runs in, so it exists only inside a composition. `rememberFoldStateFlow()` hands it to code that is not composable, such as a view-model.
+
+## Pass the state to a view-model
+
+Call it high in the tree and pass the flow down.
+
+```kotlin
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.jantursky.crease.FoldState
+import com.jantursky.crease.Posture
+import com.jantursky.crease.postures
+import com.jantursky.crease.rememberFoldStateFlow
+import kotlinx.coroutines.flow.StateFlow
+
+class PlayerModel {
+    fun onPosture(posture: Posture) {
+        // Pause, resize the camera preview, log an event.
+    }
+}
+
+@Composable
+fun PlayerHost(model: PlayerModel) {
+    val foldState: StateFlow<FoldState> = rememberFoldStateFlow()
+    LaunchedEffect(foldState) {
+        foldState.postures().collect { model.onPosture(it) }
+    }
+    val current by foldState.collectAsState()
+    // current.hinge, current.folds
+}
+```
+
+The flow follows `rememberFoldState()`, so a state set by `ProvideFoldState` shows up in it too. It updates only while the call is in the composition. When the call leaves, collectors keep the last value.
+
+## React to posture changes only
+
+`postures()` emits the current posture first and then only when it changes. A change of hinge angle inside a posture emits nothing, so a collector that restarts a camera or a player does not fire on every degree.
+
+## Animate between postures
+
+`rememberPostureTransition()` gives the posture before the latest change and the current one.
+
+```kotlin
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.jantursky.crease.Posture
+import com.jantursky.crease.rememberPostureTransition
+
+@Composable
+fun PostureBanner() {
+    val transition = rememberPostureTransition()
+    AnimatedContent(targetState = transition.current) { posture ->
+        Text(
+            if (transition.changed && posture == transition.current) {
+                "${transition.previous} to $posture"
+            } else {
+                posture.toString()
+            },
+        )
+    }
+}
+```
+
+`changed` means the posture has changed since the composition began, not that it just changed this frame. It recomposes only when the posture changes.

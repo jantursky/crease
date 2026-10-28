@@ -51,6 +51,12 @@ public final class com/jantursky/crease/FoldState$Companion {
 	public static synthetic fun tabletop-Pq9zytI$default (Lcom/jantursky/crease/FoldState$Companion;JFFILjava/lang/Object;)Lcom/jantursky/crease/FoldState;
 }
 
+public final class com/jantursky/crease/FoldStateStreamsKt {
+	public static final fun postures (Lkotlinx/coroutines/flow/StateFlow;)Lkotlinx/coroutines/flow/Flow;
+	public static final fun rememberFoldStateFlow (Landroidx/compose/runtime/Composer;I)Lkotlinx/coroutines/flow/StateFlow;
+	public static final fun rememberPostureTransition (Landroidx/compose/runtime/Composer;I)Lcom/jantursky/crease/PostureTransition;
+}
+
 public final class com/jantursky/crease/Hinge {
 	public static final field $stable I
 	public fun <init> (Lcom/jantursky/crease/HingeStatus;Ljava/lang/Float;)V
@@ -78,6 +84,17 @@ public final class com/jantursky/crease/Posture : java/lang/Enum {
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/jantursky/crease/Posture;
 	public static fun values ()[Lcom/jantursky/crease/Posture;
+}
+
+public final class com/jantursky/crease/PostureTransition {
+	public static final field $stable I
+	public fun <init> (Lcom/jantursky/crease/Posture;Lcom/jantursky/crease/Posture;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getChanged ()Z
+	public final fun getCurrent ()Lcom/jantursky/crease/Posture;
+	public final fun getPrevious ()Lcom/jantursky/crease/Posture;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/jantursky/crease/RememberFoldStateKt {

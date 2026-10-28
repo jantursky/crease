@@ -1,6 +1,6 @@
 ---
 title: Composables and modifiers
-description: rememberFoldState, rememberHinge, ProvideFoldState, FoldAwareTwoPane, TabletopLayout and Modifier.avoidFold.
+description: rememberFoldState, rememberHinge, rememberFoldStateFlow, rememberPostureTransition, ProvideFoldState, FoldAwareTwoPane, TabletopLayout and Modifier.avoidFold.
 ---
 
 ## rememberFoldState
@@ -20,6 +20,38 @@ public fun rememberHinge(): Hinge?
 ```
 
 The current `Hinge`, or `null`. Shorthand for `rememberFoldState().hinge`.
+
+## rememberFoldStateFlow
+
+```kotlin
+@Composable
+public fun rememberFoldStateFlow(): StateFlow<FoldState>
+```
+
+The current `FoldState` as a `StateFlow`, for a view-model or other code outside composition. It follows `rememberFoldState()` and has the current state from the first read. It updates only while the call is in the composition, then keeps its last value. See [observing the fold](/guides/observing-the-fold).
+
+## postures
+
+```kotlin
+public fun StateFlow<FoldState>.postures(): Flow<Posture>
+```
+
+The `Posture` of each state: the current one first, then only when it changes. A change of hinge angle within a posture emits nothing.
+
+## rememberPostureTransition
+
+```kotlin
+@Composable
+public fun rememberPostureTransition(): PostureTransition
+```
+
+| Property | Description |
+| --- | --- |
+| `previous` | The posture before the latest change. Equal to `current` until the posture first changes. |
+| `current` | The current posture. |
+| `changed` | Whether the posture has changed since the composition began. |
+
+Recomposes when the posture changes, not when only the hinge angle does.
 
 ## ProvideFoldState
 
