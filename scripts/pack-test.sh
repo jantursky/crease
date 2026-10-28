@@ -10,9 +10,9 @@ compose=$(sed -n 's/^compose = "\(.*\)"/\1/p' "$root/gradle/libs.versions.toml")
 consumer=$(mktemp -d)
 trap 'rm -rf "$consumer"' EXIT
 
-"$root/gradlew" -p "$root" :crease:publishToMavenLocal :crease-cover:publishToMavenLocal --quiet
+"$root/gradlew" -p "$root" :crease:publishToMavenLocal :crease-cover:publishToMavenLocal :crease-test:publishToMavenLocal --quiet
 
-mkdir -p "$consumer/src/jvmMain/kotlin"
+mkdir -p "$consumer/src/jvmMain/kotlin" "$consumer/src/jvmTest/kotlin"
 cat > "$consumer/settings.gradle.kts" <<'EOF'
 pluginManagement {
     repositories {
@@ -45,6 +45,10 @@ kotlin {
             implementation("io.github.jantursky:crease:$version")
             implementation("io.github.jantursky:crease-cover:$version")
         }
+        jvmTest.dependencies {
+            implementation("io.github.jantursky:crease-test:$version")
+            implementation(kotlin("test"))
+        }
     }
 }
 EOF
@@ -75,6 +79,25 @@ fun Screen(content: @Composable () -> Unit) {
     }
 }
 EOF
+cat > "$consumer/src/jvmTest/kotlin/ConsumerTest.kt" <<'EOF'
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.runComposeUiTest
+import com.jantursky.crease.Posture
+import com.jantursky.crease.test.FoldStatePresets
+import com.jantursky.crease.test.setContentWithFold
+import kotlin.test.Test
 
-"$root/gradlew" -p "$consumer" compileKotlinJvm --quiet
-echo "Consumer compiled against io.github.jantursky:crease:$version and crease-cover"
+class ConsumerTest {
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun folds() = runComposeUiTest {
+        val fold = setContentWithFold(FoldStatePresets.Seamless.flat()) { Screen {} }
+        fold.moveTo(Posture.Tabletop, Size(1800f, 1200f))
+        fold.play(listOf(FoldStatePresets.Divided.book()))
+    }
+}
+EOF
+
+"$root/gradlew" -p "$consumer" compileKotlinJvm compileTestKotlinJvm --quiet
+echo "Consumer compiled against io.github.jantursky:crease:$version, crease-cover and crease-test"

@@ -15,6 +15,7 @@ kotlin {
         jvmTest.dependencies {
             implementation(project(":crease"))
             implementation(project(":crease-cover"))
+            implementation(project(":crease-test"))
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
             implementation(libs.compose.ui.tooling.preview)

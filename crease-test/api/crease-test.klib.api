@@ -1,0 +1,47 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crease:crease-test>
+final class com.jantursky.crease.test/FoldController { // com.jantursky.crease.test/FoldController|null[0]
+    final val state // com.jantursky.crease.test/FoldController.state|{}state[0]
+        final fun <get-state>(): com.jantursky.crease/FoldState // com.jantursky.crease.test/FoldController.state.<get-state>|<get-state>(){}[0]
+
+    final fun moveTo(com.jantursky.crease/Posture, androidx.compose.ui.geometry/Size, kotlin/Float = ..., kotlin/Float = ..., com.jantursky.crease/FoldOrientation = ...) // com.jantursky.crease.test/FoldController.moveTo|moveTo(com.jantursky.crease.Posture;androidx.compose.ui.geometry.Size;kotlin.Float;kotlin.Float;com.jantursky.crease.FoldOrientation){}[0]
+    final fun play(kotlin.collections/List<com.jantursky.crease/FoldState>, kotlin/Function1<com.jantursky.crease/FoldState, kotlin/Unit> = ...) // com.jantursky.crease.test/FoldController.play|play(kotlin.collections.List<com.jantursky.crease.FoldState>;kotlin.Function1<com.jantursky.crease.FoldState,kotlin.Unit>){}[0]
+    final fun update(com.jantursky.crease/FoldState) // com.jantursky.crease.test/FoldController.update|update(com.jantursky.crease.FoldState){}[0]
+}
+
+final class com.jantursky.crease.test/FoldPreset { // com.jantursky.crease.test/FoldPreset|null[0]
+    constructor <init>(androidx.compose.ui.geometry/Size, kotlin/Float) // com.jantursky.crease.test/FoldPreset.<init>|<init>(androidx.compose.ui.geometry.Size;kotlin.Float){}[0]
+
+    final val foldWidth // com.jantursky.crease.test/FoldPreset.foldWidth|{}foldWidth[0]
+        final fun <get-foldWidth>(): kotlin/Float // com.jantursky.crease.test/FoldPreset.foldWidth.<get-foldWidth>|<get-foldWidth>(){}[0]
+    final val windowSize // com.jantursky.crease.test/FoldPreset.windowSize|{}windowSize[0]
+        final fun <get-windowSize>(): androidx.compose.ui.geometry/Size // com.jantursky.crease.test/FoldPreset.windowSize.<get-windowSize>|<get-windowSize>(){}[0]
+
+    final fun book(kotlin/Float = ...): com.jantursky.crease/FoldState // com.jantursky.crease.test/FoldPreset.book|book(kotlin.Float){}[0]
+    final fun closed(): com.jantursky.crease/FoldState // com.jantursky.crease.test/FoldPreset.closed|closed(){}[0]
+    final fun flat(com.jantursky.crease/FoldOrientation = ...): com.jantursky.crease/FoldState // com.jantursky.crease.test/FoldPreset.flat|flat(com.jantursky.crease.FoldOrientation){}[0]
+    final fun state(com.jantursky.crease/Posture, kotlin/Float = ..., com.jantursky.crease/FoldOrientation = ...): com.jantursky.crease/FoldState // com.jantursky.crease.test/FoldPreset.state|state(com.jantursky.crease.Posture;kotlin.Float;com.jantursky.crease.FoldOrientation){}[0]
+    final fun tabletop(kotlin/Float = ...): com.jantursky.crease/FoldState // com.jantursky.crease.test/FoldPreset.tabletop|tabletop(kotlin.Float){}[0]
+}
+
+final object com.jantursky.crease.test/FoldStatePresets { // com.jantursky.crease.test/FoldStatePresets|null[0]
+    final val Divided // com.jantursky.crease.test/FoldStatePresets.Divided|{}Divided[0]
+        final fun <get-Divided>(): com.jantursky.crease.test/FoldPreset // com.jantursky.crease.test/FoldStatePresets.Divided.<get-Divided>|<get-Divided>(){}[0]
+    final val Seamless // com.jantursky.crease.test/FoldStatePresets.Seamless|{}Seamless[0]
+        final fun <get-Seamless>(): com.jantursky.crease.test/FoldPreset // com.jantursky.crease.test/FoldStatePresets.Seamless.<get-Seamless>|<get-Seamless>(){}[0]
+}
+
+final val com.jantursky.crease.test/com_jantursky_crease_test_FoldController$stableprop // com.jantursky.crease.test/com_jantursky_crease_test_FoldController$stableprop|#static{}com_jantursky_crease_test_FoldController$stableprop[0]
+final val com.jantursky.crease.test/com_jantursky_crease_test_FoldPreset$stableprop // com.jantursky.crease.test/com_jantursky_crease_test_FoldPreset$stableprop|#static{}com_jantursky_crease_test_FoldPreset$stableprop[0]
+final val com.jantursky.crease.test/com_jantursky_crease_test_FoldStatePresets$stableprop // com.jantursky.crease.test/com_jantursky_crease_test_FoldStatePresets$stableprop|#static{}com_jantursky_crease_test_FoldStatePresets$stableprop[0]
+
+final fun (androidx.compose.ui.test/ComposeUiTest).com.jantursky.crease.test/setContentWithFold(com.jantursky.crease/FoldState = ..., kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>): com.jantursky.crease.test/FoldController // com.jantursky.crease.test/setContentWithFold|setContentWithFold@androidx.compose.ui.test.ComposeUiTest(com.jantursky.crease.FoldState;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>){}[0]
+final fun com.jantursky.crease.test/com_jantursky_crease_test_FoldController$stableprop_getter(): kotlin/Int // com.jantursky.crease.test/com_jantursky_crease_test_FoldController$stableprop_getter|com_jantursky_crease_test_FoldController$stableprop_getter(){}[0]
+final fun com.jantursky.crease.test/com_jantursky_crease_test_FoldPreset$stableprop_getter(): kotlin/Int // com.jantursky.crease.test/com_jantursky_crease_test_FoldPreset$stableprop_getter|com_jantursky_crease_test_FoldPreset$stableprop_getter(){}[0]
+final fun com.jantursky.crease.test/com_jantursky_crease_test_FoldStatePresets$stableprop_getter(): kotlin/Int // com.jantursky.crease.test/com_jantursky_crease_test_FoldStatePresets$stableprop_getter|com_jantursky_crease_test_FoldStatePresets$stableprop_getter(){}[0]

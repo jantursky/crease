@@ -21,6 +21,7 @@ Android has reported folds through Jetpack WindowManager for years, and iOS 27.1
 | ------------------- | ----------------------------------------------------------------------------------------------------- |
 | `crease`            | The library, published to Maven Central as `io.github.jantursky:crease`.                                    |
 | `crease-cover`      | Optional second artifact: show a composable on the outer display of a foldable (iOS camera capture accessory, Android rear display). |
+| `crease-test`       | Optional third artifact for tests: set content under a fold state and fold, unfold or tilt it while the test runs. |
 | `samples/recipes`   | Recipe reader: ingredients and steps across the fold, a timer in tabletop mode. Android, iOS, desktop. |
 | `samples/photos`    | Photo editor: picture on top and sliders below in tabletop mode, gallery and editor in book posture.   |
 | `samples/web`       | The web demo and site: both samples in a simulated foldable, plus live examples with their source.     |
@@ -34,7 +35,7 @@ Android has reported folds through Jetpack WindowManager for years, and iOS 27.1
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("io.github.jantursky:crease:1.1.0")
+            implementation("io.github.jantursky:crease:1.2.0")
         }
     }
 }

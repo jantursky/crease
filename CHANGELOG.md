@@ -4,6 +4,12 @@ All notable changes to `io.github.jantursky:crease` are listed here. The format 
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-10-28
+
+### Added
+
+- `crease-test`, a third artifact (`io.github.jantursky:crease-test`) for tests: `ComposeUiTest.setContentWithFold()` composes content under a fold state and returns a `FoldController`, whose `update`, `moveTo` and `play` change the state while the composition stays alive, so remembered state survives. `FoldStatePresets.Seamless` and `FoldStatePresets.Divided` build a state for every posture.
+
 ## [1.1.0] - 2026-10-24
 
 ### Added
@@ -22,6 +28,7 @@ All notable changes to `io.github.jantursky:crease` are listed here. The format 
 - `Modifier.avoidFold()` keeps an element's content on the larger side of a separating fold.
 - Targets: Android, iOS (iPhone Duo), JVM and wasmJs. JVM and wasmJs report no hinge unless a state is provided.
 
-[Unreleased]: https://github.com/jantursky/crease/compare/1.1.0...HEAD
+[Unreleased]: https://github.com/jantursky/crease/compare/1.2.0...HEAD
+[1.2.0]: https://github.com/jantursky/crease/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/jantursky/crease/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/jantursky/crease/releases/tag/1.0.0

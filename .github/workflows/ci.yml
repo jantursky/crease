@@ -24,14 +24,14 @@ jobs:
           java-version: 17
       - uses: gradle/actions/setup-gradle@v6
       - name: Format, API, JVM and Android host tests, coverage gate
-        run: ./gradlew spotlessCheck :crease:apiCheck :crease:jvmTest :crease:testAndroidHostTest :crease:koverXmlReport :crease:koverVerify :crease-cover:apiCheck :crease-cover:jvmTest :crease-cover:testAndroidHostTest :crease-cover:koverXmlReport :crease-cover:koverVerify
+        run: ./gradlew spotlessCheck :crease:apiCheck :crease:jvmTest :crease:testAndroidHostTest :crease:koverXmlReport :crease:koverVerify :crease-cover:apiCheck :crease-cover:jvmTest :crease-cover:testAndroidHostTest :crease-cover:koverXmlReport :crease-cover:koverVerify :crease-test:apiCheck :crease-test:jvmTest :crease-test:koverXmlReport :crease-test:koverVerify
       - name: Docs and README samples compile
         run: python3 scripts/doc-samples.py && ./gradlew :samples:docs-check:compileTestKotlinJvm
       - name: Upload coverage to Codecov
         if: ${{ !cancelled() }}
         uses: codecov/codecov-action@v7
         with:
-          files: crease/build/reports/kover/report.xml,crease-cover/build/reports/kover/report.xml
+          files: crease/build/reports/kover/report.xml,crease-cover/build/reports/kover/report.xml,crease-test/build/reports/kover/report.xml
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
 
@@ -45,7 +45,7 @@ jobs:
           java-version: 17
       - uses: gradle/actions/setup-gradle@v6
       - name: Wasm tests (headless Chrome) and the web demo build
-        run: ./gradlew :crease:wasmJsTest :crease-cover:wasmJsTest :samples:web:wasmJsBrowserDistribution
+        run: ./gradlew :crease:wasmJsTest :crease-cover:wasmJsTest :crease-test:wasmJsTest :samples:web:wasmJsBrowserDistribution
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version-file: .bun-version
@@ -76,7 +76,7 @@ jobs:
           java-version: 17
       - uses: gradle/actions/setup-gradle@v6
       - name: Simulator tests
-        run: ./gradlew :crease:iosSimulatorArm64Test :crease-cover:iosSimulatorArm64Test
+        run: ./gradlew :crease:iosSimulatorArm64Test :crease-cover:iosSimulatorArm64Test :crease-test:iosSimulatorArm64Test
       - name: Generate the Xcode projects
         run: |
           brew install xcodegen

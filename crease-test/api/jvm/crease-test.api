@@ -1,0 +1,38 @@
+public final class com/jantursky/crease/test/FoldController {
+	public static final field $stable I
+	public final fun getState ()Lcom/jantursky/crease/FoldState;
+	public final fun moveTo-eZhPAX0 (Lcom/jantursky/crease/Posture;JFFLcom/jantursky/crease/FoldOrientation;)V
+	public static synthetic fun moveTo-eZhPAX0$default (Lcom/jantursky/crease/test/FoldController;Lcom/jantursky/crease/Posture;JFFLcom/jantursky/crease/FoldOrientation;ILjava/lang/Object;)V
+	public final fun play (Ljava/util/List;Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun play$default (Lcom/jantursky/crease/test/FoldController;Ljava/util/List;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun update (Lcom/jantursky/crease/FoldState;)V
+}
+
+public final class com/jantursky/crease/test/FoldPreset {
+	public static final field $stable I
+	public synthetic fun <init> (JFLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun book (F)Lcom/jantursky/crease/FoldState;
+	public static synthetic fun book$default (Lcom/jantursky/crease/test/FoldPreset;FILjava/lang/Object;)Lcom/jantursky/crease/FoldState;
+	public final fun closed ()Lcom/jantursky/crease/FoldState;
+	public final fun flat (Lcom/jantursky/crease/FoldOrientation;)Lcom/jantursky/crease/FoldState;
+	public static synthetic fun flat$default (Lcom/jantursky/crease/test/FoldPreset;Lcom/jantursky/crease/FoldOrientation;ILjava/lang/Object;)Lcom/jantursky/crease/FoldState;
+	public final fun getFoldWidth ()F
+	public final fun getWindowSize-NH-jbRc ()J
+	public final fun state (Lcom/jantursky/crease/Posture;FLcom/jantursky/crease/FoldOrientation;)Lcom/jantursky/crease/FoldState;
+	public static synthetic fun state$default (Lcom/jantursky/crease/test/FoldPreset;Lcom/jantursky/crease/Posture;FLcom/jantursky/crease/FoldOrientation;ILjava/lang/Object;)Lcom/jantursky/crease/FoldState;
+	public final fun tabletop (F)Lcom/jantursky/crease/FoldState;
+	public static synthetic fun tabletop$default (Lcom/jantursky/crease/test/FoldPreset;FILjava/lang/Object;)Lcom/jantursky/crease/FoldState;
+}
+
+public final class com/jantursky/crease/test/FoldStatePresets {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/jantursky/crease/test/FoldStatePresets;
+	public final fun getDivided ()Lcom/jantursky/crease/test/FoldPreset;
+	public final fun getSeamless ()Lcom/jantursky/crease/test/FoldPreset;
+}
+
+public final class com/jantursky/crease/test/SetContentWithFoldKt {
+	public static final fun setContentWithFold (Landroidx/compose/ui/test/ComposeUiTest;Lcom/jantursky/crease/FoldState;Lkotlin/jvm/functions/Function2;)Lcom/jantursky/crease/test/FoldController;
+	public static synthetic fun setContentWithFold$default (Landroidx/compose/ui/test/ComposeUiTest;Lcom/jantursky/crease/FoldState;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/jantursky/crease/test/FoldController;
+}
+

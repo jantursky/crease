@@ -81,7 +81,7 @@ jobs:
           fi
       - name: Checks
         if: steps.check.outputs.publish == 'true'
-        run: ./gradlew :crease:check :crease:apiCheck :crease:koverVerify :crease-cover:check :crease-cover:apiCheck :crease-cover:koverVerify
+        run: ./gradlew :crease:check :crease:apiCheck :crease:koverVerify :crease-cover:check :crease-cover:apiCheck :crease-cover:koverVerify :crease-test:check :crease-test:apiCheck :crease-test:koverVerify
       - name: Publish to Maven Central
         if: steps.check.outputs.publish == 'true'
         env:

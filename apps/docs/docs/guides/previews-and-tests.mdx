@@ -108,4 +108,65 @@ class ReaderScreenTest {
 }
 ```
 
-To test a fold that changes, hold the state in `mutableStateOf` and pass it to `ProvideFoldState`. The layout recomposes when it changes.
+## Changing the fold during a test
+
+The optional `crease-test` artifact sets the content and gives you a controller, so a test can fold and unfold the device while the composition stays alive. State the content remembers survives each change.
+
+```kotlin
+implementation("io.github.jantursky:crease-test:1.2.0")
+```
+
+```kotlin
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.runComposeUiTest
+import com.jantursky.crease.FoldAwareTwoPane
+import com.jantursky.crease.Posture
+import com.jantursky.crease.test.FoldStatePresets
+import com.jantursky.crease.test.setContentWithFold
+import kotlin.test.Test
+
+@Composable
+private fun TwoPaneReader() {
+    FoldAwareTwoPane(
+        first = { BasicText("Ingredients") },
+        second = { BasicText("Steps") },
+    )
+}
+
+class FoldingReaderTest {
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun secondPaneAppearsWhenTheDeviceOpensLikeABook() = runComposeUiTest {
+        val fold = setContentWithFold(FoldStatePresets.Divided.flat()) { TwoPaneReader() }
+        fold.moveTo(Posture.Book, FoldStatePresets.Divided.windowSize, foldWidth = 40f)
+        onNodeWithText("Steps").assertExists()
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun playsAWholeSequence() = runComposeUiTest {
+        val fold = setContentWithFold { TwoPaneReader() }
+        fold.play(
+            listOf(
+                FoldStatePresets.Seamless.book(),
+                FoldStatePresets.Seamless.tabletop(),
+                FoldStatePresets.Seamless.closed(),
+            ),
+        ) { onNodeWithText("Ingredients").assertExists() }
+    }
+}
+```
+
+`setContentWithFold` returns a `FoldController`:
+
+| Member | Does |
+| --- | --- |
+| `update(state)` | Shows the content the given `FoldState`, then waits until it has recomposed. |
+| `moveTo(posture, windowSize, angle, foldWidth, orientation)` | Builds the state for a posture with the `FoldState` factories and applies it. |
+| `play(states, afterEach)` | Applies the states in order and calls `afterEach` once the content has settled on each. |
+| `state` | The state the content currently sees. |
+
+`FoldStatePresets.Seamless` (a panel that is one piece across the fold) and `FoldStatePresets.Divided` (a 40 px division that occludes content) give a window size and fold width, and build a state for each posture. They are fixtures, not measurements of a particular device. The sizes are in pixels, so run tests at density 1.
