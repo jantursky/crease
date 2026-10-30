@@ -15,7 +15,7 @@
     "sync": "node scripts/sync.mjs"
   },
   "dependencies": {
-    "blume": "^2.2.4"
+    "blume": "^2.2.6"
   },
   "devDependencies": {
     "@types/node": "^26.6.5",
