@@ -36,7 +36,7 @@ Android has reported folds through Jetpack WindowManager for years, and iOS 27.1
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("io.github.jantursky:crease:1.4.0")
+            implementation("io.github.jantursky:crease:1.4.1")
         }
     }
 }
@@ -93,7 +93,9 @@ Apple's guidance is to drive effects and interactions from the hinge angle, and 
 
 ## Demo
 
-The [demo](https://crease-demo.vercel.app) runs the library in the browser, compiled to Kotlin/Wasm. Both samples sit in a simulated foldable you can fold, tilt and rotate, and eight small examples run next to their own source.
+The [demo](https://crease-demo.vercel.app) runs the library in the browser, compiled to Kotlin/Wasm. Both samples sit in a simulated foldable you can fold, tilt and rotate, and ten small examples run next to their own source, including the outer display and the camera directions.
+
+Coming from Jetpack WindowManager? [Migrating from androidx.window](https://crease-black.vercel.app/guides/migrating-from-androidx-window) maps its types to Crease's. The [navigation suite](https://crease-black.vercel.app/guides/navigation-suite) and [drag and drop](https://crease-black.vercel.app/guides/drag-and-drop) recipes show Material3 navigation and drag between panes around a fold.
 
 <table>
   <tr>
@@ -142,7 +144,7 @@ An optional artifact, `io.github.jantursky:crease-adaptive`, gives the Material3
 ```kotlin
 // build.gradle.kts
 commonMain.dependencies {
-    implementation("io.github.jantursky:crease-adaptive:1.4.0")
+    implementation("io.github.jantursky:crease-adaptive:1.4.1")
 }
 ```
 

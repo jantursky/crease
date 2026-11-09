@@ -504,6 +504,11 @@ h3 {
     color: var(--iron);
 }
 
+.example header p.try strong {
+    color: var(--ink);
+    font-weight: 600;
+}
+
 .live {
     height: 600px;
     border: 1px solid var(--line);

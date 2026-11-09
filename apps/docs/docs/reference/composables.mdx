@@ -1,6 +1,6 @@
 ---
 title: Composables and modifiers
-description: rememberFoldState, rememberHinge, rememberFoldStateFlow, rememberPostureTransition, ProvideFoldState, FoldAwareTwoPane, TabletopLayout and Modifier.avoidFold.
+description: rememberFoldState, rememberHinge, rememberFoldStateFlow, rememberPostureTransition, ProvideFoldState, FoldAwareTwoPane, TabletopLayout and Modifier.avoidFold, plus the composables of the crease-cover, crease-test and crease-adaptive artifacts.
 ---
 
 ## rememberFoldState
@@ -116,3 +116,91 @@ public fun Modifier.avoidFold(): Modifier
 ```
 
 When a separating fold crosses the element, the element keeps its place in the layout and draws its content on the larger side of the fold. Otherwise nothing changes. See [avoiding the fold](/guides/avoiding-the-fold).
+
+## rememberCoverDisplayState
+
+Package `com.jantursky.crease.cover`, artifact `crease-cover`.
+
+```kotlin
+@Composable
+public fun rememberCoverDisplayState(): CoverDisplayState
+```
+
+The current `CoverDisplayState`, updated as the system allows or withdraws the outer display. It returns the state of the nearest `ProvideCoverDisplayState` when there is one, otherwise the state the platform reports. JVM and wasm report `Unsupported`. See the [cover display guide](/guides/cover-display).
+
+## ProvideCoverDisplayState
+
+```kotlin
+@Composable
+public fun ProvideCoverDisplayState(state: CoverDisplayState, content: @Composable () -> Unit)
+```
+
+Makes `rememberCoverDisplayState()` return `state` inside `content`. Use it for previews, tests and simulators. A `CoverDisplay` inside it composes nothing, since there is no outer display to show it on.
+
+## CoverDisplay
+
+```kotlin
+@Composable
+public fun CoverDisplay(enabled: Boolean = true, content: @Composable () -> Unit)
+```
+
+Shows `content` on the outer display while `enabled` is true and the system allows it. The content leaves the composition of the call site: it is composed on the outer display, in a window of its own, and only while the state is `Available` or `Active`. Where that is never the case, nothing is composed.
+
+## rememberCameraDirections
+
+```kotlin
+@Composable
+public fun rememberCameraDirections(): CameraDirections?
+```
+
+The directions of the cameras relative to the display this composable is on, or `null` where the platform cannot tell. Only iOS 27.1 can. On iOS the lists are empty until the system has reported once.
+
+## ProvideCameraDirections
+
+```kotlin
+@Composable
+public fun ProvideCameraDirections(directions: CameraDirections?, content: @Composable () -> Unit)
+```
+
+Makes `rememberCameraDirections()` return `directions` inside `content`. Use it for previews and tests.
+
+## setContentWithFold
+
+Package `com.jantursky.crease.test`, artifact `crease-test`.
+
+```kotlin
+public fun ComposeUiTest.setContentWithFold(
+    state: FoldState = FoldState.None,
+    content: @Composable () -> Unit,
+): FoldController
+```
+
+Composes `content` under `state` and returns a `FoldController` that changes the state while the composition stays alive. See [previews and tests](/guides/previews-and-tests).
+
+## rememberWindowAdaptiveInfo
+
+Package `com.jantursky.crease.adaptive`, artifact `crease-adaptive`.
+
+```kotlin
+@Composable
+public fun rememberWindowAdaptiveInfo(): WindowAdaptiveInfo
+```
+
+Window adaptive info whose size class is the one `currentWindowAdaptiveInfoV2()` computes for the window and whose posture comes from `rememberFoldState()`. Inside this call Crease's posture replaces the adaptive library's own. See [Material3 adaptive](/guides/material3-adaptive).
+
+## rememberFoldLayoutClass
+
+```kotlin
+@Composable
+public fun rememberFoldLayoutClass(): FoldLayoutClass
+```
+
+The current `FoldLayoutClass`. It is recomputed when the window size class or the posture changes, and the two change independently.
+
+## toWindowPosture
+
+```kotlin
+public fun FoldState.toWindowPosture(): androidx.compose.material3.adaptive.Posture
+```
+
+Converts a fold state to the Material3 adaptive library's posture. The posture is tabletop when `FoldState.posture` is `Tabletop`, and each fold becomes one hinge with the same bounds, orientation, separating and occluding flags. A hinge counts as flat when the device reports it fully open.

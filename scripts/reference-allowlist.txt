@@ -1,0 +1,2 @@
+# Public symbols that are deliberately not in apps/docs/docs/reference/.
+# One per line as `Name  # reason`. Empty: every public symbol is documented.

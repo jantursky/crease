@@ -1,6 +1,6 @@
 ---
 title: Types
-description: HingeStatus, Hinge, FoldOrientation, Fold, Posture, FoldState and TwoPaneFallback.
+description: HingeStatus, Hinge, FoldOrientation, Fold, Posture, FoldState and TwoPaneFallback, plus the types of the crease-cover, crease-test and crease-adaptive artifacts.
 ---
 
 All types live in the package `com.jantursky.crease`. The generated API docs are on [javadoc.io](https://javadoc.io/doc/io.github.jantursky/crease).
@@ -108,3 +108,142 @@ public enum class TwoPaneFallback { FirstOnly, SideBySide, Stacked }
 | `FirstOnly` | Only the first pane. |
 | `SideBySide` | Both panes in a row, half each. |
 | `Stacked` | Both panes in a column, half each. |
+
+## CoverDisplayState
+
+Package `com.jantursky.crease.cover`, artifact `crease-cover`.
+
+```kotlin
+public sealed interface CoverDisplayState {
+    public data object Unsupported : CoverDisplayState
+    public data object Unavailable : CoverDisplayState
+    public data object Available : CoverDisplayState
+    public data object Active : CoverDisplayState
+}
+
+public val CoverDisplayState.isSupported: Boolean
+```
+
+Whether the outer display can show your content right now. The system decides, so the main UI has to work in every state.
+
+| Value | Description |
+| --- | --- |
+| `Unsupported` | This device or system has no way to show app content on an outer display. Nothing ever changes it. |
+| `Unavailable` | Supported, but not possible right now, for example because the device is closed or the app is not in front. |
+| `Available` | The system would present the content if `CoverDisplay` asked for it. |
+| `Active` | The content is on the outer display. |
+
+`isSupported` is `true` unless the state is `Unsupported`. See the [cover display guide](/guides/cover-display).
+
+## CameraDirections
+
+Package `com.jantursky.crease.cover`, artifact `crease-cover`.
+
+```kotlin
+public class CameraDirections(
+    public val forwardFacing: List<CameraDescriptor>,
+    public val backwardFacing: List<CameraDescriptor>,
+)
+```
+
+Which cameras face the viewer and which face away, from the point of view of the screen the UI is on. On a foldable the answer changes with the display.
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `forwardFacing` | `List<CameraDescriptor>` | Cameras that capture the scene in front of the display. |
+| `backwardFacing` | `List<CameraDescriptor>` | Cameras that capture the scene behind the display. |
+
+## CameraDescriptor
+
+```kotlin
+public class CameraDescriptor(
+    public val id: String,
+    public val name: String,
+    public val type: String,
+    public val position: CameraPosition,
+)
+```
+
+One camera, as much as is needed to find it again in the platform's camera API.
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `id` | `String` | The platform's unique id of the device. On iOS it matches `AVCaptureDevice.uniqueID`. |
+| `name` | `String` | The device name. |
+| `type` | `String` | The platform's device type, on iOS the `AVCaptureDeviceType` string. |
+| `position` | `CameraPosition` | Where the camera sits on the device. |
+
+## CameraPosition
+
+```kotlin
+public enum class CameraPosition { Unspecified, Back, Front }
+```
+
+Where a camera sits on the device.
+
+## FoldController
+
+Package `com.jantursky.crease.test`, artifact `crease-test`. Returned by `setContentWithFold()`.
+
+```kotlin
+public class FoldController {
+    public val state: FoldState
+    public fun update(state: FoldState)
+    public fun moveTo(posture: Posture, windowSize: Size, angle: Float = ..., foldWidth: Float = ..., orientation: FoldOrientation = ...)
+    public fun play(states: List<FoldState>, onEach: (FoldState) -> Unit = ...)
+}
+```
+
+Changes the fold state while the composition stays alive, so remembered state survives. See [previews and tests](/guides/previews-and-tests).
+
+| Member | Description |
+| --- | --- |
+| `state` | The fold state the content currently sees. |
+| `update(state)` | Sets the state. |
+| `moveTo(posture, windowSize, ...)` | Builds the state for a posture in a window and sets it. |
+| `play(states, onEach)` | Sets each state in turn, calling `onEach` after each one. |
+
+## FoldPreset
+
+Package `com.jantursky.crease.test`, artifact `crease-test`.
+
+```kotlin
+public class FoldPreset(public val windowSize: Size, public val foldWidth: Float) {
+    public fun closed(): FoldState
+    public fun flat(orientation: FoldOrientation = ...): FoldState
+    public fun book(angle: Float = ...): FoldState
+    public fun tabletop(angle: Float = ...): FoldState
+    public fun state(posture: Posture, angle: Float = ..., orientation: FoldOrientation = ...): FoldState
+}
+```
+
+Builds a fold state for every posture in a window of `windowSize` with a fold `foldWidth` pixels wide. The values are plain test fixtures, not measurements of a particular device.
+
+## FoldStatePresets
+
+Package `com.jantursky.crease.test`, artifact `crease-test`.
+
+```kotlin
+public object FoldStatePresets {
+    public val Seamless: FoldPreset
+    public val Divided: FoldPreset
+}
+```
+
+| Value | Description |
+| --- | --- |
+| `Seamless` | A foldable whose panel is one piece across the fold: the window is 2520 by 1920 px and the fold takes no space. |
+| `Divided` | A foldable with a 40 px division between two screens: same window, and the fold occludes content. |
+
+## FoldLayoutClass
+
+Package `com.jantursky.crease.adaptive`, artifact `crease-adaptive`.
+
+```kotlin
+public data class FoldLayoutClass(
+    val windowSizeClass: WindowSizeClass,
+    val posture: Posture,
+)
+```
+
+The window size class and the Crease `Posture` together, so one `when` can pick a layout. Test the size class with `isWidthAtLeastBreakpoint` and `isHeightAtLeastBreakpoint`. See [Material3 adaptive](/guides/material3-adaptive).

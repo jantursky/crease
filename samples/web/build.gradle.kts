@@ -73,6 +73,7 @@ kotlin {
         wasmJsMain {
             resources.srcDir(generateSiteAssets)
             dependencies {
+                implementation(project(":crease-cover"))
                 implementation(project(":samples:design"))
                 implementation(project(":samples:recipes:shared"))
                 implementation(project(":samples:photos:shared"))

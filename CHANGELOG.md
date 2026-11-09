@@ -4,6 +4,13 @@ All notable changes to `io.github.jantursky:crease` are listed here. The format 
 
 ## [Unreleased]
 
+## [1.4.1] - 2026-11-09
+
+### Added
+
+- Docs: a guide for migrating from `androidx.window`, recipes for a navigation suite and for drag and drop across panes, and reference entries for `crease-cover`, `crease-test` and `crease-adaptive`. `scripts/check-reference.py` fails CI when a public symbol has no reference entry.
+- Web demo: examples for the outer display (`CoverDisplayState`) and for `rememberCameraDirections()`, a "try this" line on every example, and a browser test of each example at desktop and phone sizes.
+
 ## [1.4.0] - 2026-11-09
 
 ### Added
@@ -40,7 +47,8 @@ All notable changes to `io.github.jantursky:crease` are listed here. The format 
 - `Modifier.avoidFold()` keeps an element's content on the larger side of a separating fold.
 - Targets: Android, iOS (iPhone Duo), JVM and wasmJs. JVM and wasmJs report no hinge unless a state is provided.
 
-[Unreleased]: https://github.com/jantursky/crease/compare/1.4.0...HEAD
+[Unreleased]: https://github.com/jantursky/crease/compare/1.4.1...HEAD
+[1.4.1]: https://github.com/jantursky/crease/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/jantursky/crease/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/jantursky/crease/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/jantursky/crease/compare/1.1.0...1.2.0

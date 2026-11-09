@@ -1,0 +1,93 @@
+---
+title: Migrating from androidx.window
+description: Map Jetpack WindowManager's FoldingFeature, state, orientation and occlusion to Crease's Hinge, Fold and Posture, with before and after code, and what Crease does not replace.
+---
+
+Crease reads folds from Jetpack WindowManager on Android, so most of what you know carries over. The difference is the shape: one `FoldState` value you read in composition, the same on Android and the iPhone Duo, instead of a `WindowLayoutInfo` flow you collect and filter. This page was checked against `androidx.window` 1.5.1. See the official [WindowManager release notes](https://developer.android.com/jetpack/androidx/releases/window) for later changes.
+
+## Concept mapping
+
+| androidx.window | Crease | Notes |
+| --- | --- | --- |
+| `WindowInfoTracker.windowLayoutInfo(activity)` | `rememberFoldState()` | A composable that returns the current `FoldState`. No collecting, no activity. |
+| `FoldingFeature` | `Fold` | One entry in `FoldState.folds`. `FoldState.fold` is the first. |
+| `FoldingFeature.bounds` | `Fold.bounds` | A `Rect` in window coordinates, in pixels. |
+| `FoldingFeature.orientation` (`VERTICAL`, `HORIZONTAL`) | `Fold.orientation` (`FoldOrientation.Vertical`, `Horizontal`) | Same meaning. |
+| `FoldingFeature.isSeparating` | `Fold.isSeparating` | Same meaning: content should stay on one side. |
+| `FoldingFeature.occlusionType == FULL` | `Fold.isOccluding` | `true` for `FULL`, `false` for `NONE`. |
+| `FoldingFeature.state` (`FLAT`, `HALF_OPENED`) | `Hinge.status` (`FullyOpen`, `PartiallyOpen`) | Crease adds `Closed`, from the hinge angle sensor or the iOS hinge. |
+| `Sensor.TYPE_HINGE_ANGLE` | `Hinge.angle` | Degrees, 0 when shut, 180 when flat. Crease registers the sensor for you. |
+| `FoldingFeature.isSeparating` plus `state` plus `orientation` | `FoldState.posture` | `Posture.Book`, `Tabletop`, `Flat` or `Closed`, worked out in one place. |
+| `TabletopLayout` and book-mode checks you write yourself | `TabletopLayout`, `FoldAwareTwoPane`, `Modifier.avoidFold()` | Layouts that split at the fold. |
+| `FoldingFeature` for an iPhone Duo | Not available | WindowManager does not exist on iOS. Crease reads `UIHingeInteraction` there. |
+
+## Before and after
+
+The usual WindowManager code collects the layout info and looks for a `FoldingFeature` in it:
+
+```kotlin
+// Before: androidx.window
+val windowInfoTracker = WindowInfoTracker.getOrCreate(activity)
+lifecycleScope.launch {
+    windowInfoTracker.windowLayoutInfo(activity).collect { layoutInfo ->
+        val fold = layoutInfo.displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
+        val tabletop = fold != null &&
+            fold.state == FoldingFeature.State.HALF_OPENED &&
+            fold.orientation == FoldingFeature.Orientation.HORIZONTAL
+        updateLayout(tabletop, fold?.bounds)
+    }
+}
+```
+
+With Crease the state is a composable value, and the posture is already worked out:
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.jantursky.crease.Posture
+import com.jantursky.crease.rememberFoldState
+
+@Composable
+fun Player() {
+    val state = rememberFoldState()
+    when (state.posture) {
+        Posture.Tabletop -> Text("Video above the fold, controls below")
+        Posture.Book -> Text("Two pages")
+        else -> Text("One pane")
+    }
+}
+```
+
+If you need the fold itself, read it from the same state:
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.jantursky.crease.FoldOrientation
+import com.jantursky.crease.rememberFoldState
+
+@Composable
+fun FoldInfo() {
+    val fold = rememberFoldState().fold
+    if (fold != null && fold.isSeparating) {
+        val side = if (fold.orientation == FoldOrientation.Vertical) "left and right" else "above and below"
+        Text("Content splits $side of ${fold.bounds}")
+    }
+}
+```
+
+Where you laid content out around the fold by hand, `FoldAwareTwoPane` and `Modifier.avoidFold()` do the coordinate conversion for you. See [two-pane layouts](/guides/two-pane-layouts) and [avoiding the fold](/guides/avoiding-the-fold).
+
+## What is different
+
+- **Coordinates.** WindowManager reports `FoldingFeature.bounds` in window coordinates. Crease does too, in pixels. `FoldAwareTwoPane` and `avoidFold()` convert them to the coordinates of the layout they sit in.
+- **No activity.** `rememberFoldState()` needs no `Activity` and no lifecycle scope. The hinge angle sensor listener lives only while a composable that reads the state is in the composition.
+- **Previews and tests.** `ProvideFoldState` replaces the state without a device, and `setContentWithFold()` from `crease-test` changes it while a test runs. See [previews and tests](/guides/previews-and-tests).
+- **A hinge without a fold.** On Android, a device with the angle sensor but no folding feature still gets a `Hinge`, with a status from the angle. See [Android](/guides/android).
+
+## What Crease does not replace
+
+- **Window size classes and metrics.** `WindowSizeClass`, `WindowMetricsCalculator` and the adaptive libraries stay as they are. The optional [`crease-adaptive`](/guides/material3-adaptive) artifact gives `WindowAdaptiveInfo` and a combined layout class Crease's posture, so those libraries also see the iPhone Duo.
+- **Other display features.** `WindowLayoutInfo.displayFeatures` can hold features that are not folds. Crease only reports folds, the hinge and display cutouts.
+- **Activity embedding and rear display mode.** Split activities, embedding rules and moving the whole activity to the outer display are WindowManager features Crease does not wrap. The `crease-cover` artifact shows content on the outer display using window areas, and does not start rear display mode. See [cover display](/guides/cover-display).
+- **Support for older versions.** Crease's minimum SDK is 23, but WindowManager still has to work on the device for folds to appear.

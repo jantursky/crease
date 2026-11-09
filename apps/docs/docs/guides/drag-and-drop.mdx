@@ -1,0 +1,77 @@
+---
+title: Drag and drop recipe
+description: Drag an item from one pane to the other across the fold with Compose's stock dragAndDropSource and dragAndDropTarget, and keep both panes clear of the fold.
+---
+
+Dragging between two panes is the case a foldable invites: a list in one half, a target in the other. Crease adds nothing to drag and drop. `FoldAwareTwoPane` puts the panes on either side of the fold, and Compose's own `dragAndDropSource` and `dragAndDropTarget` do the rest. The fold is a gap between the panes, so a drag crosses it like any other space.
+
+```kotlin
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.draganddrop.dragAndDropSource
+import androidx.compose.foundation.draganddrop.dragAndDropTarget
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draganddrop.DragAndDropEvent
+import androidx.compose.ui.draganddrop.DragAndDropTarget
+import androidx.compose.ui.draganddrop.DragAndDropTransferData
+import androidx.compose.ui.geometry.Offset
+import com.jantursky.crease.FoldAwareTwoPane
+import com.jantursky.crease.TwoPaneFallback
+
+@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
+@Composable
+fun DragAcrossTheFold(transferData: (Offset) -> DragAndDropTransferData?) {
+    var dropped by remember { mutableStateOf(0) }
+    val target =
+        remember {
+            object : DragAndDropTarget {
+                override fun onDrop(event: DragAndDropEvent): Boolean {
+                    dropped += 1
+                    return true
+                }
+            }
+        }
+    FoldAwareTwoPane(
+        first = { Text("Drag me", Modifier.dragAndDropSource(transferData = transferData)) },
+        second = {
+            Text(
+                "Dropped $dropped times",
+                Modifier.fillMaxSize().dragAndDropTarget(shouldStartDragAndDrop = { true }, target = target),
+            )
+        },
+        modifier = Modifier.fillMaxSize(),
+        fallback = TwoPaneFallback.SideBySide,
+    )
+}
+```
+
+The transfer data is the one part that differs by platform, because `DragAndDropTransferData` is built from a platform type. That is why the composable takes it as a parameter. On desktop it wraps an AWT `Transferable`:
+
+```kotlin
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.draganddrop.DragAndDropTransferData
+import androidx.compose.ui.draganddrop.DragAndDropTransferable
+import java.awt.datatransfer.StringSelection
+
+@OptIn(ExperimentalComposeUiApi::class)
+fun textTransferData(text: String): DragAndDropTransferData =
+    DragAndDropTransferData(DragAndDropTransferable(StringSelection(text)))
+```
+
+On Android it is built from a `ClipData`. Check the Compose Multiplatform documentation for the platform you target. The wiring around it stays the same.
+
+## Keeping content off the fold
+
+`FoldAwareTwoPane` already splits at the fold. When the drag source or target sits inside a single layout that a fold crosses, `Modifier.avoidFold()` keeps the element on the larger side, so a handle or a drop zone does not end up half under a fold that occludes. See [avoiding the fold](/guides/avoiding-the-fold).
+
+## Notes
+
+- Drag and drop is only as available as the platform makes it. Check the platforms you target before relying on it.
+- Crease does not give the fold bounds to the drag event. `FoldAwareTwoPane` and `avoidFold()` are what keep the panes and handles clear of it.

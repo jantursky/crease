@@ -1,0 +1,89 @@
+---
+title: Navigation suite recipe
+description: Put a Material3 NavigationSuiteScaffold around fold-aware content, so the navigation follows the window and the content splits at the fold.
+---
+
+`NavigationSuiteScaffold` chooses a bottom bar, a rail or a drawer from the window size. `FoldAwareTwoPane` splits content at the fold. They do different jobs, so they combine without any glue: the scaffold wraps the screen, and the content inside it reads the fold.
+
+```kotlin
+// build.gradle.kts
+commonMain.dependencies {
+    implementation("io.github.jantursky:crease-adaptive:{{version}}")
+    implementation("org.jetbrains.compose.material3:material3-adaptive-navigation-suite:1.9.0")
+}
+```
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import com.jantursky.crease.FoldAwareTwoPane
+import com.jantursky.crease.TwoPaneFallback
+
+@Composable
+fun RecipesWithNavigation() {
+    var destination by rememberSaveable { mutableStateOf("Recipes") }
+    NavigationSuiteScaffold(
+        navigationSuiteItems = {
+            listOf("Recipes", "Timer").forEach { name ->
+                item(
+                    selected = destination == name,
+                    onClick = { destination = name },
+                    icon = { Text(name.take(1)) },
+                    label = { Text(name) },
+                )
+            }
+        },
+    ) {
+        when (destination) {
+            "Recipes" ->
+                FoldAwareTwoPane(
+                    first = { Text("Ingredients") },
+                    second = { Text("Steps") },
+                    modifier = Modifier,
+                    fallback = TwoPaneFallback.FirstOnly,
+                )
+            else -> Text("Timer")
+        }
+    }
+}
+```
+
+The content lays out in the space the scaffold leaves, so a rail or a drawer takes its width first. `FoldAwareTwoPane` converts the fold from window coordinates to its own, so the split still lands on the fold. If the fold falls under the rail, the fallback applies.
+
+## Following the posture
+
+`NavigationSuiteScaffold` picks its layout from the adaptive library's window info, which has no fold on the iPhone Duo. Pass it Crease's info through `crease-adaptive` and the layout type follows the same posture the content sees:
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
+import androidx.compose.runtime.Composable
+import com.jantursky.crease.adaptive.rememberWindowAdaptiveInfo
+
+@Composable
+fun PostureAwareNavigation() {
+    val layoutType = NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(rememberWindowAdaptiveInfo())
+    NavigationSuiteScaffold(
+        layoutType = layoutType,
+        navigationSuiteItems = {
+            item(selected = true, onClick = {}, icon = { Text("R") }, label = { Text("Recipes") })
+        },
+    ) {
+        Text("Content")
+    }
+}
+```
+
+`calculateFromAdaptiveInfo` works from the `WindowAdaptiveInfo` it receives, so with Crease's info its choice of bar, rail or drawer rests on the same size class and posture the content sees, including on the iPhone Duo. The rules it applies belong to the Material3 library, so check its documentation for what each posture and size class gives. See [Material3 adaptive](/guides/material3-adaptive) for what `rememberWindowAdaptiveInfo()` returns.
+
+## Notes
+
+- The navigation suite is a Material3 artifact with its own version, which follows the Material3 version. Use the one that matches the Material3 you already depend on.
+- Crease does not wrap `NavigationSuiteScaffold`. The two snippets above are the whole integration.

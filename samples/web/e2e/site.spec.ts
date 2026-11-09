@@ -9,8 +9,15 @@ const EXAMPLES = [
   'hinge-angle',
   'posture-changes',
   'reading-lamp',
+  'cover-display',
+  'camera-directions',
   'fold-geometry',
 ]
+
+const VIEWPORTS = {
+  desktop: { width: 1280, height: 900 },
+  phone: { width: 390, height: 844 },
+}
 
 // Skiko warns about an API it uses itself. Nothing else may reach the console as an error.
 const KNOWN_ERRORS = [/Accessing `memory` via `wasmExports` is deprecated/]
@@ -127,5 +134,26 @@ for (const theme of ['light', 'dark'] as const) {
     // The Compose canvases draw their own pixels, so axe checks the page around them.
     const results = await new AxeBuilder({ page }).exclude('#playground').exclude('[data-example]').analyze()
     expect(results.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`)).toEqual([])
+  })
+}
+
+// Every example is opened once per viewport, on one page load. Each one must show its "try this" line and pass
+// an accessibility scan of its card. The Compose canvas draws its own pixels, so axe checks the text around it.
+for (const [name, viewport] of Object.entries(VIEWPORTS)) {
+  test(`every example has a prompt and no serious accessibility violations on a ${name}`, async ({ page }) => {
+    await page.setViewportSize(viewport)
+    await page.goto('/')
+    for (const id of EXAMPLES) {
+      const card = page.locator(`#example-${id}`)
+      await card.scrollIntoViewIfNeeded()
+      await expect(card.locator('.try'), `${id} has a try this line`).toContainText(/^Try this: \S/)
+      await expect(card.locator('[data-example] canvas'), `${id} mounted`).toHaveCount(1)
+      const results = await new AxeBuilder({ page }).include(`#example-${id}`).exclude('[data-example]').analyze()
+      const serious = results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical')
+      expect(
+        serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`),
+        `${id} accessibility`,
+      ).toEqual([])
+    }
   })
 }

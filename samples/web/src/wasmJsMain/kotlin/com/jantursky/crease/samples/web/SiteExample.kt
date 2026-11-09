@@ -7,6 +7,8 @@ import com.jantursky.crease.Posture
 import com.jantursky.crease.samples.design.DeviceSimulator
 import com.jantursky.crease.samples.design.SimulatorState
 import com.jantursky.crease.samples.web.examples.AvoidFoldExample
+import com.jantursky.crease.samples.web.examples.CameraDirectionsExample
+import com.jantursky.crease.samples.web.examples.CoverDisplayExample
 import com.jantursky.crease.samples.web.examples.FoldGeometryExample
 import com.jantursky.crease.samples.web.examples.HingeAngleExample
 import com.jantursky.crease.samples.web.examples.ListDetailExample
@@ -30,6 +32,8 @@ internal enum class SiteExample(
     StackedFallback("stacked-fallback", Posture.Flat, { StackedFallbackExample() }),
     PostureChanges("posture-changes", Posture.Flat, { PostureChangesExample() }),
     ReadingLamp("reading-lamp", Posture.Book, { ReadingLampExample() }),
+    CoverDisplay("cover-display", Posture.Flat, { CoverDisplayExample() }),
+    CameraDirections("camera-directions", Posture.Flat, { CameraDirectionsExample() }),
     FoldGeometry("fold-geometry", Posture.Book, { FoldGeometryExample() }, detailed = true),
     ;
 
