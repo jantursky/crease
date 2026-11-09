@@ -22,6 +22,7 @@ Android has reported folds through Jetpack WindowManager for years, and iOS 27.1
 | `crease`            | The library, published to Maven Central as `io.github.jantursky:crease`.                                    |
 | `crease-cover`      | Optional second artifact: show a composable on the outer display of a foldable (iOS camera capture accessory, Android rear display). |
 | `crease-test`       | Optional third artifact for tests: set content under a fold state and fold, unfold or tilt it while the test runs. |
+| `crease-adaptive`   | Optional artifact for Material3 adaptive layouts: window adaptive info and a layout class that take their posture from Crease, so pane scaffolds see the iPhone Duo's hinge. |
 | `samples/recipes`   | Recipe reader: ingredients and steps across the fold, a timer in tabletop mode. Android, iOS, desktop. |
 | `samples/photos`    | Photo editor: picture on top and sliders below in tabletop mode, gallery and editor in book posture.   |
 | `samples/web`       | The web demo and site: both samples in a simulated foldable, plus live examples with their source.     |
@@ -35,7 +36,7 @@ Android has reported folds through Jetpack WindowManager for years, and iOS 27.1
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("io.github.jantursky:crease:1.3.0")
+            implementation("io.github.jantursky:crease:1.4.0")
         }
     }
 }
@@ -134,6 +135,37 @@ fun Camera() {
 
 The system decides whether and where to present it, so treat it as an enhancement. On the iPhone Duo it needs an active camera capture session. The [guide](https://crease-black.vercel.app/guides/cover-display) has the details and what is not verified.
 
+### Material3 adaptive
+
+An optional artifact, `io.github.jantursky:crease-adaptive`, gives the Material3 adaptive libraries Crease's fold state. They read folds from Jetpack WindowManager, which does not exist on iOS, so on the iPhone Duo a pane scaffold would not see the hinge.
+
+```kotlin
+// build.gradle.kts
+commonMain.dependencies {
+    implementation("io.github.jantursky:crease-adaptive:1.4.0")
+}
+```
+
+```kotlin
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.window.core.layout.WindowSizeClass
+import com.jantursky.crease.Posture
+import com.jantursky.crease.adaptive.rememberFoldLayoutClass
+
+@Composable
+fun Reader() {
+    val layout = rememberFoldLayoutClass()
+    when {
+        layout.posture == Posture.Tabletop -> Text("Video above, controls below")
+        !layout.windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND) -> Text("One pane")
+        else -> Text("Two panes")
+    }
+}
+```
+
+`rememberWindowAdaptiveInfo()` returns a `WindowAdaptiveInfo` to pass to `calculatePaneScaffoldDirective`. The [guide](https://crease-black.vercel.app/guides/material3-adaptive) shows a `ListDetailPaneScaffold`.
+
 ## How it works
 
 1. `rememberFoldState()` returns the state from the nearest `ProvideFoldState`, or asks the platform (`crease/src/commonMain/.../RememberFoldState.kt`).
@@ -209,6 +241,16 @@ CI runs on every push and pull request: formatting, the binary API check, the te
       <br><sub>Open-source repositories &amp; code</sub>
     </td>
     <td align="center" valign="top" width="33%">
+      <a href="https://podcasttotranscript.com/?utm_source=crease&amp;utm_medium=readme&amp;utm_campaign=other-projects&amp;utm_content=podcast-to-transcript" target="_blank" rel="noopener noreferrer">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="https://apptiary.com/projects/icons/podcasttotranscript-dark.svg">
+          <img src="https://apptiary.com/projects/icons/podcasttotranscript-light.svg" alt="Podcast To Transcript" width="48" height="48">
+        </picture>
+        <br><b>Podcast To Transcript</b>
+      </a>
+      <br><sub>Podcast transcripts, summaries &amp; chapters</sub>
+    </td>
+    <td align="center" valign="top" width="33%">
       <a href="https://loupekit.com/?utm_source=crease&amp;utm_medium=readme&amp;utm_campaign=other-projects&amp;utm_content=loupekit" target="_blank" rel="noopener noreferrer">
         <picture>
           <source media="(prefers-color-scheme: dark)" srcset="https://apptiary.com/projects/icons/loupekit-light.svg">
@@ -218,6 +260,8 @@ CI runs on every push and pull request: formatting, the binary API check, the te
       </a>
       <br><sub>Tech stack, design tokens, AI code checker</sub>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="top" width="33%">
       <a href="https://textarray.com/?utm_source=crease&amp;utm_medium=readme&amp;utm_campaign=other-projects&amp;utm_content=textarray" target="_blank" rel="noopener noreferrer">
         <picture>
@@ -228,8 +272,6 @@ CI runs on every push and pull request: formatting, the binary API check, the te
       </a>
       <br><sub>Online text transformation tool</sub>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="top" width="33%">
       <a href="https://addonhive.com/?utm_source=crease&amp;utm_medium=readme&amp;utm_campaign=other-projects&amp;utm_content=addonhive" target="_blank" rel="noopener noreferrer">
         <picture>
@@ -241,7 +283,7 @@ CI runs on every push and pull request: formatting, the binary API check, the te
       <br><sub>Addons &amp; integrations hub</sub>
     </td>
     <td align="center" valign="top" width="33%">
-      <a href="https://apptiary.com/mobile/?utm_source=crease&amp;utm_medium=readme&amp;utm_campaign=other-projects&amp;utm_content=mobile-games-and-apps" target="_blank" rel="noopener noreferrer">
+      <a href="https://apptiary.com/mobile/games/?utm_source=crease&amp;utm_medium=readme&amp;utm_campaign=other-projects&amp;utm_content=mobile-games-and-apps" target="_blank" rel="noopener noreferrer">
         <picture>
           <source media="(prefers-color-scheme: dark)" srcset="https://apptiary.com/projects/icons/stores-dark-v2.svg">
           <img src="https://apptiary.com/projects/icons/stores-light-v2.svg" alt="Mobile Games &amp; Apps" width="48" height="48">
@@ -250,6 +292,8 @@ CI runs on every push and pull request: formatting, the binary API check, the te
       </a>
       <br><sub>Android &amp; iOS Applications</sub>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="top" width="33%">
       <a href="https://jantursky.com/?utm_source=crease&amp;utm_medium=readme&amp;utm_campaign=other-projects&amp;utm_content=and-more" target="_blank" rel="noopener noreferrer">
         <picture>

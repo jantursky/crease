@@ -1,0 +1,30 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crease:crease-adaptive>
+final class com.jantursky.crease.adaptive/FoldLayoutClass { // com.jantursky.crease.adaptive/FoldLayoutClass|null[0]
+    constructor <init>(androidx.window.core.layout/WindowSizeClass, com.jantursky.crease/Posture) // com.jantursky.crease.adaptive/FoldLayoutClass.<init>|<init>(androidx.window.core.layout.WindowSizeClass;com.jantursky.crease.Posture){}[0]
+
+    final val posture // com.jantursky.crease.adaptive/FoldLayoutClass.posture|{}posture[0]
+        final fun <get-posture>(): com.jantursky.crease/Posture // com.jantursky.crease.adaptive/FoldLayoutClass.posture.<get-posture>|<get-posture>(){}[0]
+    final val windowSizeClass // com.jantursky.crease.adaptive/FoldLayoutClass.windowSizeClass|{}windowSizeClass[0]
+        final fun <get-windowSizeClass>(): androidx.window.core.layout/WindowSizeClass // com.jantursky.crease.adaptive/FoldLayoutClass.windowSizeClass.<get-windowSizeClass>|<get-windowSizeClass>(){}[0]
+
+    final fun component1(): androidx.window.core.layout/WindowSizeClass // com.jantursky.crease.adaptive/FoldLayoutClass.component1|component1(){}[0]
+    final fun component2(): com.jantursky.crease/Posture // com.jantursky.crease.adaptive/FoldLayoutClass.component2|component2(){}[0]
+    final fun copy(androidx.window.core.layout/WindowSizeClass = ..., com.jantursky.crease/Posture = ...): com.jantursky.crease.adaptive/FoldLayoutClass // com.jantursky.crease.adaptive/FoldLayoutClass.copy|copy(androidx.window.core.layout.WindowSizeClass;com.jantursky.crease.Posture){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.jantursky.crease.adaptive/FoldLayoutClass.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.jantursky.crease.adaptive/FoldLayoutClass.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.jantursky.crease.adaptive/FoldLayoutClass.toString|toString(){}[0]
+}
+
+final val com.jantursky.crease.adaptive/com_jantursky_crease_adaptive_FoldLayoutClass$stableprop // com.jantursky.crease.adaptive/com_jantursky_crease_adaptive_FoldLayoutClass$stableprop|#static{}com_jantursky_crease_adaptive_FoldLayoutClass$stableprop[0]
+
+final fun (com.jantursky.crease/FoldState).com.jantursky.crease.adaptive/toWindowPosture(): androidx.compose.material3.adaptive/Posture // com.jantursky.crease.adaptive/toWindowPosture|toWindowPosture@com.jantursky.crease.FoldState(){}[0]
+final fun com.jantursky.crease.adaptive/com_jantursky_crease_adaptive_FoldLayoutClass$stableprop_getter(): kotlin/Int // com.jantursky.crease.adaptive/com_jantursky_crease_adaptive_FoldLayoutClass$stableprop_getter|com_jantursky_crease_adaptive_FoldLayoutClass$stableprop_getter(){}[0]
+final fun com.jantursky.crease.adaptive/rememberFoldLayoutClass(androidx.compose.runtime/Composer?, kotlin/Int): com.jantursky.crease.adaptive/FoldLayoutClass // com.jantursky.crease.adaptive/rememberFoldLayoutClass|rememberFoldLayoutClass(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun com.jantursky.crease.adaptive/rememberWindowAdaptiveInfo(androidx.compose.runtime/Composer?, kotlin/Int): androidx.compose.material3.adaptive/WindowAdaptiveInfo // com.jantursky.crease.adaptive/rememberWindowAdaptiveInfo|rememberWindowAdaptiveInfo(androidx.compose.runtime.Composer?;kotlin.Int){}[0]

@@ -10,7 +10,7 @@ compose=$(sed -n 's/^compose = "\(.*\)"/\1/p' "$root/gradle/libs.versions.toml")
 consumer=$(mktemp -d)
 trap 'rm -rf "$consumer"' EXIT
 
-"$root/gradlew" -p "$root" :crease:publishToMavenLocal :crease-cover:publishToMavenLocal :crease-test:publishToMavenLocal --quiet
+"$root/gradlew" -p "$root" :crease:publishToMavenLocal :crease-cover:publishToMavenLocal :crease-test:publishToMavenLocal :crease-adaptive:publishToMavenLocal --quiet
 
 mkdir -p "$consumer/src/jvmMain/kotlin" "$consumer/src/jvmTest/kotlin"
 cat > "$consumer/settings.gradle.kts" <<'EOF'
@@ -44,6 +44,7 @@ kotlin {
         jvmMain.dependencies {
             implementation("io.github.jantursky:crease:$version")
             implementation("io.github.jantursky:crease-cover:$version")
+            implementation("io.github.jantursky:crease-adaptive:$version")
         }
         jvmTest.dependencies {
             implementation("io.github.jantursky:crease-test:$version")
@@ -60,6 +61,8 @@ import com.jantursky.crease.FoldAwareTwoPane
 import com.jantursky.crease.FoldState
 import com.jantursky.crease.Posture
 import com.jantursky.crease.ProvideFoldState
+import com.jantursky.crease.adaptive.rememberFoldLayoutClass
+import com.jantursky.crease.adaptive.rememberWindowAdaptiveInfo
 import com.jantursky.crease.avoidFold
 import com.jantursky.crease.cover.CoverDisplay
 import com.jantursky.crease.cover.CoverDisplayState
@@ -72,6 +75,8 @@ fun Screen(content: @Composable () -> Unit) {
     ProvideFoldState(FoldState.book(Size(1800f, 1200f))) {
         check(rememberFoldState().posture == Posture.Book)
         FoldAwareTwoPane(first = content, second = content, modifier = Modifier.avoidFold())
+        check(rememberWindowAdaptiveInfo().windowPosture.hingeList.size == 1)
+        check(rememberFoldLayoutClass().posture == Posture.Book)
     }
     ProvideCoverDisplayState(CoverDisplayState.Available) {
         check(rememberCoverDisplayState() == CoverDisplayState.Available)
@@ -100,4 +105,4 @@ class ConsumerTest {
 EOF
 
 "$root/gradlew" -p "$consumer" compileKotlinJvm compileTestKotlinJvm --quiet
-echo "Consumer compiled against io.github.jantursky:crease:$version, crease-cover and crease-test"
+echo "Consumer compiled against io.github.jantursky:crease:$version, crease-cover, crease-test and crease-adaptive"

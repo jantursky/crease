@@ -47,7 +47,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "crease"
 
-include(":crease", ":crease-cover", ":crease-test")
+include(":crease", ":crease-cover", ":crease-test", ":crease-adaptive")
 
 include(
     ":samples:design",

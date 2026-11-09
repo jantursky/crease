@@ -1,0 +1,26 @@
+public final class com/jantursky/crease/adaptive/FoldLayoutClass {
+	public static final field $stable I
+	public fun <init> (Landroidx/window/core/layout/WindowSizeClass;Lcom/jantursky/crease/Posture;)V
+	public final fun component1 ()Landroidx/window/core/layout/WindowSizeClass;
+	public final fun component2 ()Lcom/jantursky/crease/Posture;
+	public final fun copy (Landroidx/window/core/layout/WindowSizeClass;Lcom/jantursky/crease/Posture;)Lcom/jantursky/crease/adaptive/FoldLayoutClass;
+	public static synthetic fun copy$default (Lcom/jantursky/crease/adaptive/FoldLayoutClass;Landroidx/window/core/layout/WindowSizeClass;Lcom/jantursky/crease/Posture;ILjava/lang/Object;)Lcom/jantursky/crease/adaptive/FoldLayoutClass;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPosture ()Lcom/jantursky/crease/Posture;
+	public final fun getWindowSizeClass ()Landroidx/window/core/layout/WindowSizeClass;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/jantursky/crease/adaptive/FoldLayoutClassKt {
+	public static final fun rememberFoldLayoutClass (Landroidx/compose/runtime/Composer;I)Lcom/jantursky/crease/adaptive/FoldLayoutClass;
+}
+
+public final class com/jantursky/crease/adaptive/RememberWindowAdaptiveInfoKt {
+	public static final fun rememberWindowAdaptiveInfo (Landroidx/compose/runtime/Composer;I)Landroidx/compose/material3/adaptive/WindowAdaptiveInfo;
+}
+
+public final class com/jantursky/crease/adaptive/WindowPostureKt {
+	public static final fun toWindowPosture (Lcom/jantursky/crease/FoldState;)Landroidx/compose/material3/adaptive/Posture;
+}
+

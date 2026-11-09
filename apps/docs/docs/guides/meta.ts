@@ -11,6 +11,7 @@ export default defineMeta({
     'observing-the-fold',
     'previews-and-tests',
     'cover-display',
+    'material3-adaptive',
     'iphone-duo',
     'android',
     'troubleshooting',

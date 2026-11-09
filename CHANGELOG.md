@@ -4,6 +4,12 @@ All notable changes to `io.github.jantursky:crease` are listed here. The format 
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-11-09
+
+### Added
+
+- `crease-adaptive`, a fourth artifact (`io.github.jantursky:crease-adaptive`) for Material3 adaptive layouts: `rememberWindowAdaptiveInfo()` returns a `WindowAdaptiveInfo` whose posture comes from Crease, `FoldState.toWindowPosture()` converts a fold state, and `rememberFoldLayoutClass()` combines the window size class and the Crease posture. `crease` and `crease-cover` do not depend on the adaptive library.
+
 ## [1.3.0] - 2026-10-28
 
 ### Added
@@ -34,7 +40,8 @@ All notable changes to `io.github.jantursky:crease` are listed here. The format 
 - `Modifier.avoidFold()` keeps an element's content on the larger side of a separating fold.
 - Targets: Android, iOS (iPhone Duo), JVM and wasmJs. JVM and wasmJs report no hinge unless a state is provided.
 
-[Unreleased]: https://github.com/jantursky/crease/compare/1.3.0...HEAD
+[Unreleased]: https://github.com/jantursky/crease/compare/1.4.0...HEAD
+[1.4.0]: https://github.com/jantursky/crease/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/jantursky/crease/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/jantursky/crease/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/jantursky/crease/compare/1.0.0...1.1.0
