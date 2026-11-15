@@ -37,45 +37,45 @@ public fun FoldAwareTwoPane(
             when {
                 split != null -> {
                     listOf(
-                        measurePane(TwoPaneSlot.First, split.first, first),
-                        measurePane(TwoPaneSlot.Second, split.second, second),
+                        measurePane(TwoPaneSlot.First, 0, split.first, first),
+                        measurePane(TwoPaneSlot.Second, 1, split.second, second),
                     )
                 }
 
                 fallback == TwoPaneFallback.FirstOnly -> {
-                    listOf(measurePane(TwoPaneSlot.First, area, first))
+                    listOf(measurePane(TwoPaneSlot.First, 0, area, first))
                 }
 
                 fallback == TwoPaneFallback.SideBySide && constraints.hasBoundedWidth -> {
                     val middle = area.width / 2f
                     listOf(
-                        measurePane(TwoPaneSlot.First, area.copy(right = middle), first),
-                        measurePane(TwoPaneSlot.Second, area.copy(left = middle), second),
+                        measurePane(TwoPaneSlot.First, 0, area.copy(right = middle), first),
+                        measurePane(TwoPaneSlot.Second, 1, area.copy(left = middle), second),
                     )
                 }
 
                 fallback == TwoPaneFallback.Stacked && constraints.hasBoundedHeight -> {
                     val middle = area.height / 2f
                     listOf(
-                        measurePane(TwoPaneSlot.First, area.copy(bottom = middle), first),
-                        measurePane(TwoPaneSlot.Second, area.copy(top = middle), second),
+                        measurePane(TwoPaneSlot.First, 0, area.copy(bottom = middle), first),
+                        measurePane(TwoPaneSlot.Second, 1, area.copy(top = middle), second),
                     )
                 }
 
                 // With no end to split in half, each pane takes the length its content needs.
                 fallback == TwoPaneFallback.SideBySide -> {
-                    val firstPane = measurePane(TwoPaneSlot.First, area, first)
+                    val firstPane = measurePane(TwoPaneSlot.First, 0, area, first)
                     listOf(
                         firstPane,
-                        measurePane(TwoPaneSlot.Second, area.copy(left = firstPane.right.toFloat()), second),
+                        measurePane(TwoPaneSlot.Second, 1, area.copy(left = firstPane.right.toFloat()), second),
                     )
                 }
 
                 else -> {
-                    val firstPane = measurePane(TwoPaneSlot.First, area, first)
+                    val firstPane = measurePane(TwoPaneSlot.First, 0, area, first)
                     listOf(
                         firstPane,
-                        measurePane(TwoPaneSlot.Second, area.copy(top = firstPane.bottom.toFloat()), second),
+                        measurePane(TwoPaneSlot.Second, 1, area.copy(top = firstPane.bottom.toFloat()), second),
                     )
                 }
             }

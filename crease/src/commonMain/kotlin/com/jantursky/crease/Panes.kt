@@ -1,10 +1,15 @@
 package com.jantursky.crease
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.MeasureResult
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.SubcomposeMeasureScope
+import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.constrainHeight
@@ -26,10 +31,12 @@ internal class MeasuredPane(
 
 /**
  * Subcomposes [content] under [slotId] and measures it to fill [bounds], snapped to whole pixels. An
- * infinite edge leaves that length to the content.
+ * infinite edge leaves that length to the content. Assistive technology reads the pane as a group, after
+ * the panes with a lower [order].
  */
 internal fun SubcomposeMeasureScope.measurePane(
     slotId: Any,
+    order: Int,
     bounds: Rect,
     content: @Composable () -> Unit,
 ): MeasuredPane {
@@ -44,13 +51,35 @@ internal fun SubcomposeMeasureScope.measurePane(
             minHeight = height ?: 0,
             maxHeight = height ?: Constraints.Infinity,
         )
-    val placeables = subcompose(slotId, content).map { it.measure(constraints) }
+    val placeables = subcompose(slotId) { PaneGroup(order, content) }.map { it.measure(constraints) }
     return MeasuredPane(
         offset = IntOffset(left, top),
         width = width ?: placeables.maxOfOrNull { it.width } ?: 0,
         height = height ?: placeables.maxOfOrNull { it.height } ?: 0,
         placeables = placeables,
     )
+}
+
+@Composable
+private fun PaneGroup(
+    order: Int,
+    content: @Composable () -> Unit,
+) {
+    // Passes the constraints through unchanged, so the content measures as it did without the group.
+    Layout(
+        content = content,
+        modifier =
+            Modifier.semantics {
+                isTraversalGroup = true
+                traversalIndex = order.toFloat()
+            },
+    ) { measurables, constraints ->
+        val placeables = measurables.map { it.measure(constraints) }
+        layout(
+            constraints.constrainWidth(placeables.maxOfOrNull { it.width } ?: 0),
+            constraints.constrainHeight(placeables.maxOfOrNull { it.height } ?: 0),
+        ) { placeables.forEach { it.place(0, 0) } }
+    }
 }
 
 /** Lays out [panes] filling [constraints] where they are bounded, and wrapping the panes where not. */

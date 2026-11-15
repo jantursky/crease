@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.jantursky.crease.avoidFold
+import com.jantursky.crease.postureDescription
 import com.jantursky.crease.postures
 import com.jantursky.crease.rememberFoldStateFlow
 import com.jantursky.crease.rememberPostureTransition
@@ -35,7 +36,7 @@ fun PostureChangesExample() {
         }
     }
     Column(
-        Modifier.fillMaxSize().avoidFold().padding(24.dp),
+        Modifier.fillMaxSize().avoidFold().postureDescription { "Posture: ${it.name}" }.padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

@@ -86,6 +86,10 @@ public final class com/jantursky/crease/Posture : java/lang/Enum {
 	public static fun values ()[Lcom/jantursky/crease/Posture;
 }
 
+public final class com/jantursky/crease/PostureDescriptionKt {
+	public static final fun postureDescription (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/Modifier;
+}
+
 public final class com/jantursky/crease/PostureTransition {
 	public static final field $stable I
 	public fun <init> (Lcom/jantursky/crease/Posture;Lcom/jantursky/crease/Posture;)V

@@ -36,7 +36,7 @@ Android has reported folds through Jetpack WindowManager for years, and iOS 27.1
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("io.github.jantursky:crease:1.4.1")
+            implementation("io.github.jantursky:crease:1.5.0")
         }
     }
 }
@@ -87,7 +87,7 @@ fun HingeReadout() {
 }
 ```
 
-`rememberFoldStateFlow()` hands the fold state to a view-model, and `rememberPostureTransition()` tells which posture the device came from. `Modifier.avoidFold()` keeps a single element off the fold. `ProvideFoldState(FoldState.book(size)) { … }` feeds a fixed state to previews and UI tests. The [docs](https://crease-black.vercel.app) cover each of these in a guide.
+`rememberFoldStateFlow()` hands the fold state to a view-model, and `rememberPostureTransition()` tells which posture the device came from. `Modifier.avoidFold()` keeps a single element off the fold. `Modifier.postureDescription { … }` has a screen reader announce a change of posture, and the layouts are read first pane before second. `ProvideFoldState(FoldState.book(size)) { … }` feeds a fixed state to previews and UI tests. The [docs](https://crease-black.vercel.app) cover each of these in a guide.
 
 Apple's guidance is to drive effects and interactions from the hinge angle, and layout from the posture and the window size. That is how the samples are built.
 
@@ -144,7 +144,7 @@ An optional artifact, `io.github.jantursky:crease-adaptive`, gives the Material3
 ```kotlin
 // build.gradle.kts
 commonMain.dependencies {
-    implementation("io.github.jantursky:crease-adaptive:1.4.1")
+    implementation("io.github.jantursky:crease-adaptive:1.5.0")
 }
 ```
 

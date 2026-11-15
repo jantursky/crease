@@ -1,0 +1,51 @@
+---
+title: Accessibility
+description: How the fold-aware layouts are read by a screen reader, and how to announce a change of posture.
+---
+
+A layout that splits at the fold should still read in order, and a screen reader user should hear when the layout changes. Crease does the first for you and gives you a modifier for the second.
+
+## Reading order
+
+`FoldAwareTwoPane` and `TabletopLayout` mark each pane as a group for assistive technology. The first pane is read before the second, and the top pane before the bottom one, whether the fold splits the layout or a fallback applies. The order does not change when the fold appears, so a screen reader user finds the panes in the same sequence on a phone and on a half-open foldable.
+
+Nothing changes in how the panes are measured or placed. Inside a pane, the reading order is whatever your content gives.
+
+## Announcing a change of posture
+
+When the user opens a foldable into Book or Tabletop, the layout changes under them. `postureDescription` says so:
+
+```kotlin
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.jantursky.crease.FoldAwareTwoPane
+import com.jantursky.crease.Posture
+import com.jantursky.crease.postureDescription
+
+private fun describe(posture: Posture): String =
+    when (posture) {
+        Posture.Closed -> "Folded, one column"
+        Posture.Flat -> "Open flat, one column"
+        Posture.Book -> "Half open, two columns"
+        Posture.Tabletop -> "Half open, top and bottom"
+    }
+
+@Composable
+fun AccessibleReader() {
+    FoldAwareTwoPane(
+        first = { Text("Ingredients") },
+        second = { Text("Steps") },
+        modifier = Modifier.fillMaxSize().postureDescription(::describe),
+    )
+}
+```
+
+The text becomes the node's state description in a polite live region, so TalkBack and VoiceOver read it when it changes. It comes from your function, so you can translate it. A change of the hinge angle within a posture leaves the text as it was, so nothing is announced while the user is still moving the hinge.
+
+Put the modifier on a node that stays on screen, such as the root of the screen or the layout that changes. The current text may be read once when the screen appears.
+
+## Test it
+
+`crease-test` and `ProvideFoldState` let a test check both without a device. Read `SemanticsProperties.StateDescription` from the node under `ProvideFoldState(FoldState.book(size))`, then change the state and read it again. See [previews and tests](/guides/previews-and-tests).

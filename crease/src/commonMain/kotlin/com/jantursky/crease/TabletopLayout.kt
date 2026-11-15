@@ -26,11 +26,11 @@ public fun TabletopLayout(
         val placed =
             if (split != null) {
                 listOf(
-                    measurePane(TabletopSlot.Top, split.first, top),
-                    measurePane(TabletopSlot.Bottom, split.second, bottom),
+                    measurePane(TabletopSlot.Top, 0, split.first, top),
+                    measurePane(TabletopSlot.Bottom, 1, split.second, bottom),
                 )
             } else {
-                listOf(measurePane(flatSlot, area, flat))
+                listOf(measurePane(flatSlot, 0, area, flat))
             }
         layoutPanes(constraints, placed)
     }

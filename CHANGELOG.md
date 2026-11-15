@@ -4,6 +4,16 @@ All notable changes to `io.github.jantursky:crease` are listed here. The format 
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-11-15
+
+### Added
+
+- `Modifier.postureDescription(describe)` exposes the posture as the node's state description in a polite live region, so a screen reader announces a change of posture. The text comes from the app.
+
+### Changed
+
+- `FoldAwareTwoPane` and `TabletopLayout` mark each pane as a traversal group, so assistive technology reads the first pane before the second, and the top before the bottom. Sizes and positions do not change.
+
 ## [1.4.1] - 2026-11-09
 
 ### Added

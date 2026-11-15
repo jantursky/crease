@@ -9,6 +9,7 @@ export default defineMeta({
     'two-pane-layouts',
     'tabletop-mode',
     'avoiding-the-fold',
+    'accessibility',
     'observing-the-fold',
     'previews-and-tests',
     'navigation-suite',

@@ -65,3 +65,17 @@ fun verticalFold(
     folds = listOf(Fold(Rect(left, 0f, right, 800f), FoldOrientation.Vertical, true, right > left)),
     cutouts = emptyList(),
 )
+
+/** The reading order of the pane that holds the node tagged [tag], the nearest enclosing traversal group. */
+@OptIn(ExperimentalTestApi::class)
+fun ComposeUiTest.paneOrderOf(tag: String): Float {
+    var node: androidx.compose.ui.semantics.SemanticsNode? = onNodeWithTag(tag).fetchSemanticsNode()
+    while (node != null) {
+        val config = node.config
+        if (config.contains(androidx.compose.ui.semantics.SemanticsProperties.IsTraversalGroup)) {
+            return config[androidx.compose.ui.semantics.SemanticsProperties.TraversalIndex]
+        }
+        node = node.parent
+    }
+    error("No traversal group above $tag")
+}
