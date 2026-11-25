@@ -57,6 +57,12 @@ cat > "$consumer/src/jvmMain/kotlin/Consumer.kt" <<'EOF'
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntRect
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.window.PopupPositionProvider
+import com.jantursky.crease.FoldAvoidingPopupPositionProvider
 import com.jantursky.crease.FoldAwareTwoPane
 import com.jantursky.crease.FoldState
 import com.jantursky.crease.Posture
@@ -68,7 +74,17 @@ import com.jantursky.crease.cover.CoverDisplay
 import com.jantursky.crease.cover.CoverDisplayState
 import com.jantursky.crease.cover.ProvideCoverDisplayState
 import com.jantursky.crease.cover.rememberCoverDisplayState
+import com.jantursky.crease.rememberFoldAvoidingPopupPositionProvider
 import com.jantursky.crease.rememberFoldState
+
+private object Anchored : PopupPositionProvider {
+    override fun calculatePosition(
+        anchorBounds: IntRect,
+        windowSize: IntSize,
+        layoutDirection: LayoutDirection,
+        popupContentSize: IntSize,
+    ): IntOffset = anchorBounds.topLeft
+}
 
 @Composable
 fun Screen(content: @Composable () -> Unit) {
@@ -77,6 +93,8 @@ fun Screen(content: @Composable () -> Unit) {
         FoldAwareTwoPane(first = content, second = content, modifier = Modifier.avoidFold())
         check(rememberWindowAdaptiveInfo().windowPosture.hingeList.size == 1)
         check(rememberFoldLayoutClass().posture == Posture.Book)
+        check(rememberFoldAvoidingPopupPositionProvider(Anchored) != null)
+        check(FoldAvoidingPopupPositionProvider(Anchored) { null } != null)
     }
     ProvideCoverDisplayState(CoverDisplayState.Available) {
         check(rememberCoverDisplayState() == CoverDisplayState.Available)

@@ -6,6 +6,7 @@ const EXAMPLES = [
   'tabletop',
   'stacked-fallback',
   'avoid-fold',
+  'fold-avoiding-menu',
   'hinge-angle',
   'posture-changes',
   'reading-lamp',

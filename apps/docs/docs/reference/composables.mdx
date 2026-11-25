@@ -1,6 +1,6 @@
 ---
 title: Composables and modifiers
-description: rememberFoldState, rememberHinge, rememberFoldStateFlow, rememberPostureTransition, postureDescription, ProvideFoldState, FoldAwareTwoPane, TabletopLayout and Modifier.avoidFold, plus the composables of the crease-cover, crease-test and crease-adaptive artifacts.
+description: rememberFoldState, rememberHinge, rememberFoldStateFlow, rememberPostureTransition, postureDescription, ProvideFoldState, FoldAwareTwoPane, TabletopLayout, Modifier.avoidFold, rememberFoldAvoidingPopupPositionProvider and FoldAvoidingPopupPositionProvider, plus the composables of the crease-cover, crease-test and crease-adaptive artifacts.
 ---
 
 ## rememberFoldState
@@ -125,6 +125,37 @@ public fun Modifier.avoidFold(): Modifier
 ```
 
 When a separating fold crosses the element, the element keeps its place in the layout and draws its content on the larger side of the fold. Otherwise nothing changes. See [avoiding the fold](/guides/avoiding-the-fold).
+
+## rememberFoldAvoidingPopupPositionProvider
+
+```kotlin
+@Composable
+public fun rememberFoldAvoidingPopupPositionProvider(delegate: PopupPositionProvider): PopupPositionProvider
+```
+
+Returns a [FoldAvoidingPopupPositionProvider] around `delegate` that follows the current fold state, including one given by `ProvideFoldState`. Its position is recalculated when the posture changes, without recreating the popup.
+
+| Parameter | Description |
+| --- | --- |
+| `delegate` | The provider that places the popup first. Its alignment and offsets still apply. |
+
+See [menus and popups](/guides/avoiding-the-fold#menus-and-popups).
+
+## FoldAvoidingPopupPositionProvider
+
+```kotlin
+public class FoldAvoidingPopupPositionProvider(
+    delegate: PopupPositionProvider,
+    fold: () -> Fold?,
+) : PopupPositionProvider
+```
+
+Takes the position from `delegate` and moves it to one side of a separating fold when the popup would cross it. The popup goes to the side the anchor is on when it fits there, otherwise to the other side. When it fits on neither, it starts at the larger side and the window clips the rest. `fold` is read on each position calculation, in window coordinates of the main window. Dialogs and other windows are not covered.
+
+| Parameter | Description |
+| --- | --- |
+| `delegate` | The provider that places the popup first. |
+| `fold` | Returns the fold to avoid, or `null` for none. Read on each layout. |
 
 ## rememberCoverDisplayState
 

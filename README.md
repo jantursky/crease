@@ -36,7 +36,7 @@ Android has reported folds through Jetpack WindowManager for years, and iOS 27.1
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("io.github.jantursky:crease:1.5.0")
+            implementation("io.github.jantursky:crease:1.6.0")
         }
     }
 }
@@ -87,7 +87,7 @@ fun HingeReadout() {
 }
 ```
 
-`rememberFoldStateFlow()` hands the fold state to a view-model, and `rememberPostureTransition()` tells which posture the device came from. `Modifier.avoidFold()` keeps a single element off the fold. `Modifier.postureDescription { … }` has a screen reader announce a change of posture, and the layouts are read first pane before second. `ProvideFoldState(FoldState.book(size)) { … }` feeds a fixed state to previews and UI tests. The [docs](https://crease-black.vercel.app) cover each of these in a guide.
+`rememberFoldStateFlow()` hands the fold state to a view-model, and `rememberPostureTransition()` tells which posture the device came from. `Modifier.avoidFold()` keeps a single element off the fold, and `rememberFoldAvoidingPopupPositionProvider(delegate)` keeps a `Popup` menu off it. `Modifier.postureDescription { … }` has a screen reader announce a change of posture, and the layouts are read first pane before second. `ProvideFoldState(FoldState.book(size)) { … }` feeds a fixed state to previews and UI tests. The [docs](https://crease-black.vercel.app) cover each of these in a guide.
 
 Apple's guidance is to drive effects and interactions from the hinge angle, and layout from the posture and the window size. That is how the samples are built.
 
@@ -144,7 +144,7 @@ An optional artifact, `io.github.jantursky:crease-adaptive`, gives the Material3
 ```kotlin
 // build.gradle.kts
 commonMain.dependencies {
-    implementation("io.github.jantursky:crease-adaptive:1.5.0")
+    implementation("io.github.jantursky:crease-adaptive:1.6.0")
 }
 ```
 
@@ -188,7 +188,7 @@ None of them work from Kotlin Multiplatform code, which is the gap Crease fills.
 
 ## Not covered yet
 
-Crease does not wrap `UIArrangementViewController` (with `UISplitArrangement` and `UIOverlayArrangement`, UIKit's counterpart of SwiftUI's `ArrangementView`, iOS 27.1); `FoldAwareTwoPane` covers a similar need. It does not wrap `toolbarVerticalEdge` either, which I could not find in the iOS 27.1 UIKit headers or the SwiftUI interface. The outer display is covered by the optional `crease-cover` module, see below, but only as far as the iOS 27.1 SDK goes: a camera capture accessory, presented while the app has an active camera session. Android rear-display mode, which moves the whole activity and asks the user in a system dialog, is out of scope.
+Crease does not wrap `UIArrangementViewController` (with `UISplitArrangement` and `UIOverlayArrangement`, UIKit's counterpart of SwiftUI's `ArrangementView`, iOS 27.1); `FoldAwareTwoPane` covers a similar need. It does not wrap `toolbarVerticalEdge` either, which I could not find in the iOS 27.1 UIKit headers or the SwiftUI interface. The outer display is covered by the optional `crease-cover` module, see below, but only as far as the iOS 27.1 SDK goes: a camera capture accessory, presented while the app has an active camera session. Android rear-display mode, which moves the whole activity and asks the user in a system dialog, is out of scope. Material3's `DropdownMenu` takes no position provider, so it cannot be kept off the fold; build the menu on `Popup` instead.
 
 ## Platform support
 

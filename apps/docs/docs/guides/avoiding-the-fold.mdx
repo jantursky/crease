@@ -1,6 +1,6 @@
 ---
 title: Avoiding the fold
-description: Keep one element on one side of a separating fold with Modifier.avoidFold().
+description: Keep one element or popup on one side of a separating fold with Modifier.avoidFold() and rememberFoldAvoidingPopupPositionProvider.
 ---
 
 Some elements should never cross the fold: a dialog, a bottom bar, a text field, a map. `Modifier.avoidFold()` handles them. When a separating fold crosses the element, the element keeps its place in the layout and draws its content on the larger side of the fold. Otherwise nothing changes.
@@ -23,6 +23,60 @@ fun Checkout() {
 ```
 
 The modifier works on any element, including content in a `Dialog` or `Popup`, which sit in their own window. Without a fold it adds no layout work, even while scrolling. All readers in a window share one platform observer, so a list of items that each use the modifier still registers a single hinge sensor listener. Use `FoldAwareTwoPane` instead when both sides should show content.
+
+## Menus and popups
+
+A menu or tooltip built on `Popup` is placed by Compose next to its anchor, and can straddle the fold. Wrap its position provider with `rememberFoldAvoidingPopupPositionProvider`. The popup keeps the position your provider chose, and moves to one side of the fold only when it would cross it. It stays on the side the anchor is on when it fits there, and takes the other side otherwise.
+
+```kotlin
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntRect
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupPositionProvider
+import com.jantursky.crease.rememberFoldAvoidingPopupPositionProvider
+
+private val BelowAnchor = object : PopupPositionProvider {
+    override fun calculatePosition(
+        anchorBounds: IntRect,
+        windowSize: IntSize,
+        layoutDirection: LayoutDirection,
+        popupContentSize: IntSize,
+    ): IntOffset = IntOffset(anchorBounds.left, anchorBounds.bottom)
+}
+
+@Composable
+fun FoldAwareMenu() {
+    var open by remember { mutableStateOf(false) }
+    val provider = rememberFoldAvoidingPopupPositionProvider(BelowAnchor)
+    Box {
+        Button(onClick = { open = !open }) { Text("Menu") }
+        if (open) {
+            Popup(popupPositionProvider = provider, onDismissRequest = { open = false }) {
+                Column(Modifier.size(200.dp, 160.dp)) {
+                    Text("Copy")
+                    Text("Paste")
+                }
+            }
+        }
+    }
+}
+```
+
+The provider reads the fold on every layout pass, so a menu that is open when the posture changes moves with the fold. Use `FoldAvoidingPopupPositionProvider(delegate) { fold }` directly when you already have the fold. Material3's `DropdownMenu` builds its own popup and takes no position provider, so it is not covered; build the menu on `Popup` to get this behavior.
 
 ## Camera cutouts
 

@@ -4,6 +4,13 @@ All notable changes to `io.github.jantursky:crease` are listed here. The format 
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-11-25
+
+### Added
+
+- `FoldAvoidingPopupPositionProvider` wraps any `PopupPositionProvider` and moves the popup to one side of a separating fold when it would cross it. The side is the anchor's side when the popup fits there, otherwise the other side. `rememberFoldAvoidingPopupPositionProvider(delegate)` supplies the current fold state, so an open popup moves when the posture changes.
+- A "Menus and popups" section in the avoiding-the-fold guide, and a menu example on the web demo.
+
 ## [1.5.0] - 2026-11-15
 
 ### Added
@@ -57,7 +64,8 @@ All notable changes to `io.github.jantursky:crease` are listed here. The format 
 - `Modifier.avoidFold()` keeps an element's content on the larger side of a separating fold.
 - Targets: Android, iOS (iPhone Duo), JVM and wasmJs. JVM and wasmJs report no hinge unless a state is provided.
 
-[Unreleased]: https://github.com/jantursky/crease/compare/1.4.1...HEAD
+[Unreleased]: https://github.com/jantursky/crease/compare/1.6.0...HEAD
+[1.6.0]: https://github.com/jantursky/crease/compare/1.5.0...1.6.0
 [1.4.1]: https://github.com/jantursky/crease/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/jantursky/crease/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/jantursky/crease/compare/1.2.0...1.3.0

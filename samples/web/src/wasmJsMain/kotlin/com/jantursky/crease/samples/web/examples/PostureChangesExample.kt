@@ -36,7 +36,11 @@ fun PostureChangesExample() {
         }
     }
     Column(
-        Modifier.fillMaxSize().avoidFold().postureDescription { "Posture: ${it.name}" }.padding(24.dp),
+        Modifier
+            .fillMaxSize()
+            .avoidFold()
+            .postureDescription { "Posture: ${it.name}" }
+            .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

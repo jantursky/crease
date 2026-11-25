@@ -9,6 +9,7 @@ import com.jantursky.crease.samples.design.SimulatorState
 import com.jantursky.crease.samples.web.examples.AvoidFoldExample
 import com.jantursky.crease.samples.web.examples.CameraDirectionsExample
 import com.jantursky.crease.samples.web.examples.CoverDisplayExample
+import com.jantursky.crease.samples.web.examples.FoldAvoidingMenuExample
 import com.jantursky.crease.samples.web.examples.FoldGeometryExample
 import com.jantursky.crease.samples.web.examples.HingeAngleExample
 import com.jantursky.crease.samples.web.examples.ListDetailExample
@@ -28,6 +29,7 @@ internal enum class SiteExample(
     ListDetail("list-detail", Posture.Book, { ListDetailExample() }),
     Tabletop("tabletop", Posture.Tabletop, { TabletopExample() }),
     AvoidFold("avoid-fold", Posture.Book, { AvoidFoldExample() }),
+    FoldAvoidingMenu("fold-avoiding-menu", Posture.Book, { FoldAvoidingMenuExample() }),
     HingeAngle("hinge-angle", Posture.Book, { HingeAngleExample() }),
     StackedFallback("stacked-fallback", Posture.Flat, { StackedFallbackExample() }),
     PostureChanges("posture-changes", Posture.Flat, { PostureChangesExample() }),

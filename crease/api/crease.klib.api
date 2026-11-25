@@ -71,6 +71,12 @@ final class com.jantursky.crease/Fold { // com.jantursky.crease/Fold|null[0]
     final fun toString(): kotlin/String // com.jantursky.crease/Fold.toString|toString(){}[0]
 }
 
+final class com.jantursky.crease/FoldAvoidingPopupPositionProvider : androidx.compose.ui.window/PopupPositionProvider { // com.jantursky.crease/FoldAvoidingPopupPositionProvider|null[0]
+    constructor <init>(androidx.compose.ui.window/PopupPositionProvider, kotlin/Function0<com.jantursky.crease/Fold?>) // com.jantursky.crease/FoldAvoidingPopupPositionProvider.<init>|<init>(androidx.compose.ui.window.PopupPositionProvider;kotlin.Function0<com.jantursky.crease.Fold?>){}[0]
+
+    final fun calculatePosition(androidx.compose.ui.unit/IntRect, androidx.compose.ui.unit/IntSize, androidx.compose.ui.unit/LayoutDirection, androidx.compose.ui.unit/IntSize): androidx.compose.ui.unit/IntOffset // com.jantursky.crease/FoldAvoidingPopupPositionProvider.calculatePosition|calculatePosition(androidx.compose.ui.unit.IntRect;androidx.compose.ui.unit.IntSize;androidx.compose.ui.unit.LayoutDirection;androidx.compose.ui.unit.IntSize){}[0]
+}
+
 final class com.jantursky.crease/FoldState { // com.jantursky.crease/FoldState|null[0]
     constructor <init>(com.jantursky.crease/Hinge?, kotlin.collections/List<com.jantursky.crease/Fold>, kotlin.collections/List<androidx.compose.ui.geometry/Rect>) // com.jantursky.crease/FoldState.<init>|<init>(com.jantursky.crease.Hinge?;kotlin.collections.List<com.jantursky.crease.Fold>;kotlin.collections.List<androidx.compose.ui.geometry.Rect>){}[0]
 
@@ -129,6 +135,7 @@ final class com.jantursky.crease/PostureTransition { // com.jantursky.crease/Pos
 }
 
 final val com.jantursky.crease/com_jantursky_crease_Fold$stableprop // com.jantursky.crease/com_jantursky_crease_Fold$stableprop|#static{}com_jantursky_crease_Fold$stableprop[0]
+final val com.jantursky.crease/com_jantursky_crease_FoldAvoidingPopupPositionProvider$stableprop // com.jantursky.crease/com_jantursky_crease_FoldAvoidingPopupPositionProvider$stableprop|#static{}com_jantursky_crease_FoldAvoidingPopupPositionProvider$stableprop[0]
 final val com.jantursky.crease/com_jantursky_crease_FoldState$stableprop // com.jantursky.crease/com_jantursky_crease_FoldState$stableprop|#static{}com_jantursky_crease_FoldState$stableprop[0]
 final val com.jantursky.crease/com_jantursky_crease_Hinge$stableprop // com.jantursky.crease/com_jantursky_crease_Hinge$stableprop|#static{}com_jantursky_crease_Hinge$stableprop[0]
 final val com.jantursky.crease/com_jantursky_crease_PostureTransition$stableprop // com.jantursky.crease/com_jantursky_crease_PostureTransition$stableprop|#static{}com_jantursky_crease_PostureTransition$stableprop[0]
@@ -140,9 +147,11 @@ final fun com.jantursky.crease/FoldAwareTwoPane(kotlin/Function2<androidx.compos
 final fun com.jantursky.crease/ProvideFoldState(com.jantursky.crease/FoldState, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.jantursky.crease/ProvideFoldState|ProvideFoldState(com.jantursky.crease.FoldState;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
 final fun com.jantursky.crease/TabletopLayout(kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.jantursky.crease/TabletopLayout|TabletopLayout(kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun com.jantursky.crease/com_jantursky_crease_Fold$stableprop_getter(): kotlin/Int // com.jantursky.crease/com_jantursky_crease_Fold$stableprop_getter|com_jantursky_crease_Fold$stableprop_getter(){}[0]
+final fun com.jantursky.crease/com_jantursky_crease_FoldAvoidingPopupPositionProvider$stableprop_getter(): kotlin/Int // com.jantursky.crease/com_jantursky_crease_FoldAvoidingPopupPositionProvider$stableprop_getter|com_jantursky_crease_FoldAvoidingPopupPositionProvider$stableprop_getter(){}[0]
 final fun com.jantursky.crease/com_jantursky_crease_FoldState$stableprop_getter(): kotlin/Int // com.jantursky.crease/com_jantursky_crease_FoldState$stableprop_getter|com_jantursky_crease_FoldState$stableprop_getter(){}[0]
 final fun com.jantursky.crease/com_jantursky_crease_Hinge$stableprop_getter(): kotlin/Int // com.jantursky.crease/com_jantursky_crease_Hinge$stableprop_getter|com_jantursky_crease_Hinge$stableprop_getter(){}[0]
 final fun com.jantursky.crease/com_jantursky_crease_PostureTransition$stableprop_getter(): kotlin/Int // com.jantursky.crease/com_jantursky_crease_PostureTransition$stableprop_getter|com_jantursky_crease_PostureTransition$stableprop_getter(){}[0]
+final fun com.jantursky.crease/rememberFoldAvoidingPopupPositionProvider(androidx.compose.ui.window/PopupPositionProvider, androidx.compose.runtime/Composer?, kotlin/Int): androidx.compose.ui.window/PopupPositionProvider // com.jantursky.crease/rememberFoldAvoidingPopupPositionProvider|rememberFoldAvoidingPopupPositionProvider(androidx.compose.ui.window.PopupPositionProvider;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
 final fun com.jantursky.crease/rememberFoldState(androidx.compose.runtime/Composer?, kotlin/Int): com.jantursky.crease/FoldState // com.jantursky.crease/rememberFoldState|rememberFoldState(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
 final fun com.jantursky.crease/rememberFoldStateFlow(androidx.compose.runtime/Composer?, kotlin/Int): kotlinx.coroutines.flow/StateFlow<com.jantursky.crease/FoldState> // com.jantursky.crease/rememberFoldStateFlow|rememberFoldStateFlow(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
 final fun com.jantursky.crease/rememberHinge(androidx.compose.runtime/Composer?, kotlin/Int): com.jantursky.crease/Hinge? // com.jantursky.crease/rememberHinge|rememberHinge(androidx.compose.runtime.Composer?;kotlin.Int){}[0]

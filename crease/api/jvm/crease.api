@@ -14,6 +14,16 @@ public final class com/jantursky/crease/Fold {
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/jantursky/crease/FoldAvoidingPopupKt {
+	public static final fun rememberFoldAvoidingPopupPositionProvider (Landroidx/compose/ui/window/PopupPositionProvider;Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/window/PopupPositionProvider;
+}
+
+public final class com/jantursky/crease/FoldAvoidingPopupPositionProvider : androidx/compose/ui/window/PopupPositionProvider {
+	public static final field $stable I
+	public fun <init> (Landroidx/compose/ui/window/PopupPositionProvider;Lkotlin/jvm/functions/Function0;)V
+	public fun calculatePosition-llwVHH4 (Landroidx/compose/ui/unit/IntRect;JLandroidx/compose/ui/unit/LayoutDirection;J)J
+}
+
 public final class com/jantursky/crease/FoldAwareTwoPaneKt {
 	public static final fun FoldAwareTwoPane (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/Modifier;Lcom/jantursky/crease/TwoPaneFallback;Landroidx/compose/runtime/Composer;II)V
 }
